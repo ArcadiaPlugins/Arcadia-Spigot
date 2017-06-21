@@ -1,4 +1,4 @@
-main: me.redraskal.arcadia.Main
+main: me.redraskal.arcadia.Arcadia
 name: ${project.name}
 version: ${project.version}
 author: redraskal
