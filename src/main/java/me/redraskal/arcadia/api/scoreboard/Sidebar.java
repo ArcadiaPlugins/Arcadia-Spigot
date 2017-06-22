@@ -6,11 +6,12 @@ import me.redraskal.arcadia.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
-public abstract class Sidebar {
+public abstract class Sidebar implements Listener {
 
     private final Scoreboard scoreboard;
     private final Objective sidebar;
@@ -25,6 +26,7 @@ public abstract class Sidebar {
         this.updateDisplayName(0, 10);
         for(Player player : Bukkit.getOnlinePlayers()) player.setScoreboard(scoreboard);
         this.onCreation();
+        Arcadia.getPlugin(Arcadia.class).getServer().getPluginManager().registerEvents(this, Arcadia.getPlugin(Arcadia.class));
     }
 
     public abstract void onCreation();

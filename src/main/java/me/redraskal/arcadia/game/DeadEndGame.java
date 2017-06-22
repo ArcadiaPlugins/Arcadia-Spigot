@@ -3,6 +3,7 @@ package me.redraskal.arcadia.game;
 import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.BaseGame;
+import me.redraskal.arcadia.api.game.event.GameTickEvent;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.api.scoreboard.SidebarSettings;
 import me.redraskal.arcadia.api.scoreboard.defaults.PlayersLeftSidebar;
@@ -47,6 +48,14 @@ public class DeadEndGame extends BaseGame {
     @Override
     public void onGameStart() {
         this.floorListener = true;
+    }
+
+    @EventHandler
+    public void onGameTick(GameTickEvent event) {
+        for(Player player : Bukkit.getOnlinePlayers()) {
+            if(!this.getAPI().getGameManager().isAlive(player)) continue;
+            player.setVelocity(player.getLocation().getDirection().normalize().multiply(0.5D));
+        }
     }
 
     @EventHandler
