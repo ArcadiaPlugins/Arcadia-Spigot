@@ -2,11 +2,14 @@ package me.redraskal.arcadia.api.game;
 
 import com.google.common.base.Preconditions;
 import me.redraskal.arcadia.Arcadia;
+import me.redraskal.arcadia.ArcadiaAPI;
 import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.runnable.PreGameRunnable;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +19,8 @@ public class GameManager {
     private Rotation rotation = new Rotation();
     private BaseGame currentGame;
     private GameState gameState = GameState.STARTING;
-    private List<Player> alive = new ArrayList<Player>();
-    private List<Player> spec = new ArrayList<Player>();
+    private List<Player> alive = new ArrayList<>();
+    private List<Player> spec = new ArrayList<>();
 
     /**
      * Returns the current Rotation.
@@ -37,23 +40,38 @@ public class GameManager {
 
     public boolean setCurrentGame(Class<? extends BaseGame> registeredGame, GameMap gameMap) {
         Preconditions.checkNotNull(registeredGame, "Game cannot be null");
-        if(!Arcadia.getPlugin(Arcadia.class).getAPI()
-            .getGameRegistry().getRegisteredGames().contains(registeredGame)) return false;
-        if(!Arcadia.getPlugin(Arcadia.class).getAPI()
-                .getGameRegistry().getMaps(registeredGame).contains(gameMap)) return false;
+        final ArcadiaAPI api = Arcadia.getPlugin(Arcadia.class).getAPI();
+        if(!api.getGameRegistry().getRegisteredGames().contains(registeredGame)) return false;
+        if(!api.getGameRegistry().getMaps(registeredGame).contains(gameMap)) return false;
+        this.endGame();
         try {
             this.currentGame = registeredGame.newInstance();
             this.gameState = GameState.STARTING;
             for(String requiredSetting : currentGame.getRequiredSettings()) {
                 if(!gameMap.doesSettingExist(requiredSetting)) return false;
             }
-            //TODO: Load game world/unload old world
+            api.getMapRegistry().loadWorld(gameMap);
             new PreGameRunnable();
+            Bukkit.getServer().getPluginManager().registerEvents(currentGame, Arcadia.getPlugin(Arcadia.class));
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+    /**
+     * Attempts to end the current BaseGame.
+     * @return
+     */
+    public boolean endGame() {
+        if(this.currentGame == null) return false;
+        this.gameState = GameState.FINISHED;
+        HandlerList.unregisterAll(this.currentGame);
+        this.currentGame.onGameEnd();
+        //TODO: Fun sound effect thing/winners announced
+        this.currentGame = null;
+        return true;
     }
 
     /**

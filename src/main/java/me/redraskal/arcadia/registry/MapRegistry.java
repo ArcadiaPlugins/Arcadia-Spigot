@@ -2,8 +2,14 @@ package me.redraskal.arcadia.registry;
 
 import com.google.common.base.Preconditions;
 import me.redraskal.arcadia.Arcadia;
+import me.redraskal.arcadia.FileUtils;
 import me.redraskal.arcadia.api.map.GameMap;
+import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.World;
+import org.bukkit.WorldCreator;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -87,5 +93,37 @@ public class MapRegistry {
         return this.currentWorld;
     }
 
-    //TODO: Loading/Unloading world system
+    public World loadWorld(GameMap gameMap) {
+        String worldName = "game";
+        if(this.currentWorld != null) {
+            worldName = "game2";
+            unloadWorld();
+        }
+        Arcadia.getPlugin(Arcadia.class).getLogger().info("[MapRegistry] [/] Copying map from " + gameMap.getMapDirectory().getPath() + "...");
+        FileUtils.copyDirectory(gameMap.getMapDirectory().getAbsoluteFile(),
+                new File(Bukkit.getWorldContainer().getPath() + "/" + worldName + "/"));
+        Arcadia.getPlugin(Arcadia.class).getLogger().info("[MapRegistry] [/] Loading " + worldName + "...");
+        this.currentWorld = Bukkit.getServer().createWorld(new WorldCreator(worldName));
+        this.currentWorld.setAutoSave(false);
+        currentWorld.setGameRuleValue("doFireTick", "false");
+        currentWorld.setGameRuleValue("doMobSpawning", "false");
+        currentWorld.setGameRuleValue("randomTickSpeed", "0");
+        currentWorld.setGameRuleValue("doDaylightCycle", "false");
+        return this.currentWorld;
+    }
+
+    public boolean unloadWorld() {
+        if(this.currentWorld == null) return false;
+        Arcadia.getPlugin(Arcadia.class).getLogger().info("[MapRegistry] [/] Unloading " + this.currentWorld.getName() + "...");
+        this.currentWorld.setAutoSave(false);
+        for(Entity entity : currentWorld.getEntities()) {
+            if(!(entity instanceof Player)) entity.remove();
+        }
+        for(Chunk loadedChunk : currentWorld.getLoadedChunks()) {
+            currentWorld.unloadChunk(loadedChunk);
+        }
+        Bukkit.unloadWorld(this.currentWorld, false);
+        this.currentWorld = null;
+        return true;
+    }
 }

@@ -7,6 +7,7 @@ import me.redraskal.arcadia.api.scoreboard.SidebarSettings;
 import me.redraskal.arcadia.api.scoreboard.defaults.PlayersLeftSidebar;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -20,12 +21,13 @@ public class DeadEndGame extends BaseGame {
 
     @Override
     public void onPreStart() {
+        Location spawnLocation = Utils.parseLocation((String) this.getGameMap().fetchSetting("startPosition"));
+        PotionEffect potionEffect = new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 127);
         for(Player player : Bukkit.getOnlinePlayers()) {
             if(!this.getAPI().getGameManager().isAlive(player)) continue;
-            player.teleport(
-                Utils.parseLocation((String) this.getGameMap().fetchSetting("startPosition")));
+            player.teleport(spawnLocation);
             player.setGameMode(GameMode.ADVENTURE);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 127), true);
+            player.addPotionEffect(potionEffect, true);
         }
     }
 
