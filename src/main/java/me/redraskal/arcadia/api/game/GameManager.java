@@ -8,6 +8,7 @@ import me.redraskal.arcadia.api.game.event.GameEndEvent;
 import me.redraskal.arcadia.api.game.event.GameStateUpdateEvent;
 import me.redraskal.arcadia.api.game.event.PlayerAliveStatusEvent;
 import me.redraskal.arcadia.api.map.GameMap;
+import me.redraskal.arcadia.runnable.GameSwitchRunnable;
 import me.redraskal.arcadia.runnable.PreGameRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -149,6 +150,7 @@ public class GameManager {
         Bukkit.getServer().getPluginManager().callEvent(new PlayerAliveStatusEvent(player, toggle, false));
         if(this.getPlayersAlive() <= 0 && this.getGameState() == GameState.INGAME) {
             this.endGame();
+            new GameSwitchRunnable();
         }
     }
 
