@@ -136,6 +136,13 @@ public class MapRegistry {
         for(Entity entity : world.getEntities()) {
             if(!(entity instanceof Player)) entity.remove();
         }
+        if(new File(world.getWorldFolder(), "session.lock").exists()) {
+            File sessionLock = new File(world.getWorldFolder(), "session.lock");
+            sessionLock.setReadable(true);
+            sessionLock.setWritable(true);
+            sessionLock.setExecutable(true);
+            sessionLock.delete();
+        }
         for(Chunk loadedChunk : world.getLoadedChunks()) {
             world.unloadChunk(loadedChunk);
         }

@@ -4,6 +4,9 @@ import me.redraskal.arcadia.api.game.BaseGame;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.game.DeadEndGame;
 import me.redraskal.arcadia.listener.ConnectionListener;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -37,6 +40,9 @@ public class Arcadia extends JavaPlugin {
     }
 
     public void onDisable() {
+        for(Player player : Bukkit.getOnlinePlayers()) {
+            player.kickPlayer(ChatColor.RED + "Server is now restarting.");
+        }
         removeCustomWorlds();
     }
 
