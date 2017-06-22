@@ -61,7 +61,7 @@ public class MineFieldGame extends BaseGame {
             if(event.getTo().getBlock().getType() == Material.STONE_PLATE) {
                 event.getTo().getBlock().setType(Material.AIR);
                 event.getTo().getWorld().playSound(event.getTo(), Sound.ENTITY_GENERIC_EXPLODE, 1f, 1f);
-                this.getAPI().getGameManager().setAlive(event.getPlayer(), false);
+                event.getPlayer().teleport(Utils.parseLocation((String) this.getGameMap().fetchSetting("startPosition")));
                 return;
             }
             if(event.getTo().getBlock().getRelative(BlockFace.DOWN).getType() == Material.DIAMOND_BLOCK) {
