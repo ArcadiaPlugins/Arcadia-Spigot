@@ -33,11 +33,11 @@ public class Utils {
     }
 
     public static MaterialData parseMaterialData(String data) {
-        if(data.split(",").length > 1) {
-            return new MaterialData(Material.getMaterial(data.split(",")[0]),
-                Integer.valueOf(data.split(",")[1]).byteValue());
+        if(data.split(":").length > 1) {
+            return new MaterialData(Material.getMaterial(data.split(":")[0]),
+                Integer.valueOf(data.split(":")[1]).byteValue());
         } else {
-            return new MaterialData(Material.getMaterial(data.split(",")[0]));
+            return new MaterialData(Material.getMaterial(data.split(":")[0]));
         }
     }
 
