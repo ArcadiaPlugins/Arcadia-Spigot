@@ -23,6 +23,10 @@ public class GameStartRunnable extends BukkitRunnable {
 
     @Override
     public void run() {
+        if(api.getGameManager().getGameState() != GameState.STARTING) {
+            this.cancel();
+            return;
+        }
         if(countdown <= 1) {
             this.cancel();
             for(Player player : Bukkit.getOnlinePlayers()) {
