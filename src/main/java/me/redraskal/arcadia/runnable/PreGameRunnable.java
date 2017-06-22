@@ -20,6 +20,7 @@ public class PreGameRunnable {
                 api.getGameManager().setAlive(player, true);
             }
         }
+        api.getGameManager().getCurrentGame().onPreStart();
         new GameStartRunnable();
     }
 }
