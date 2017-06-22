@@ -51,10 +51,13 @@ public class GameManager {
             for(String requiredSetting : currentGame.getRequiredSettings()) {
                 if(!gameMap.doesSettingExist(requiredSetting)) return false;
             }
-            api.getMapRegistry().loadWorld(gameMap);
-            new PreGameRunnable();
-            Bukkit.getServer().getPluginManager().registerEvents(currentGame, Arcadia.getPlugin(Arcadia.class));
-            return true;
+            if(api.getMapRegistry().loadWorld(gameMap) != null) {
+                new PreGameRunnable();
+                Bukkit.getServer().getPluginManager().registerEvents(currentGame, Arcadia.getPlugin(Arcadia.class));
+                return true;
+            } else {
+                return false;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return false;
