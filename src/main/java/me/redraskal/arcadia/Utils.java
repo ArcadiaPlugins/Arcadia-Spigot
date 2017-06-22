@@ -1,6 +1,5 @@
 package me.redraskal.arcadia;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -21,11 +20,11 @@ public class Utils {
 
     public static Location parseLocation(String location) {
         if(location.split(",").length > 3) {
-            return new Location(Bukkit.getWorld("game"),
+            return new Location(Arcadia.getPlugin(Arcadia.class).getAPI().getMapRegistry().getCurrentWorld(),
                     Double.valueOf(location.split(",")[0]), Double.valueOf(location.split(",")[1]), Double.valueOf(location.split(",")[2]),
                     Float.valueOf(location.split(",")[3]), Float.valueOf(location.split(",")[4]));
         } else {
-            return new Location(Bukkit.getWorld("game"),
+            return new Location(Arcadia.getPlugin(Arcadia.class).getAPI().getMapRegistry().getCurrentWorld(),
                     Double.valueOf(location.split(",")[0]), Double.valueOf(location.split(",")[1]), Double.valueOf(location.split(",")[2]));
         }
     }

@@ -67,7 +67,7 @@ public class DeadEndGame extends BaseGame {
                                     pendingDeletion.remove(block);
                                 }
                             }
-                        }.runTaskLater(Arcadia.getPlugin(Arcadia.class), 10L);
+                        }.runTaskLater(Arcadia.getPlugin(Arcadia.class), 3L);
                     }
                 }
             }
