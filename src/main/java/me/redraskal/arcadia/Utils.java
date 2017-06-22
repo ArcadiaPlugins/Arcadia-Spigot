@@ -3,6 +3,7 @@ package me.redraskal.arcadia;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 import org.bukkit.potion.PotionEffect;
 
 import java.io.File;
@@ -28,6 +29,15 @@ public class Utils {
         } else {
             return new Location(Arcadia.getPlugin(Arcadia.class).getAPI().getMapRegistry().getCurrentWorld(),
                     Double.valueOf(location.split(",")[0]), Double.valueOf(location.split(",")[1]), Double.valueOf(location.split(",")[2]));
+        }
+    }
+
+    public static MaterialData parseMaterialData(String data) {
+        if(data.split(",").length > 1) {
+            return new MaterialData(Material.getMaterial(data.split(",")[0]),
+                Integer.valueOf(data.split(",")[1]).byteValue());
+        } else {
+            return new MaterialData(Material.getMaterial(data.split(",")[0]));
         }
     }
 

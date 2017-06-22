@@ -10,6 +10,8 @@ import me.redraskal.arcadia.api.map.GameMap;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -134,6 +136,11 @@ public class MapRegistry {
         currentWorld.setGameRuleValue("doMobSpawning", "false");
         currentWorld.setGameRuleValue("randomTickSpeed", "0");
         currentWorld.setGameRuleValue("doDaylightCycle", "false");
+        for(Entity entity : currentWorld.getEntities()) {
+            if(!(entity instanceof Player)) {
+                entity.remove();
+            }
+        }
         this.mapBounds = new Cuboid(Utils.parseLocation((String) gameMap.fetchSetting("mapBoundsA")),
             Utils.parseLocation((String) gameMap.fetchSetting("mapBoundsB")));
         return this.currentWorld;
