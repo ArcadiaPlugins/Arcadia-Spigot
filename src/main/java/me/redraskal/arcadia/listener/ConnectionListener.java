@@ -3,6 +3,8 @@ package me.redraskal.arcadia.listener;
 import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.ArcadiaAPI;
 import me.redraskal.arcadia.Utils;
+import me.redraskal.arcadia.api.game.GameState;
+import me.redraskal.arcadia.runnable.GameSwitchRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
@@ -22,7 +24,13 @@ public class ConnectionListener implements Listener {
             event.getPlayer().setScoreboard(api.getGameManager().getCurrentGame().getSidebar().getSidebar().getScoreboard());
             Bukkit.broadcastMessage(ChatColor.GREEN + "=== " + ChatColor.BOLD + api.getGameManager().getCurrentGame().getName() + ChatColor.GREEN + " ===");
             for(String line : api.getGameManager().getCurrentGame().getDescription()) Bukkit.broadcastMessage(ChatColor.GOLD + line);
-            Bukkit.broadcastMessage(ChatColor.GREEN + "DON'T LEAVE! " + ChatColor.GRAY + "The next game will start shortly.");
+            Bukkit.broadcastMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "DON'T LEAVE! " + ChatColor.GRAY + "The next game will start shortly.");
+        }
+        if(Bukkit.getOnlinePlayers().size() == 1) {
+            if(api.getGameManager().getGameState() == GameState.STARTING) {
+                api.getGameManager().endGame();
+                new GameSwitchRunnable();
+            }
         }
     }
 
