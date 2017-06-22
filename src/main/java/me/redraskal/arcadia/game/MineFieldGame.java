@@ -7,9 +7,12 @@ import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.api.scoreboard.SidebarSettings;
 import me.redraskal.arcadia.api.scoreboard.defaults.DistanceSidebar;
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
+
+import java.util.Iterator;
 
 public class MineFieldGame extends BaseGame {
 
@@ -34,8 +37,9 @@ public class MineFieldGame extends BaseGame {
     public void onGameStart() {
         Cuboid glass = new Cuboid(Utils.parseLocation((String) this.getGameMap().fetchSetting("glassBoundsA")),
             Utils.parseLocation((String) this.getGameMap().fetchSetting("glassBoundsB")));
-        while(glass.iterator().hasNext()) {
-            glass.iterator().next().setType(Material.AIR);
+        Iterator<Block> blocks = glass.iterator();
+        while(blocks.hasNext()) {
+            blocks.next().setType(Material.AIR);
         }
     }
 

@@ -40,7 +40,8 @@ public class Rotation {
      * @return
      */
     public Class<? extends BaseGame> nextGame() {
-        if(current >= games.size()) current = 0;
+        if(current >= games.size()) current = -1;
+        current++;
         return this.getCurrentGame();
     }
 
