@@ -107,6 +107,14 @@ public abstract class BaseGame implements Listener {
     }
 
     /**
+     * Returns the SidebarSettings instance.
+     * @return
+     */
+    public SidebarSettings getSidebarSettings() {
+        return this.sidebarSettings;
+    }
+
+    /**
      * This event is called when a map is loaded in.
      * (Right before the countdown begins)
      */

@@ -2,6 +2,7 @@ package me.redraskal.arcadia.runnable;
 
 import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.ArcadiaAPI;
+import me.redraskal.arcadia.api.game.GameState;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -24,9 +25,11 @@ public class GameStartRunnable extends BukkitRunnable {
             for(Player player : Bukkit.getOnlinePlayers()) {
                 player.sendTitle(ChatColor.GREEN + "* GO *",
                         ChatColor.GREEN + "✪ " + api.getGameManager().getCurrentGame().getName() + " ✪",
-                        0, 1, 0);
+                        0, 40, 20);
             }
-            //TODO
+            this.api.getGameManager().setGameState(GameState.INGAME);
+            this.api.getGameManager().getCurrentGame().onGameStart();
+            new GameRunnable();
         } else {
             countdown--;
             ChatColor color = ChatColor.RED;
@@ -35,8 +38,9 @@ public class GameStartRunnable extends BukkitRunnable {
             for(Player player : Bukkit.getOnlinePlayers()) {
                 player.sendTitle(color + "* " + countdown + " *",
                     ChatColor.GREEN + "✪ " + api.getGameManager().getCurrentGame().getName() + " ✪",
-                         0, 1, 0);
+                         0, 40, 0);
             }
+            this.api.getGameManager().getCurrentGame().getSidebar().updateDisplayName(0, countdown);
         }
     }
 }
