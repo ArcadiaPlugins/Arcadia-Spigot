@@ -15,6 +15,7 @@ public class GameRunnable extends BukkitRunnable {
         this.api = Arcadia.getPlugin(Arcadia.class).getAPI();
         this.minutes = api.getGameManager().getCurrentGame().getSidebarSettings().getGameMinutes();
         this.seconds = api.getGameManager().getCurrentGame().getSidebarSettings().getGameSeconds();
+        new GameTickRunnable();
         this.runTaskTimer(Arcadia.getPlugin(Arcadia.class), 0, 20L);
     }
 

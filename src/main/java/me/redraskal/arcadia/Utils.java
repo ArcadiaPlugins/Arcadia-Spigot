@@ -1,10 +1,12 @@
 package me.redraskal.arcadia;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
+
+import java.io.File;
+import java.lang.reflect.Method;
 
 public class Utils {
 
@@ -26,6 +28,31 @@ public class Utils {
         } else {
             return new Location(Arcadia.getPlugin(Arcadia.class).getAPI().getMapRegistry().getCurrentWorld(),
                     Double.valueOf(location.split(",")[0]), Double.valueOf(location.split(",")[1]), Double.valueOf(location.split(",")[2]));
+        }
+    }
+
+    public static String getNMSVersion() {
+        return Bukkit.getServer().getClass().getPackage().getName().replace(".",  ",").split(",")[3];
+    }
+
+    public static boolean fullyUnloadWorld(World world) {
+        for(Chunk chunk : world.getLoadedChunks()) {
+            chunk.unload(false);
+        }
+        if(Bukkit.unloadWorld(world, false)) {
+            flushRegionFileCache();
+            FileUtils.deleteDirectory(new File(Bukkit.getWorldContainer().getAbsolutePath(), world.getName()));
+            return true;
+        }
+        return false;
+    }
+
+    public static void flushRegionFileCache() {
+        try {
+            Method method = Class.forName("net.minecraft.server." + getNMSVersion() + ".RegionFileCache").getMethod("a");
+            method.invoke(null);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

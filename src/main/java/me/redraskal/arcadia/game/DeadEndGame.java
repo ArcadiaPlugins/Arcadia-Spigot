@@ -35,7 +35,7 @@ public class DeadEndGame extends BaseGame {
     @Override
     public void onPreStart() {
         Location spawnLocation = Utils.parseLocation((String) this.getGameMap().fetchSetting("startPosition"));
-        PotionEffect potionEffect = new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 127);
+        PotionEffect potionEffect = new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 199);
         for(Player player : Bukkit.getOnlinePlayers()) {
             if(!this.getAPI().getGameManager().isAlive(player)) continue;
             player.teleport(spawnLocation);

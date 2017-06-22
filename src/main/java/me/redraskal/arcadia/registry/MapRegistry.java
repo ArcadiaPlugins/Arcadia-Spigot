@@ -3,14 +3,12 @@ package me.redraskal.arcadia.registry;
 import com.google.common.base.Preconditions;
 import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.FileUtils;
+import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.BaseGame;
 import me.redraskal.arcadia.api.map.GameMap;
 import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -133,22 +131,8 @@ public class MapRegistry {
         if(world == null) return false;
         Arcadia.getPlugin(Arcadia.class).getLogger().info("[MapRegistry] [/] Unloading " + world.getName() + "...");
         world.setAutoSave(false);
-        for(Entity entity : world.getEntities()) {
-            if(!(entity instanceof Player)) entity.remove();
-        }
-        if(new File(world.getWorldFolder(), "session.lock").exists()) {
-            File sessionLock = new File(world.getWorldFolder(), "session.lock");
-            sessionLock.setReadable(true);
-            sessionLock.setWritable(true);
-            sessionLock.setExecutable(true);
-            sessionLock.delete();
-        }
-        for(Chunk loadedChunk : world.getLoadedChunks()) {
-            world.unloadChunk(loadedChunk);
-        }
         final File worldDirectory = world.getWorldFolder();
-        Bukkit.unloadWorld(world, false);
-        world = null;
+        Utils.fullyUnloadWorld(world);
         FileUtils.deleteDirectory(worldDirectory);
         return true;
     }
