@@ -6,11 +6,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 public class DistanceSidebar extends ScoreSidebar {
 
     private Location target;
+    public int spectatorValue = -1000;
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
@@ -21,10 +23,19 @@ public class DistanceSidebar extends ScoreSidebar {
         updateTarget(event.getPlayer());
     }
 
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        this.setScore(event.getPlayer(), spectatorValue);
+    }
+
     private void updateTarget(Player player) {
         if(target == null) return;
         if(!target.getWorld().getName().equalsIgnoreCase(player.getWorld().getName())) return;
-        this.setScore(player, -Double.valueOf(player.getLocation().distance(target)).intValue());
+        if(Arcadia.getPlugin(Arcadia.class).getAPI().getGameManager().isAlive(player)) {
+            this.setScore(player, -Double.valueOf(player.getLocation().distance(target)).intValue());
+        } else {
+            this.setScore(player, spectatorValue);
+        }
     }
 
     /**
