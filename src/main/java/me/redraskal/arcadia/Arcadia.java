@@ -37,8 +37,15 @@ public class Arcadia extends JavaPlugin {
     }
 
     public void onDisable() {
+        removeCustomWorlds();
+    }
+
+    public void removeCustomWorlds() {
         if(this.getAPI().getMapRegistry().getCurrentWorld() != null) {
-            this.getAPI().getMapRegistry().unloadWorld();
+            this.getAPI().getMapRegistry().unloadWorld(this.getAPI().getMapRegistry().getCurrentWorld());
+        }
+        if(this.getAPI().getMapRegistry().oldWorld != null) {
+            this.getAPI().getMapRegistry().unloadWorld(this.getAPI().getMapRegistry().oldWorld);
         }
     }
 
