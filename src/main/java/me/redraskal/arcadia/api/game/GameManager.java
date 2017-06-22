@@ -132,9 +132,11 @@ public class GameManager {
      */
     public void setAlive(Player player, boolean toggle) {
         if(toggle) {
+            player.setGameMode(GameMode.ADVENTURE);
             player.setAllowFlight(false);
             player.setFlying(false);
             if(!alive.contains(player)) alive.add(player);
+            if(this.isSpectating(player)) this.setSpectating(player, false);
         } else {
             Utils.resetPlayer(player);
             //TODO: Fun inventory
@@ -168,6 +170,7 @@ public class GameManager {
             player.setGameMode(GameMode.SPECTATOR);
             spec.add(player);
         } else {
+            player.setGameMode(GameMode.ADVENTURE);
             spec.remove(player);
         }
         this.setAlive(player, false);

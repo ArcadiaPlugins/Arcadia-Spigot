@@ -14,6 +14,7 @@ public class PreGameRunnable {
         for(Player player : Bukkit.getOnlinePlayers()) {
             Utils.resetPlayer(player);
             if(api.getGameManager().isSpectating(player)) {
+                player.teleport(Utils.parseLocation((String) api.getGameManager().getCurrentGame().getGameMap().fetchSetting("spectatorLocation")));
                 player.setGameMode(GameMode.SPECTATOR);
             } else {
                 player.setGameMode(GameMode.ADVENTURE);
