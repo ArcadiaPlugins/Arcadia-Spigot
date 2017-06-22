@@ -1,13 +1,26 @@
 package me.redraskal.arcadia.api.game;
 
 import com.google.common.base.Preconditions;
+import me.redraskal.arcadia.Arcadia;
+import me.redraskal.arcadia.ArcadiaAPI;
+import me.redraskal.arcadia.api.map.GameMap;
+import me.redraskal.arcadia.api.scoreboard.Sidebar;
+import me.redraskal.arcadia.api.scoreboard.SidebarSettings;
 import org.bukkit.event.Listener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class BaseGame implements Listener {
 
+    private final ArcadiaAPI api;
+
     private final String name;
+    private final SidebarSettings sidebarSettings;
+    private Sidebar sidebar;
+    private GameMap gameMap;
     private final String[] description;
-    private final String[] requiredSettings;
+    private String[] requiredSettings;
 
     /**
      * The base game layout.
@@ -15,7 +28,7 @@ public abstract class BaseGame implements Listener {
      * @param requiredSettings
      * @param description
      */
-    public BaseGame(String name, String[] requiredSettings, String... description) {
+    public BaseGame(String name, String[] requiredSettings, SidebarSettings sidebarSettings, GameMap gameMap, String... description) {
         Preconditions.checkNotNull(name, "Game name cannot be null");
         this.name = name;
         if(requiredSettings != null) {
@@ -28,6 +41,30 @@ public abstract class BaseGame implements Listener {
         } else {
             this.description = new String[]{};
         }
+        List<String> defaultRequiredSettings = new ArrayList<String>();
+        for(String setting : this.requiredSettings) defaultRequiredSettings.add(setting);
+        defaultRequiredSettings.add("spectatorLocation");
+        defaultRequiredSettings.add("bottomYLevel");
+        defaultRequiredSettings.add("mapBoundsA");
+        defaultRequiredSettings.add("mapBoundsB");
+        this.requiredSettings = defaultRequiredSettings
+            .toArray(new String[defaultRequiredSettings.size()]);
+        this.sidebarSettings = sidebarSettings;
+        try {
+            this.sidebar = sidebarSettings.getClazz().newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.api = Arcadia.getPlugin(Arcadia.class).getAPI();
+        this.gameMap = gameMap;
+    }
+
+    /**
+     * Returns the fun API :D
+     * @return
+     */
+    public ArcadiaAPI getAPI() {
+        return this.api;
     }
 
     /**
@@ -52,6 +89,22 @@ public abstract class BaseGame implements Listener {
      */
     public String[] getDescription() {
         return this.description;
+    }
+
+    /**
+     * Returns the current GameMap.
+     * @return
+     */
+    public GameMap getGameMap() {
+        return this.gameMap;
+    }
+
+    /**
+     * Returns the Sidebar instance.
+     * @return
+     */
+    public Sidebar getSidebar() {
+        return this.sidebar;
     }
 
     /**
