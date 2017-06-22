@@ -10,7 +10,7 @@ public class SidebarSettings {
         int gameMinutes, int gameSeconds) {
         this.clazz = clazz;
         this.gameMinutes = gameMinutes;
-        this.gameSeconds = gameSeconds;
+        this.gameSeconds = gameSeconds+1;
     }
 
     public Class<? extends Sidebar> getClazz() {
