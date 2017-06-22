@@ -129,6 +129,8 @@ public class GameManager {
             player.setFlying(false);
             if(!alive.contains(player)) alive.add(player);
         } else {
+            Utils.resetPlayer(player);
+            //TODO: Fun inventory
             player.setAllowFlight(true);
             player.setFlying(true);
             if(Arcadia.getPlugin(Arcadia.class).getAPI()

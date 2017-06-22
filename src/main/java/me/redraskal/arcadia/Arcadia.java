@@ -4,6 +4,9 @@ import me.redraskal.arcadia.api.game.BaseGame;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.game.DeadEndGame;
 import me.redraskal.arcadia.listener.ConnectionListener;
+import me.redraskal.arcadia.listener.DamageListener;
+import me.redraskal.arcadia.listener.SpectatorListener;
+import me.redraskal.arcadia.listener.WorldListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -19,9 +22,11 @@ public class Arcadia extends JavaPlugin {
 
     public void onEnable() {
         this.api = new ArcadiaAPI(this);
-        //TODO: Actually make stuff work properly
 
         this.getServer().getPluginManager().registerEvents(new ConnectionListener(), this);
+        this.getServer().getPluginManager().registerEvents(new DamageListener(), this);
+        this.getServer().getPluginManager().registerEvents(new WorldListener(), this);
+        this.getServer().getPluginManager().registerEvents(new SpectatorListener(), this);
 
         // Register Default Games (togglable later in the config)
         this.getAPI().getGameRegistry().registerGame(DeadEndGame.class);

@@ -1,6 +1,7 @@
 package me.redraskal.arcadia.listener;
 
 import me.redraskal.arcadia.Arcadia;
+import me.redraskal.arcadia.Utils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -11,6 +12,7 @@ public class ConnectionListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.setJoinMessage(null);
+        Utils.resetPlayer(event.getPlayer());
         Arcadia.getPlugin(Arcadia.class).getAPI()
             .getGameManager().setAlive(event.getPlayer(), false);
         if(Arcadia.getPlugin(Arcadia.class).getAPI().getGameManager().getCurrentGame() != null) {

@@ -2,6 +2,7 @@ package me.redraskal.arcadia.registry;
 
 import com.google.common.base.Preconditions;
 import me.redraskal.arcadia.Arcadia;
+import me.redraskal.arcadia.Cuboid;
 import me.redraskal.arcadia.FileUtils;
 import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.BaseGame;
@@ -20,6 +21,7 @@ public class MapRegistry {
 
     private List<GameMap> registeredMaps = new ArrayList<>();
     private World currentWorld;
+    private Cuboid mapBounds;
     public World oldWorld;
 
     /**
@@ -106,6 +108,14 @@ public class MapRegistry {
         return this.currentWorld;
     }
 
+    /**
+     * Returns the current map boundaries as a Cuboid.
+     * @return
+     */
+    public Cuboid getMapBounds() {
+        return this.mapBounds;
+    }
+
     public World loadWorld(GameMap gameMap) {
         String worldName = "game";
         if(this.currentWorld != null) {
@@ -124,6 +134,8 @@ public class MapRegistry {
         currentWorld.setGameRuleValue("doMobSpawning", "false");
         currentWorld.setGameRuleValue("randomTickSpeed", "0");
         currentWorld.setGameRuleValue("doDaylightCycle", "false");
+        this.mapBounds = new Cuboid(Utils.parseLocation((String) gameMap.fetchSetting("mapBoundsA")),
+            Utils.parseLocation((String) gameMap.fetchSetting("mapBoundsB")));
         return this.currentWorld;
     }
 

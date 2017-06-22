@@ -22,6 +22,8 @@ public abstract class BaseGame implements Listener {
     private final String[] description;
     private String[] requiredSettings;
 
+    public boolean allowPVP = false;
+
     /**
      * The base game layout.
      * @param name
