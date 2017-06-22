@@ -41,6 +41,7 @@ public class GameStartRunnable extends BukkitRunnable {
                 player.sendTitle(ChatColor.GREEN + "* GO *",
                         ChatColor.GREEN + "✪ " + api.getGameManager().getCurrentGame().getName() + " ✪",
                         0, 20, 20);
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 1f, 1f);
             }
             this.api.getGameManager().setGameState(GameState.INGAME);
             this.api.getGameManager().getCurrentGame().onGameStart();
@@ -61,7 +62,7 @@ public class GameStartRunnable extends BukkitRunnable {
             }
             if(countdown == 10 || countdown == 5) {
                 for(Player player : Bukkit.getOnlinePlayers()) {
-                    player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 0.8f);
+                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 1f, 1f);
                 }
             }
             if(countdown <= 3) {
