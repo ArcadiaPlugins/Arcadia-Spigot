@@ -3,6 +3,7 @@ package me.redraskal.arcadia.game;
 import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.BaseGame;
+import me.redraskal.arcadia.api.game.GameState;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.api.scoreboard.SidebarSettings;
 import me.redraskal.arcadia.api.scoreboard.defaults.PlayersLeftSidebar;
@@ -10,6 +11,7 @@ import me.redraskal.arcadia.game.electricfloor.FloorOrder;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -48,25 +50,46 @@ public class ElectricFloorGame extends BaseGame {
     }
 
     @Override
-    public void onGameStart() {}
+    public void onGameStart() {
+        new BukkitRunnable() {
+            public void run() {
+                if(Arcadia.getPlugin(Arcadia.class).getAPI().getGameManager().getGameState()
+                        != GameState.INGAME) {
+                    this.cancel();
+                    return;
+                }
+                for(Player player : Bukkit.getOnlinePlayers()) {
+                    updateBlock(player, player.getLocation().getBlock().getRelative(BlockFace.DOWN));
+                }
+            }
+        }.runTaskTimer(Arcadia.getPlugin(Arcadia.class), 0, 20L);
+    }
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
-        if(this.getAPI().getGameManager().isAlive(event.getPlayer())) {
-            final Block block = event.getTo().getBlock().getRelative(BlockFace.DOWN);
+        this.updateBlock(event.getPlayer(), event.getTo().getBlock().getRelative(BlockFace.DOWN));
+    }
+
+    private void updateBlock(Player player, Block block) {
+        if(this.getAPI().getGameManager().isAlive(player)) {
+            if(block.getType() == Material.AIR
+                    && block.getRelative(BlockFace.DOWN).getType() != Material.AIR) {
+                block = block.getRelative(BlockFace.DOWN);
+            }
             MaterialData currentData = floorOrder.currentData(block);
             if(floorOrder.match(block, floorOrder.last())) {
-                this.getAPI().getGameManager().setAlive(event.getPlayer(), false);
+                this.getAPI().getGameManager().setAlive(player, false);
             } else {
                 if(floorOrder.contains(block)) {
                     if(!changePending.contains(block)) {
+                        final Block finalBlock = block;
                         final MaterialData next = floorOrder.nextData(block);
                         changePending.add(block);
                         new BukkitRunnable() {
                             public void run() {
-                                if(changePending.contains(block)) {
-                                    block.setTypeIdAndData(next.getItemTypeId(), next.getData(), false);
-                                    changePending.remove(block);
+                                if(changePending.contains(finalBlock)) {
+                                    finalBlock.setTypeIdAndData(next.getItemTypeId(), next.getData(), false);
+                                    changePending.remove(finalBlock);
                                 }
                             }
                         }.runTaskLater(Arcadia.getPlugin(Arcadia.class), 10L);
