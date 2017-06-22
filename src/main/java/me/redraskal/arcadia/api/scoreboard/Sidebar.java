@@ -43,7 +43,7 @@ public abstract class Sidebar {
      */
     public void updateDisplayName(int minutes, int seconds) {
         ArcadiaAPI api = Arcadia.getPlugin(Arcadia.class).getAPI();
-        final String rotation = "[" + api.getGameManager().getRotation().getCurrentID()
+        final String rotation = "[" + (api.getGameManager().getRotation().getCurrentID()+1)
             + "/" + api.getGameManager().getRotation().getSize() + "]";
         final String currentTime = Utils.formatTime(minutes, seconds);
         switch(api.getGameManager().getGameState()) {

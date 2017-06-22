@@ -138,8 +138,10 @@ public class MapRegistry {
         for(Chunk loadedChunk : currentWorld.getLoadedChunks()) {
             currentWorld.unloadChunk(loadedChunk);
         }
+        final File worldDirectory = this.currentWorld.getWorldFolder();
         Bukkit.unloadWorld(this.currentWorld, false);
         this.currentWorld = null;
+        FileUtils.deleteDirectory(worldDirectory);
         return true;
     }
 }

@@ -44,6 +44,7 @@ public class GameManager {
         if(!api.getGameRegistry().getRegisteredGames().contains(registeredGame)) return false;
         if(!api.getGameRegistry().getMaps(registeredGame).contains(gameMap)) return false;
         this.endGame();
+        this.nullifyGame();
         try {
             this.currentGame = registeredGame.getConstructor(GameMap.class).newInstance(gameMap);
             this.gameState = GameState.STARTING;
@@ -69,8 +70,13 @@ public class GameManager {
         this.gameState = GameState.FINISHED;
         HandlerList.unregisterAll(this.currentGame);
         this.currentGame.onGameEnd();
-        this.currentGame.getSidebar().getSidebar().unregister();
         //TODO: Fun sound effect thing/winners announced
+        return true;
+    }
+
+    public boolean nullifyGame() {
+        if(this.currentGame == null) return false;
+        this.currentGame.getSidebar().getSidebar().unregister();
         this.currentGame = null;
         return true;
     }

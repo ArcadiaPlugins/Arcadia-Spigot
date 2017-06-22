@@ -28,6 +28,8 @@ public class GameRunnable extends BukkitRunnable {
             if(minutes <= 0) {
                 this.cancel();
                 api.getGameManager().endGame();
+                new GameSwitchRunnable();
+                return;
             } else {
                 minutes--;
                 seconds = 59;
