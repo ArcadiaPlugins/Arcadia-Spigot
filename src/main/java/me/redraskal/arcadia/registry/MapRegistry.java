@@ -3,6 +3,7 @@ package me.redraskal.arcadia.registry;
 import com.google.common.base.Preconditions;
 import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.FileUtils;
+import me.redraskal.arcadia.api.game.BaseGame;
 import me.redraskal.arcadia.api.map.GameMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -65,7 +66,20 @@ public class MapRegistry {
             Preconditions.checkNotNull(properties.getProperty("name"), "Map name is not set");
             GameMap gameMap = new GameMap(properties.getProperty("name"), directory);
             for(Object property : properties.keySet()) gameMap.modifySetting((String) property, properties.get(property));
-            return this.registerMap(gameMap);
+            boolean result = this.registerMap(gameMap);
+            if(result) {
+                if(properties.getProperty("games") != null && !properties.getProperty("games").isEmpty()) {
+                    List<String> temp = new ArrayList<String>();
+                    for(String allowedGame : properties.getProperty("games").split(",")) temp.add(allowedGame);
+                    for(Class<? extends BaseGame> game
+                            : Arcadia.getPlugin(Arcadia.class).getAPI().getGameRegistry().getRegisteredGames()) {
+                        if(temp.contains(game.getName())) {
+                            Arcadia.getPlugin(Arcadia.class).getAPI().getGameRegistry().applyMap(gameMap, game);
+                        }
+                    }
+                }
+            }
+            return result;
         } catch (Exception e) {
             Arcadia.getPlugin(Arcadia.class).getLogger().info("[MapRegistry] An error has occured while loading (" + directory.getPath() + "):");
             e.printStackTrace();
@@ -96,7 +110,9 @@ public class MapRegistry {
     public World loadWorld(GameMap gameMap) {
         String worldName = "game";
         if(this.currentWorld != null) {
-            worldName = "game2";
+            if(!this.currentWorld.getName().equalsIgnoreCase("game2")) {
+                worldName = "game2";
+            }
             unloadWorld();
         }
         Arcadia.getPlugin(Arcadia.class).getLogger().info("[MapRegistry] [/] Copying map from " + gameMap.getMapDirectory().getPath() + "...");

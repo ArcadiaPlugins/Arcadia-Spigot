@@ -20,5 +20,6 @@ public class PreGameRunnable {
                 api.getGameManager().setAlive(player, true);
             }
         }
+        //TODO: Countdown
     }
 }

@@ -69,6 +69,7 @@ public class GameManager {
         this.gameState = GameState.FINISHED;
         HandlerList.unregisterAll(this.currentGame);
         this.currentGame.onGameEnd();
+        this.currentGame.getSidebar().getSidebar().unregister();
         //TODO: Fun sound effect thing/winners announced
         this.currentGame = null;
         return true;
