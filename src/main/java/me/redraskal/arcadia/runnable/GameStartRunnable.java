@@ -5,6 +5,7 @@ import me.redraskal.arcadia.ArcadiaAPI;
 import me.redraskal.arcadia.api.game.GameState;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -57,6 +58,16 @@ public class GameStartRunnable extends BukkitRunnable {
                 player.sendTitle(color + "* " + countdown + " *",
                     ChatColor.GREEN + "✪ " + api.getGameManager().getCurrentGame().getName() + " ✪",
                          0, 40, 0);
+            }
+            if(countdown == 10 || countdown == 5) {
+                for(Player player : Bukkit.getOnlinePlayers()) {
+                    player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 0.8f);
+                }
+            }
+            if(countdown <= 3) {
+                for(Player player : Bukkit.getOnlinePlayers()) {
+                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 1f, 0.7f);
+                }
             }
             this.api.getGameManager().getCurrentGame().getSidebar().updateDisplayName(0, countdown);
         }

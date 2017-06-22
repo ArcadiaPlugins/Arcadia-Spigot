@@ -11,6 +11,7 @@ import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.runnable.GameSwitchRunnable;
 import me.redraskal.arcadia.runnable.PreGameRunnable;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -77,7 +78,10 @@ public class GameManager {
         HandlerList.unregisterAll(this.currentGame);
         HandlerList.unregisterAll(this.currentGame.getSidebar());
         this.currentGame.onGameEnd();
-        //TODO: Fun sound effect thing/winners announced
+        //TODO: Fun sound effect thing
+        Bukkit.broadcastMessage(ChatColor.YELLOW + "1st place: " + ChatColor.WHITE + "--- (" + ChatColor.YELLOW + "7" + ChatColor.WHITE + ")");
+        Bukkit.broadcastMessage(ChatColor.GRAY + "2nd place: " + ChatColor.WHITE + "--- (" + ChatColor.YELLOW + "3" + ChatColor.WHITE + ")");
+        Bukkit.broadcastMessage(ChatColor.RED + "3rd place: " + ChatColor.WHITE + "--- (" + ChatColor.YELLOW + "1" + ChatColor.WHITE + ")");
         Bukkit.getServer().getPluginManager().callEvent(new GameEndEvent());
         return true;
     }

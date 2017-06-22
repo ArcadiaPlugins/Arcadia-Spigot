@@ -41,8 +41,11 @@ public class MineFieldGame extends BaseGame {
         Iterator<Block> blocks = minefield.iterator();
         Random random = new Random();
         blocks.forEachRemaining(block -> {
-            if(random.nextFloat() < 0.6F) {
-                blocks.next().setType(Material.STONE_PLATE);
+            Block next = blocks.next();
+            if(next.getRelative(BlockFace.UP).getType() == Material.AIR) {
+                if(random.nextFloat() < 0.6F) {
+                    next.setType(Material.STONE_PLATE);
+                }
             }
         });
     }
@@ -65,8 +68,8 @@ public class MineFieldGame extends BaseGame {
                 event.getTo().getWorld().spigot().playEffect(event.getTo(), Effect.FLAME,
                         0, 0, 1, 1, 1, 0, 5, 15);
                 event.getTo().getWorld().spigot().playEffect(event.getTo(), Effect.EXPLOSION,
-                    0, 0, 1, 1, 1, 0, 5, 15);
-                event.getTo().getWorld().playSound(event.getTo(), Sound.ENTITY_GENERIC_EXPLODE, 1f, 1f);
+                    0, 0, 1, 1, 1, 0, 6, 15);
+                event.getTo().getWorld().playSound(event.getTo(), Sound.ENTITY_GENERIC_EXPLODE, 5f, 1f);
                 event.getPlayer().teleport(Utils.parseLocation((String) this.getGameMap().fetchSetting("startPosition")));
                 return;
             }

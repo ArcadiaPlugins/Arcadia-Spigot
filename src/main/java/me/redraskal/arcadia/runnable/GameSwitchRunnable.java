@@ -3,6 +3,9 @@ package me.redraskal.arcadia.runnable;
 import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.ArcadiaAPI;
 import me.redraskal.arcadia.api.game.GameState;
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameSwitchRunnable extends BukkitRunnable {
@@ -28,6 +31,11 @@ public class GameSwitchRunnable extends BukkitRunnable {
             return;
         } else {
             seconds--;
+            if(seconds <= 3) {
+                for(Player player : Bukkit.getOnlinePlayers()) {
+                    player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 0.7f);
+                }
+            }
         }
         api.getGameManager().getCurrentGame().getSidebar().updateDisplayName(0, seconds);
     }
