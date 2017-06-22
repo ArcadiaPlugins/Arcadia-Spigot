@@ -3,6 +3,7 @@ package me.redraskal.arcadia;
 import me.redraskal.arcadia.api.game.BaseGame;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.game.DeadEndGame;
+import me.redraskal.arcadia.listener.ConnectionListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -16,6 +17,8 @@ public class Arcadia extends JavaPlugin {
     public void onEnable() {
         this.api = new ArcadiaAPI(this);
         //TODO: Actually make stuff work properly
+
+        this.getServer().getPluginManager().registerEvents(new ConnectionListener(), this);
 
         // Register Default Games (togglable later in the config)
         this.getAPI().getGameRegistry().registerGame(DeadEndGame.class);

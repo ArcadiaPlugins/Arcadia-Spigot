@@ -9,10 +9,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class DeadEndGame extends BaseGame {
+
+    private boolean floorListener = false;
 
     public DeadEndGame(GameMap gameMap) {
         super("Dead End", new String[]{"startPosition", "floorLevel"}, new SidebarSettings(PlayersLeftSidebar.class, 1, 30), gameMap,
@@ -33,11 +37,23 @@ public class DeadEndGame extends BaseGame {
 
     @Override
     public void onGameStart() {
-        //TODO
+        this.floorListener = true;
+    }
+
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent event) {
+        if(!floorListener) return;
+        if(this.getAPI().getGameManager().isAlive(event.getPlayer())) {
+            if(event.getTo().getY() <= (double) this.getGameMap().fetchSetting("floorLevel")) {
+                this.getAPI().getGameManager().setAlive(event.getPlayer(), false);
+            } else {
+                //TODO
+            }
+        }
     }
 
     @Override
     public void onGameEnd() {
-        //TODO
+        this.floorListener = false;
     }
 }

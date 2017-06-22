@@ -45,7 +45,7 @@ public class GameManager {
         if(!api.getGameRegistry().getMaps(registeredGame).contains(gameMap)) return false;
         this.endGame();
         try {
-            this.currentGame = registeredGame.newInstance();
+            this.currentGame = registeredGame.getConstructor(GameMap.class).newInstance(gameMap);
             this.gameState = GameState.STARTING;
             for(String requiredSetting : currentGame.getRequiredSettings()) {
                 if(!gameMap.doesSettingExist(requiredSetting)) return false;
