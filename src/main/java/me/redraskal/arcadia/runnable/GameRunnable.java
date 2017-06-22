@@ -32,6 +32,8 @@ public class GameRunnable extends BukkitRunnable {
                 minutes--;
                 seconds = 59;
             }
+        } else {
+            seconds--;
         }
         api.getGameManager().getCurrentGame().getSidebar().updateDisplayName(minutes, seconds);
     }

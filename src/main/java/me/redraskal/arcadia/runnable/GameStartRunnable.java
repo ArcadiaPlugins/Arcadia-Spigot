@@ -25,7 +25,7 @@ public class GameStartRunnable extends BukkitRunnable {
             for(Player player : Bukkit.getOnlinePlayers()) {
                 player.sendTitle(ChatColor.GREEN + "* GO *",
                         ChatColor.GREEN + "✪ " + api.getGameManager().getCurrentGame().getName() + " ✪",
-                        0, 40, 20);
+                        0, 20, 20);
             }
             this.api.getGameManager().setGameState(GameState.INGAME);
             this.api.getGameManager().getCurrentGame().onGameStart();
