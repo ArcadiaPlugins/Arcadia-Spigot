@@ -13,6 +13,10 @@ public class ConnectionListener implements Listener {
         event.setJoinMessage(null);
         Arcadia.getPlugin(Arcadia.class).getAPI()
             .getGameManager().setAlive(event.getPlayer(), false);
+        if(Arcadia.getPlugin(Arcadia.class).getAPI().getGameManager().getCurrentGame() != null) {
+            event.getPlayer().setScoreboard(Arcadia.getPlugin(Arcadia.class).getAPI()
+                .getGameManager().getCurrentGame().getSidebar().getSidebar().getScoreboard());
+        }
     }
 
     @EventHandler
