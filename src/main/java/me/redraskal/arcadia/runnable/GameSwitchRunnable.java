@@ -32,8 +32,14 @@ public class GameSwitchRunnable extends BukkitRunnable {
         } else {
             seconds--;
             if(seconds <= 3) {
-                for(Player player : Bukkit.getOnlinePlayers()) {
-                    player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f);
+                if(seconds > 0) {
+                    for(Player player : Bukkit.getOnlinePlayers()) {
+                        player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f);
+                    }
+                } else {
+                    for(Player player : Bukkit.getOnlinePlayers()) {
+                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 1f, 1.1f);
+                    }
                 }
             }
         }
