@@ -62,10 +62,10 @@ public class MineFieldGame extends BaseGame {
         if(this.getAPI().getGameManager().isAlive(event.getPlayer())) {
             if(event.getTo().getBlock().getType() == Material.STONE_PLATE) {
                 event.getTo().getBlock().setType(Material.AIR);
-                event.getTo().getWorld().spigot().playEffect(event.getTo(), Effect.CLOUD,
-                        0, 0, 1, 1, 1, 0, 3, 15);
+                event.getTo().getWorld().spigot().playEffect(event.getTo(), Effect.FLAME,
+                        0, 0, 1, 1, 1, 0, 5, 15);
                 event.getTo().getWorld().spigot().playEffect(event.getTo(), Effect.EXPLOSION,
-                    0, 0, 1, 1, 1, 0, 3, 15);
+                    0, 0, 1, 1, 1, 0, 5, 15);
                 event.getTo().getWorld().playSound(event.getTo(), Sound.ENTITY_GENERIC_EXPLODE, 1f, 1f);
                 event.getPlayer().teleport(Utils.parseLocation((String) this.getGameMap().fetchSetting("startPosition")));
                 return;
