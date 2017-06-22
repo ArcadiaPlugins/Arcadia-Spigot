@@ -24,7 +24,7 @@ public class DistanceSidebar extends ScoreSidebar {
     private void updateTarget(Player player) {
         if(target == null) return;
         if(!target.getWorld().getName().equalsIgnoreCase(player.getWorld().getName())) return;
-        this.setScore(player, Double.valueOf(player.getLocation().distance(target)).intValue());
+        this.setScore(player, -Double.valueOf(player.getLocation().distance(target)).intValue());
     }
 
     /**
