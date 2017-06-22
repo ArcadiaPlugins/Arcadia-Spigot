@@ -4,6 +4,8 @@ import com.google.common.base.Preconditions;
 import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.ArcadiaAPI;
 import me.redraskal.arcadia.Utils;
+import me.redraskal.arcadia.api.game.event.GameEndEvent;
+import me.redraskal.arcadia.api.game.event.GameStateUpdateEvent;
 import me.redraskal.arcadia.api.game.event.PlayerAliveStatusEvent;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.runnable.PreGameRunnable;
@@ -76,6 +78,7 @@ public class GameManager {
         HandlerList.unregisterAll(this.currentGame.getSidebar());
         this.currentGame.onGameEnd();
         //TODO: Fun sound effect thing/winners announced
+        Bukkit.getServer().getPluginManager().callEvent(new GameEndEvent());
         return true;
     }
 
@@ -100,6 +103,7 @@ public class GameManager {
      */
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
+        Bukkit.getServer().getPluginManager().callEvent(new GameStateUpdateEvent(this.gameState));
     }
 
     /**
@@ -143,6 +147,9 @@ public class GameManager {
             if(alive.contains(player)) alive.remove(player);
         }
         Bukkit.getServer().getPluginManager().callEvent(new PlayerAliveStatusEvent(player, toggle, false));
+        if(this.getPlayersAlive() <= 0 && this.getGameState() == GameState.INGAME) {
+            this.endGame();
+        }
     }
 
     /**

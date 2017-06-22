@@ -15,6 +15,9 @@ public class GameStartRunnable extends BukkitRunnable {
 
     public GameStartRunnable() {
         this.api = Arcadia.getPlugin(Arcadia.class).getAPI();
+        Bukkit.broadcastMessage(ChatColor.GREEN + "=== " + ChatColor.BOLD + api.getGameManager().getCurrentGame().getName() + ChatColor.GREEN + " ===");
+        for(String line : api.getGameManager().getCurrentGame().getDescription()) Bukkit.broadcastMessage(ChatColor.GOLD + line);
+        Bukkit.broadcastMessage(ChatColor.GREEN + "/spec " + ChatColor.GRAY + "to quit playing");
         this.runTaskTimer(Arcadia.getPlugin(Arcadia.class), 0, 20L);
     }
 

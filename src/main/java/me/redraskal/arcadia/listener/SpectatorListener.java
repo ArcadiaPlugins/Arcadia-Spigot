@@ -32,7 +32,13 @@ public class SpectatorListener implements Listener {
             if(yDif >= 0.5) event.setTo(newLocation);
         }
         if(api.getMapRegistry().getMapBounds() != null) {
-            if(!api.getMapRegistry().getMapBounds().contains(event.getTo())) event.setTo(event.getFrom());
+            if(!api.getMapRegistry().getMapBounds().contains(event.getTo())) {
+                if(api.getGameManager().isAlive(event.getPlayer())) {
+                    api.getGameManager().setAlive(event.getPlayer(), false);
+                } else {
+                    event.setTo(event.getFrom());
+                }
+            }
         }
     }
 }

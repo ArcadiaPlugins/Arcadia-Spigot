@@ -37,11 +37,13 @@ public class DeadEndGame extends BaseGame {
     public void onPreStart() {
         Location spawnLocation = Utils.parseLocation((String) this.getGameMap().fetchSetting("startPosition"));
         PotionEffect potionEffect = new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 199);
+        PotionEffect potionEffect2 = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 2);
         for(Player player : Bukkit.getOnlinePlayers()) {
             if(!this.getAPI().getGameManager().isAlive(player)) continue;
             player.teleport(spawnLocation);
             player.setGameMode(GameMode.ADVENTURE);
             player.addPotionEffect(potionEffect, true);
+            player.addPotionEffect(potionEffect2, true);
         }
     }
 
@@ -54,7 +56,7 @@ public class DeadEndGame extends BaseGame {
     public void onGameTick(GameTickEvent event) {
         for(Player player : Bukkit.getOnlinePlayers()) {
             if(!this.getAPI().getGameManager().isAlive(player)) continue;
-            player.setVelocity(player.getLocation().getDirection().normalize().multiply(0.5D));
+            player.setVelocity(player.getLocation().getDirection().normalize().multiply(0.5D).setY(-1D));
         }
     }
 
