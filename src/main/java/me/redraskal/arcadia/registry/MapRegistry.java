@@ -22,6 +22,7 @@ public class MapRegistry {
 
     private List<GameMap> registeredMaps = new ArrayList<>();
     private World currentWorld;
+    public World oldWorld;
 
     /**
      * Adds the specified GameMap to the MapRegistry.
@@ -110,10 +111,10 @@ public class MapRegistry {
     public World loadWorld(GameMap gameMap) {
         String worldName = "game";
         if(this.currentWorld != null) {
+            this.oldWorld = this.currentWorld;
             if(!this.currentWorld.getName().equalsIgnoreCase("game2")) {
                 worldName = "game2";
             }
-            unloadWorld();
         }
         Arcadia.getPlugin(Arcadia.class).getLogger().info("[MapRegistry] [/] Copying map from " + gameMap.getMapDirectory().getPath() + "...");
         FileUtils.copyDirectory(gameMap.getMapDirectory().getAbsoluteFile(),
@@ -128,19 +129,19 @@ public class MapRegistry {
         return this.currentWorld;
     }
 
-    public boolean unloadWorld() {
-        if(this.currentWorld == null) return false;
-        Arcadia.getPlugin(Arcadia.class).getLogger().info("[MapRegistry] [/] Unloading " + this.currentWorld.getName() + "...");
-        this.currentWorld.setAutoSave(false);
-        for(Entity entity : currentWorld.getEntities()) {
+    public boolean unloadWorld(World world) {
+        if(world == null) return false;
+        Arcadia.getPlugin(Arcadia.class).getLogger().info("[MapRegistry] [/] Unloading " + world.getName() + "...");
+        world.setAutoSave(false);
+        for(Entity entity : world.getEntities()) {
             if(!(entity instanceof Player)) entity.remove();
         }
-        for(Chunk loadedChunk : currentWorld.getLoadedChunks()) {
-            currentWorld.unloadChunk(loadedChunk);
+        for(Chunk loadedChunk : world.getLoadedChunks()) {
+            world.unloadChunk(loadedChunk);
         }
-        final File worldDirectory = this.currentWorld.getWorldFolder();
-        Bukkit.unloadWorld(this.currentWorld, false);
-        this.currentWorld = null;
+        final File worldDirectory = world.getWorldFolder();
+        Bukkit.unloadWorld(world, false);
+        world = null;
         FileUtils.deleteDirectory(worldDirectory);
         return true;
     }

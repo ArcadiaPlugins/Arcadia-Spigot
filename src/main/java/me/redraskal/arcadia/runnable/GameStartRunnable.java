@@ -30,6 +30,10 @@ public class GameStartRunnable extends BukkitRunnable {
             this.api.getGameManager().setGameState(GameState.INGAME);
             this.api.getGameManager().getCurrentGame().onGameStart();
             new GameRunnable();
+            if(api.getMapRegistry().oldWorld != null) {
+                api.getMapRegistry().unloadWorld(api.getMapRegistry().oldWorld);
+                api.getMapRegistry().oldWorld = null;
+            }
         } else {
             countdown--;
             ChatColor color = ChatColor.RED;

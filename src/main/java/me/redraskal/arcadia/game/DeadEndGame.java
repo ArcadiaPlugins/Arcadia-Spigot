@@ -53,7 +53,7 @@ public class DeadEndGame extends BaseGame {
     public void onPlayerMove(PlayerMoveEvent event) {
         if(!floorListener) return;
         if(this.getAPI().getGameManager().isAlive(event.getPlayer())) {
-            if(event.getTo().getY() <= (double) this.getGameMap().fetchSetting("floorLevel")) {
+            if(event.getTo().getY() <= Integer.valueOf((String) this.getGameMap().fetchSetting("floorLevel"))) {
                 this.getAPI().getGameManager().setAlive(event.getPlayer(), false);
             } else {
                 final Block block = event.getTo().getBlock().getRelative(BlockFace.DOWN);
