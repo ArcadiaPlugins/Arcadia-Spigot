@@ -57,7 +57,6 @@ public class GameManager {
             }
             if(api.getMapRegistry().loadWorld(gameMap) != null) {
                 new PreGameRunnable();
-                Bukkit.getServer().getPluginManager().registerEvents(currentGame, Arcadia.getPlugin(Arcadia.class));
                 return true;
             } else {
                 return false;

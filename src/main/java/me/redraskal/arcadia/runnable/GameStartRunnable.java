@@ -35,6 +35,7 @@ public class GameStartRunnable extends BukkitRunnable {
         }
         if(countdown <= 1) {
             this.cancel();
+            Bukkit.getServer().getPluginManager().registerEvents(api.getGameManager().getCurrentGame(), Arcadia.getPlugin(Arcadia.class));
             for(Player player : Bukkit.getOnlinePlayers()) {
                 player.sendTitle(ChatColor.GREEN + "* GO *",
                         ChatColor.GREEN + "✪ " + api.getGameManager().getCurrentGame().getName() + " ✪",

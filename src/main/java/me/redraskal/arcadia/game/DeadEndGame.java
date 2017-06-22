@@ -25,7 +25,6 @@ import java.util.List;
 
 public class DeadEndGame extends BaseGame {
 
-    private boolean floorListener = false;
     private List<Block> pendingDeletion = new ArrayList<Block>();
 
     public DeadEndGame(GameMap gameMap) {
@@ -48,9 +47,7 @@ public class DeadEndGame extends BaseGame {
     }
 
     @Override
-    public void onGameStart() {
-        this.floorListener = true;
-    }
+    public void onGameStart() {}
 
     @EventHandler
     public void onGameTick(GameTickEvent event) {
@@ -62,7 +59,6 @@ public class DeadEndGame extends BaseGame {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
-        if(!floorListener) return;
         if(this.getAPI().getGameManager().isAlive(event.getPlayer())) {
             if(event.getTo().getY() <= Integer.valueOf((String) this.getGameMap().fetchSetting("floorLevel"))) {
                 this.getAPI().getGameManager().setAlive(event.getPlayer(), false);
@@ -86,7 +82,5 @@ public class DeadEndGame extends BaseGame {
     }
 
     @Override
-    public void onGameEnd() {
-        this.floorListener = false;
-    }
+    public void onGameEnd() {}
 }
