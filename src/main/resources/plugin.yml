@@ -2,3 +2,7 @@ main: me.redraskal.arcadia.Arcadia
 name: ${project.name}
 version: ${project.version}
 author: redraskal
+
+commands:
+  spec:
+    description: "Toggles Spectator Mode."
