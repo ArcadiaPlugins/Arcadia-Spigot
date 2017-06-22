@@ -33,6 +33,12 @@ public class Arcadia extends JavaPlugin {
         this.nextGameInRotation(true);
     }
 
+    public void onDisable() {
+        if(this.getAPI().getMapRegistry().getCurrentWorld() != null) {
+            this.getAPI().getMapRegistry().unloadWorld();
+        }
+    }
+
     /**
      * Switches to the next game in the rotation!
      */

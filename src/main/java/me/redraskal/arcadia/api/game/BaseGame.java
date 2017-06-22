@@ -44,7 +44,6 @@ public abstract class BaseGame implements Listener {
         List<String> defaultRequiredSettings = new ArrayList<String>();
         for(String setting : this.requiredSettings) defaultRequiredSettings.add(setting);
         defaultRequiredSettings.add("spectatorLocation");
-        defaultRequiredSettings.add("bottomYLevel");
         defaultRequiredSettings.add("mapBoundsA");
         defaultRequiredSettings.add("mapBoundsB");
         this.requiredSettings = defaultRequiredSettings

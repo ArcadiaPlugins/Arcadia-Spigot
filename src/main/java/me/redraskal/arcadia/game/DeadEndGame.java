@@ -15,7 +15,7 @@ import org.bukkit.potion.PotionEffectType;
 public class DeadEndGame extends BaseGame {
 
     public DeadEndGame(GameMap gameMap) {
-        super("Dead End", new String[]{"startPosition"}, new SidebarSettings(PlayersLeftSidebar.class, 1, 30), gameMap,
+        super("Dead End", new String[]{"startPosition", "floorLevel"}, new SidebarSettings(PlayersLeftSidebar.class, 1, 30), gameMap,
             "Move quickly! The floor is falling out from under you. Last player standing wins!");
     }
 
