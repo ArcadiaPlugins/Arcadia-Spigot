@@ -20,6 +20,7 @@ public class ConnectionListener implements Listener {
         ArcadiaAPI api = Arcadia.getPlugin(Arcadia.class).getAPI();
         Utils.resetPlayer(event.getPlayer());
         api.getGameManager().setAlive(event.getPlayer(), false);
+        api.getGameManager().setSpectating(event.getPlayer(), false);
         if(api.getGameManager().getCurrentGame() != null) {
             event.getPlayer().setScoreboard(api.getGameManager().getCurrentGame().getSidebar().getSidebar().getScoreboard());
             Bukkit.broadcastMessage(ChatColor.GREEN + "=== " + ChatColor.BOLD + api.getGameManager().getCurrentGame().getName() + ChatColor.GREEN + " ===");
@@ -39,5 +40,6 @@ public class ConnectionListener implements Listener {
         event.setQuitMessage(null);
         ArcadiaAPI api = Arcadia.getPlugin(Arcadia.class).getAPI();
         if(api.getGameManager().isAlive(event.getPlayer())) api.getGameManager().setAlive(event.getPlayer(), false);
+        if(api.getGameManager().isSpectating(event.getPlayer())) api.getGameManager().setSpectating(event.getPlayer(), false);
     }
 }
