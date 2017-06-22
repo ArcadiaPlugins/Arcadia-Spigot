@@ -150,6 +150,9 @@ public class GameManager {
         }
         Bukkit.getServer().getPluginManager().callEvent(new PlayerAliveStatusEvent(player, toggle, false));
         if(this.getPlayersAlive() <= 0 && this.getGameState() == GameState.INGAME) {
+            for(Player other : Bukkit.getOnlinePlayers()) {
+                if(this.isAlive(other)) this.setAlive(other, false);
+            }
             this.endGame();
             new GameSwitchRunnable();
         }

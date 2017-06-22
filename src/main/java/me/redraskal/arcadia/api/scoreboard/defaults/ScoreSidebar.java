@@ -10,6 +10,8 @@ import org.bukkit.event.EventHandler;
 
 public class ScoreSidebar extends Sidebar {
 
+    public boolean removeDeadPlayers = false;
+
     @Override
     public void onCreation() {
         ArcadiaAPI api = Arcadia.getPlugin(Arcadia.class).getAPI();
@@ -21,7 +23,7 @@ public class ScoreSidebar extends Sidebar {
 
     @EventHandler
     public void onPlayerStatus(PlayerAliveStatusEvent event) {
-        if(!event.isAlive()) {
+        if(!event.isAlive() && removeDeadPlayers) {
             this.getSidebar().getScoreboard().resetScores(event.getPlayer().getName());
         }
     }

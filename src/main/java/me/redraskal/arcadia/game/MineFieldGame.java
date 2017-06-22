@@ -40,9 +40,11 @@ public class MineFieldGame extends BaseGame {
                 Utils.parseLocation((String) this.getGameMap().fetchSetting("minefieldBoundsB")));
         Iterator<Block> blocks = minefield.iterator();
         Random random = new Random();
-        while(blocks.hasNext()) {
-            if(random.nextBoolean()) blocks.next().setType(Material.STONE_PLATE);
-        }
+        blocks.forEachRemaining(block -> {
+            if(random.nextFloat() < 0.6F) {
+                blocks.next().setType(Material.STONE_PLATE);
+            }
+        });
     }
 
     @Override
@@ -60,11 +62,15 @@ public class MineFieldGame extends BaseGame {
         if(this.getAPI().getGameManager().isAlive(event.getPlayer())) {
             if(event.getTo().getBlock().getType() == Material.STONE_PLATE) {
                 event.getTo().getBlock().setType(Material.AIR);
+                event.getTo().getWorld().spigot().playEffect(event.getTo(), Effect.CLOUD,
+                        0, 0, 1, 1, 1, 0, 3, 15);
+                event.getTo().getWorld().spigot().playEffect(event.getTo(), Effect.EXPLOSION,
+                    0, 0, 1, 1, 1, 0, 3, 15);
                 event.getTo().getWorld().playSound(event.getTo(), Sound.ENTITY_GENERIC_EXPLODE, 1f, 1f);
                 event.getPlayer().teleport(Utils.parseLocation((String) this.getGameMap().fetchSetting("startPosition")));
                 return;
             }
-            if(event.getTo().getBlock().getRelative(BlockFace.DOWN).getType() == Material.DIAMOND_BLOCK) {
+            if(event.getTo().getBlock().getRelative(BlockFace.DOWN).getType() == winBlock) {
                 for(Player player : Bukkit.getOnlinePlayers()) {
                     if(this.getAPI().getGameManager().isAlive(player)) this.getAPI().getGameManager().setAlive(player, false);
                 }
