@@ -2,9 +2,11 @@ package me.redraskal.arcadia.api.scoreboard.defaults;
 
 import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.ArcadiaAPI;
+import me.redraskal.arcadia.api.game.event.PlayerAliveStatusEvent;
 import me.redraskal.arcadia.api.scoreboard.Sidebar;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 
 public class ScoreSidebar extends Sidebar {
 
@@ -14,6 +16,13 @@ public class ScoreSidebar extends Sidebar {
         for(Player player : Bukkit.getOnlinePlayers()) {
             if(!api.getGameManager().isAlive(player)) continue;
             this.setScore(player, 0);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerStatus(PlayerAliveStatusEvent event) {
+        if(!event.isAlive()) {
+            this.getSidebar().getScoreboard().resetScores(event.getPlayer().getName());
         }
     }
 
