@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 public class ScoreSidebar extends Sidebar {
 
     public boolean removeDeadPlayers = false;
+    public boolean fixScoreboard = true;
 
     @Override
     public void onCreation() {

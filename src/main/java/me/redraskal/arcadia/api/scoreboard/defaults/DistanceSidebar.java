@@ -14,6 +14,10 @@ public class DistanceSidebar extends ScoreSidebar {
     private Location target;
     public int spectatorValue = -1000;
 
+    public DistanceSidebar() {
+        this.fixScoreboard = false;
+    }
+
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         if(target == null) return;
