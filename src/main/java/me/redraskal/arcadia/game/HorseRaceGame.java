@@ -100,8 +100,8 @@ public class HorseRaceGame extends BaseGame {
 
         horse.setAdult();
         horse.setTamed(true);
-        horse.getInventory().setSaddle(new ItemStack(Material.SADDLE, 1));
         horse.setOwner(player);
+        horse.getInventory().setSaddle(new ItemStack(Material.SADDLE, 1));
         horse.setJumpStrength(1);
 
         double speed = this.getAPI().getGameManager().getGameState() == GameState.STARTING ? .1D : 4D;
