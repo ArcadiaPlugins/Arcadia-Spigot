@@ -3,6 +3,7 @@ package me.redraskal.arcadia;
 import me.redraskal.arcadia.api.game.BaseGame;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.command.SpectateCommand;
+import me.redraskal.arcadia.game.ColorShuffleGame;
 import me.redraskal.arcadia.game.DeadEndGame;
 import me.redraskal.arcadia.game.ElectricFloorGame;
 import me.redraskal.arcadia.game.MineFieldGame;
@@ -28,11 +29,13 @@ public class Arcadia extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new WorldListener(), this);
         this.getServer().getPluginManager().registerEvents(new SpectatorListener(), this);
         this.getServer().getPluginManager().registerEvents(new ChatListener(), this);
+        this.getServer().getPluginManager().registerEvents(new ItemListener(), this);
 
         this.getCommand("spec").setExecutor(new SpectateCommand());
 
         // Register Default Games (togglable later in the config)
         this.getAPI().getGameRegistry().registerGame(DeadEndGame.class);
+        this.getAPI().getGameRegistry().registerGame(ColorShuffleGame.class);
         this.getAPI().getGameRegistry().registerGame(MineFieldGame.class);
         this.getAPI().getGameRegistry().registerGame(ElectricFloorGame.class);
 
