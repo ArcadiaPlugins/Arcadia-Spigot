@@ -113,6 +113,7 @@ public class Utils {
         for(PotionEffect potionEffect : player.getActivePotionEffects()) {
             player.removePotionEffect(potionEffect.getType());
         }
+        player.setFireTicks(0);
     }
 
     public static List<Map.Entry<String, Integer>> entriesSortedByValues(Map<String,Integer> map) {
