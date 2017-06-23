@@ -28,6 +28,7 @@ import java.util.Map;
  * @since 23/06/2017
  */
 public class HorseRaceGame extends BaseGame {
+
     private int checkpointSize;
 
     private Location start;
@@ -39,7 +40,7 @@ public class HorseRaceGame extends BaseGame {
     private Map<Player, Integer> checkpoints;
 
     public HorseRaceGame(GameMap gameMap) {
-        super("Horse Race", new String[]{"start", "startLineA", "startLineB", "checkpointLocs", "checkpointSize"}, new SidebarSettings(ScoreSidebar.class,
+        super("Horse Race", new String[]{"startPosition", "floorLevel", "startLineA", "startLineB", "checkpointLocs", "checkpointSize"}, new SidebarSettings(ScoreSidebar.class,
                 WinMethod.HIGHEST_SCORE, 1, 30), gameMap,
         "Race through the race to the finish!");
     }
@@ -54,12 +55,11 @@ public class HorseRaceGame extends BaseGame {
         start = startLine.getCenter();
         setStartBlocks(Material.GLASS);
 
-        Location spawn = Utils.parseLocation((String) this.getGameMap().fetchSetting("start"));
+        Location spawn = Utils.parseLocation((String) this.getGameMap().fetchSetting("startPosition"));
         checkpoints = Maps.newHashMap();
 
         for(Player player : Bukkit.getOnlinePlayers()) {
             if(!this.getAPI().getGameManager().isAlive(player)) continue;
-
             createHorse(player, spawn);
             checkpoints.put(player, -1);
         }
