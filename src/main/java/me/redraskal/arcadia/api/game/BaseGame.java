@@ -10,6 +10,7 @@ import me.redraskal.arcadia.api.scoreboard.SidebarSettings;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.material.MaterialData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ public abstract class BaseGame implements Listener {
     public List<Player> spectatorCache = new ArrayList<Player>();
 
     public boolean allowPVP = false;
+    public List<MaterialData> breakableBlocks = new ArrayList<>();
 
     /**
      * The base game layout.

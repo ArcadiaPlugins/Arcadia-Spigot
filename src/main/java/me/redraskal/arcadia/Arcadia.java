@@ -32,12 +32,12 @@ public class Arcadia extends JavaPlugin {
 
         // Register Default Games (togglable later in the config)
         this.getAPI().getGameRegistry().registerGame(DeadEndGame.class);
+        this.getAPI().getGameRegistry().registerGame(SpleefGame.class);
         this.getAPI().getGameRegistry().registerGame(HorseRaceGame.class);
-        this.getAPI().getGameRegistry().registerGame(ColorShuffleGame.class);
         this.getAPI().getGameRegistry().registerGame(MineFieldGame.class);
-        this.getAPI().getGameRegistry().registerGame(ElectricFloorGame.class);
+        this.getAPI().getGameRegistry().registerGame(ColorShuffleGame.class);
         this.getAPI().getGameRegistry().registerGame(KingOfTheHillGame.class);
-
+        this.getAPI().getGameRegistry().registerGame(ElectricFloorGame.class);
         final File mapFolder = new File(this.getDataFolder().getPath() + "/maps/");
         mapFolder.mkdirs();
         this.getAPI().getMapRegistry().loadMaps(mapFolder);
