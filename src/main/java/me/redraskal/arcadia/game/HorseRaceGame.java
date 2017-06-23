@@ -6,6 +6,7 @@ import me.redraskal.arcadia.Cuboid;
 import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.BaseGame;
 import me.redraskal.arcadia.api.game.GameManager;
+import me.redraskal.arcadia.api.game.event.PlayerAliveStatusEvent;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.api.scoreboard.SidebarSettings;
 import me.redraskal.arcadia.api.scoreboard.WinMethod;
@@ -13,8 +14,10 @@ import me.redraskal.arcadia.api.scoreboard.defaults.ScoreSidebar;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
@@ -92,8 +95,9 @@ public class HorseRaceGame extends BaseGame {
 
         horse.setAdult();
         horse.setJumpStrength(1);
-        horse.setTamed(true);
         horse.getInventory().setSaddle(new ItemStack(Material.SADDLE));
+        horse.setTamed(true);
+        horse.setOwner(player);
 
         // TODO Fix this for 1.8
         horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(.5D);
@@ -136,7 +140,13 @@ public class HorseRaceGame extends BaseGame {
         int current = checkpoints.get(player);
         int checkpointIndex = getCheckpoint(player);
 
-        int distance = (current != -1 ? distances[current] : 0) + (int) player.getLocation().distanceSquared(checkpointLocs.get(current));
+        int distance;
+
+        if (current == -1) {
+            distance = (int) player.getLocation().distanceSquared(spawn);
+        } else {
+            distance = distances[current] + (int) player.getLocation().distanceSquared(checkpointLocs.get(current));
+        }
 
         ((ScoreSidebar) getSidebar()).setScore(player, distance);
 
@@ -180,6 +190,20 @@ public class HorseRaceGame extends BaseGame {
             if (manager.isAlive(player)) {
                 manager.setAlive(player, false);
             }
+        }
+    }
+
+    @EventHandler
+    public void onSpec(PlayerAliveStatusEvent e) {
+        if (e.isAlive()) {
+            return;
+        }
+
+        Entity entity = e.getPlayer().getVehicle();
+
+        if (entity != null) {
+            entity.eject();
+            entity.remove();
         }
     }
 
