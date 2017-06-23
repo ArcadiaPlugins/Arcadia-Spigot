@@ -8,6 +8,7 @@ import org.bukkit.potion.PotionEffect;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.util.*;
 
 public class Utils {
 
@@ -86,5 +87,18 @@ public class Utils {
         for(PotionEffect potionEffect : player.getActivePotionEffects()) {
             player.removePotionEffect(potionEffect.getType());
         }
+    }
+
+    public static List<Map.Entry<String, Integer>> entriesSortedByValues(Map<String,Integer> map) {
+            List<Map.Entry<String,Integer>> sortedEntries = new ArrayList<>(map.entrySet());
+            Collections.sort(sortedEntries,
+                new Comparator<Map.Entry<String, Integer>>() {
+                    @Override
+                    public int compare(Map.Entry<String, Integer> e1, Map.Entry<String, Integer> e2) {
+                        return e2.getValue().compareTo(e1.getValue());
+                    }
+                }
+        );
+        return sortedEntries;
     }
 }

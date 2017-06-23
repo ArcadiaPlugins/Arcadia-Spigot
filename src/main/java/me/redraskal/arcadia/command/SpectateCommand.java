@@ -25,6 +25,11 @@ public class SpectateCommand implements CommandExecutor {
             } else {
                 player.sendMessage(ChatColor.GRAY + "You will be entered into the next game as a player.");
             }
+            if(api.getGameManager().getCurrentGame() != null) {
+                if(!api.getGameManager().getCurrentGame().spectatorCache.contains(player)) {
+                    api.getGameManager().getCurrentGame().spectatorCache.add(player);
+                }
+            }
         }
         return false;
     }

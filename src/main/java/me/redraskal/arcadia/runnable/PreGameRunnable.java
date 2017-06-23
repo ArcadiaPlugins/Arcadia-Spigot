@@ -23,5 +23,8 @@ public class PreGameRunnable {
         }
         api.getGameManager().getCurrentGame().onPreStart();
         new GameStartRunnable();
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if(!api.getGameManager().isAlive(player)) api.getGameManager().getCurrentGame().spectatorCache.add(player);
+        });
     }
 }

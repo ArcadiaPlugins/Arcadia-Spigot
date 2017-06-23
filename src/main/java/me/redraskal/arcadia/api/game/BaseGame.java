@@ -25,6 +25,7 @@ public abstract class BaseGame implements Listener {
     private final String[] description;
     private String[] requiredSettings;
     private List<Player> deathOrder = new ArrayList<Player>();
+    public List<Player> spectatorCache = new ArrayList<Player>();
 
     public boolean allowPVP = false;
 

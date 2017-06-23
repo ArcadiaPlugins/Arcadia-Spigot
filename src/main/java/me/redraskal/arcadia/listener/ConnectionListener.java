@@ -26,6 +26,7 @@ public class ConnectionListener implements Listener {
             event.getPlayer().sendMessage(ChatColor.GREEN + "=== " + ChatColor.BOLD + api.getGameManager().getCurrentGame().getName() + ChatColor.GREEN + " ===");
             for(String line : api.getGameManager().getCurrentGame().getDescription()) event.getPlayer().sendMessage(ChatColor.GOLD + line);
             event.getPlayer().sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "DON'T LEAVE! " + ChatColor.GRAY + "The next game will start shortly.");
+            api.getGameManager().getCurrentGame().spectatorCache.add(event.getPlayer());
         }
         if(Bukkit.getOnlinePlayers().size() == 1) {
             if(api.getGameManager().getGameState() == GameState.STARTING) {
