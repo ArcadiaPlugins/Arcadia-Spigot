@@ -8,6 +8,7 @@ import me.redraskal.arcadia.api.game.event.GameEndEvent;
 import me.redraskal.arcadia.api.game.event.GameStateUpdateEvent;
 import me.redraskal.arcadia.api.game.event.PlayerAliveStatusEvent;
 import me.redraskal.arcadia.api.map.GameMap;
+import me.redraskal.arcadia.api.music.defaults.EndGameMusic;
 import me.redraskal.arcadia.runnable.GameSwitchRunnable;
 import me.redraskal.arcadia.runnable.PreGameRunnable;
 import org.bukkit.Bukkit;
@@ -78,7 +79,7 @@ public class GameManager {
         HandlerList.unregisterAll(this.currentGame);
         HandlerList.unregisterAll(this.currentGame.getSidebar());
         this.currentGame.onGameEnd();
-        //TODO: Fun sound effect thing
+        new EndGameMusic();
         Bukkit.broadcastMessage(ChatColor.YELLOW + "1st place: " + ChatColor.WHITE
             + Utils.parseWinner(this.currentGame.getSidebarSettings().getWinMethod().calculateWinner(1)));
         Bukkit.broadcastMessage(ChatColor.GRAY + "2nd place: " + ChatColor.WHITE
