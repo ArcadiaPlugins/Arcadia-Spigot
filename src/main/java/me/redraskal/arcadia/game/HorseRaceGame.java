@@ -32,15 +32,16 @@ public class HorseRaceGame extends BaseGame {
     private int checkpointSize;
 
     private Location start;
+    private Location spawn;
     private Cuboid startLine;
+    private int floorLevel;
 
     private int[] distances;
     private List<Location> checkpointLocs;
-
     private Map<Player, Integer> checkpoints;
 
     public HorseRaceGame(GameMap gameMap) {
-        super("Horse Race", new String[]{"startPosition", "floorLevel", "startLineA", "startLineB", "checkpointLocs", "checkpointSize"}, new SidebarSettings(ScoreSidebar.class,
+        super("Horse Race", new String[]{"startPosition", "floorLevel", "startLineA", "startLineB", "checkpointLocs", "checkpointRadius"}, new SidebarSettings(ScoreSidebar.class,
                 WinMethod.HIGHEST_SCORE, 1, 30), gameMap,
         "Race through the race to the finish!");
     }
@@ -55,8 +56,9 @@ public class HorseRaceGame extends BaseGame {
         start = startLine.getCenter();
         setStartBlocks(Material.GLASS);
 
-        Location spawn = Utils.parseLocation((String) this.getGameMap().fetchSetting("startPosition"));
+        spawn = Utils.parseLocation((String) this.getGameMap().fetchSetting("startPosition"));
         checkpoints = Maps.newHashMap();
+        floorLevel = Integer.parseInt((String) this.getGameMap().fetchSetting("floorLevel"));
 
         for(Player player : Bukkit.getOnlinePlayers()) {
             if(!this.getAPI().getGameManager().isAlive(player)) continue;
@@ -68,9 +70,9 @@ public class HorseRaceGame extends BaseGame {
     }
 
     private void loadCheckpoints() {
-        checkpointSize = (Integer) this.getGameMap().fetchSetting("checkpointSize");
+        checkpointSize = Integer.parseInt((String) this.getGameMap().fetchSetting("checkpointRadius"));
 
-        String[] rawCheckpoints = ((String) this.getGameMap().fetchSetting("checkpointLocs")).split(";");
+        String[] rawCheckpoints = ((String) this.getGameMap().fetchSetting("checkpointLocs")).split(",");
 
         checkpointLocs = Lists.newArrayList();
         distances = new int[rawCheckpoints.length];
@@ -79,10 +81,7 @@ public class HorseRaceGame extends BaseGame {
 
         for (int i = 0; i < distances.length; i++) {
             Location location = Utils.parseLocation(rawCheckpoints[i]);
-
             checkpointLocs.add(location);
-
-
             distances[i] = (int) previous.distanceSquared(location);
             previous = location;
         }
@@ -98,7 +97,6 @@ public class HorseRaceGame extends BaseGame {
 
         // TODO Fix this for 1.8
         horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(.5D);
-
         horse.addPassenger(player);
     }
 
@@ -164,6 +162,14 @@ public class HorseRaceGame extends BaseGame {
                 // Player won
                 endGame();
             }
+        }
+
+        if(event.getTo().getY() <= floorLevel) {
+            if(event.getPlayer().getVehicle() != null) {
+                event.getPlayer().getVehicle().eject();
+                event.getPlayer().getVehicle().remove();
+            }
+            this.createHorse(event.getPlayer(), this.spawn);
         }
     }
 
