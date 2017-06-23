@@ -87,7 +87,7 @@ public class HorseRaceGame extends BaseGame {
             Location location = Utils.parseLocation(rawCheckpoints[i]);
             checkpointLocs.add(location);
 
-            distances[i] = (int) previous.distanceSquared(location);
+            distances[i] = (int) previous.distance(location);
             totalDistance += distances[i];
 
             previous = location;
@@ -99,17 +99,15 @@ public class HorseRaceGame extends BaseGame {
         Horse horse = spawn.getWorld().spawn(spawn, Horse.class);
 
         horse.setAdult();
-        horse.setJumpStrength(1);
-        horse.getInventory().setSaddle(new ItemStack(Material.SADDLE, 1));
         horse.setTamed(true);
+        horse.getInventory().setSaddle(new ItemStack(Material.SADDLE, 1));
         horse.setOwner(player);
+        horse.setJumpStrength(1);
+
+        double speed = this.getAPI().getGameManager().getGameState() == GameState.STARTING ? .1D : 4D;
 
         // TODO Fix this for 1.8
-        if(this.getAPI().getGameManager().getGameState() == GameState.STARTING) {
-            horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.1D);
-        } else {
-            horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(4D);
-        }
+        horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(speed);
 
         Bukkit.getScheduler().runTaskLater(getAPI().getPlugin(), () -> {
             horse.addPassenger(player);
@@ -157,9 +155,9 @@ public class HorseRaceGame extends BaseGame {
         int distance;
 
         if (current == -1) {
-            distance = (int) player.getLocation().distanceSquared(spawn);
+            distance = (int) player.getLocation().distance(spawn);
         } else {
-            distance = distances[current] + (int) player.getLocation().distanceSquared(checkpointLocs.get(current));
+            distance = distances[current] + (int) player.getLocation().distance(checkpointLocs.get(current));
         }
 
         distance = -(totalDistance - distance);
