@@ -129,10 +129,12 @@ public class ColorShuffleGame extends BaseGame {
         }
         itemStack.setItemMeta(itemMeta);
         Bukkit.getOnlinePlayers().forEach(player -> {
-            player.setExp(1f);
-            player.setLevel(currentLevel);
-            for(int i=0; i<9; i++) {
-                player.getInventory().setItem(i, itemStack);
+            if(getAPI().getGameManager().isAlive(player)) {
+                player.setExp(1f);
+                player.setLevel(currentLevel);
+                for(int i=0; i<9; i++) {
+                    player.getInventory().setItem(i, itemStack);
+                }
             }
         });
         new BukkitRunnable() {
@@ -145,6 +147,12 @@ public class ColorShuffleGame extends BaseGame {
                 if(ticks >= totalTicks) {
                     this.cancel();
                     removeColors(nextColor);
+                    Bukkit.getOnlinePlayers().forEach(player -> {
+                        if(getAPI().getGameManager().isAlive(player)) {
+                            player.setExp(0F);
+                            player.getInventory().clear();
+                        }
+                    });
                     new BukkitRunnable() {
                         public void run() {
                             nextEvent();
@@ -154,7 +162,9 @@ public class ColorShuffleGame extends BaseGame {
                     double percent = (100D-(((double) ticks/(double) totalTicks)*100D));
                     float xp = ((Double.valueOf(percent).floatValue() % 100) / 100);
                     Bukkit.getOnlinePlayers().forEach(player -> {
-                        player.setExp(xp);
+                        if(getAPI().getGameManager().isAlive(player)) {
+                            player.setExp(xp);
+                        }
                     });
                 }
                 ticks++;
