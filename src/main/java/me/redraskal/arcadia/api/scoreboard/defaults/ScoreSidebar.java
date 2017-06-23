@@ -17,7 +17,7 @@ public class ScoreSidebar extends Sidebar {
         ArcadiaAPI api = Arcadia.getPlugin(Arcadia.class).getAPI();
         for(Player player : Bukkit.getOnlinePlayers()) {
             if(!api.getGameManager().isAlive(player)) continue;
-            this.setScore(player, -1);
+            this.setScore(player, 0);
         }
     }
 
@@ -46,6 +46,6 @@ public class ScoreSidebar extends Sidebar {
         if(this.getSidebar().getScore(player) != null) {
             return this.getSidebar().getScore(player).getScore();
         }
-        return -1;
+        return 0;
     }
 }
