@@ -7,17 +7,17 @@ import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.BaseGame;
 import me.redraskal.arcadia.api.game.GameManager;
 import me.redraskal.arcadia.api.game.event.PlayerAliveStatusEvent;
+import me.redraskal.arcadia.api.game.GameState;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.api.scoreboard.SidebarSettings;
 import me.redraskal.arcadia.api.scoreboard.WinMethod;
 import me.redraskal.arcadia.api.scoreboard.defaults.ScoreSidebar;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
+
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
@@ -44,7 +44,8 @@ public class HorseRaceGame extends BaseGame {
     private Map<Player, Integer> checkpoints;
 
     public HorseRaceGame(GameMap gameMap) {
-        super("Horse Race", new String[]{"startPosition", "floorLevel", "startLineA", "startLineB", "checkpointLocs", "checkpointRadius"}, new SidebarSettings(ScoreSidebar.class,
+        super("Horse Race", new String[]{"startPosition", "floorLevel", "startLineA", "startLineB", "checkpointLocs", "checkpointRadius"},
+                new SidebarSettings(ScoreSidebar.class,
                 WinMethod.HIGHEST_SCORE, 1, 30), gameMap,
         "Race through the race to the finish!");
     }
@@ -55,20 +56,18 @@ public class HorseRaceGame extends BaseGame {
                 Utils.parseLocation((String) this.getGameMap().fetchSetting("startLineA")),
                 Utils.parseLocation((String) this.getGameMap().fetchSetting("startLineB"))
         );
-
         start = startLine.getCenter();
-        setStartBlocks(Material.GLASS);
-
+        startLine.iterator().forEachRemaining(block -> {
+            block.setType(Material.GLASS);
+        });
         spawn = Utils.parseLocation((String) this.getGameMap().fetchSetting("startPosition"));
         checkpoints = Maps.newHashMap();
         floorLevel = Integer.parseInt((String) this.getGameMap().fetchSetting("floorLevel"));
-
         for(Player player : Bukkit.getOnlinePlayers()) {
             if(!this.getAPI().getGameManager().isAlive(player)) continue;
             createHorse(player, spawn);
             checkpoints.put(player, -1);
         }
-
         loadCheckpoints();
     }
 
@@ -91,6 +90,7 @@ public class HorseRaceGame extends BaseGame {
     }
 
     private void createHorse(Player player, Location spawn) {
+        player.teleport(spawn);
         Horse horse = spawn.getWorld().spawn(spawn, Horse.class);
 
         horse.setAdult();
@@ -100,18 +100,24 @@ public class HorseRaceGame extends BaseGame {
         horse.setOwner(player);
 
         // TODO Fix this for 1.8
-        horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(.5D);
+        if(this.getAPI().getGameManager().getGameState() == GameState.STARTING) {
+            horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.1D);
+        } else {
+            horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(4D);
+        }
         horse.addPassenger(player);
     }
 
     @Override
     public void onGameStart() {
-        setStartBlocks(Material.AIR);
-    }
-
-    private void setStartBlocks(Material material) {
-        for (Block block : startLine) {
-            block.setType(material);
+        startLine.iterator().forEachRemaining(block -> {
+            block.setType(Material.AIR);
+        });
+        for(Player player : Bukkit.getOnlinePlayers()) {
+            if(!this.getAPI().getGameManager().isAlive(player)) continue;
+            if(player.getVehicle() != null) {
+                ((Horse) player.getVehicle()).getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(4D);
+            }
         }
     }
 
