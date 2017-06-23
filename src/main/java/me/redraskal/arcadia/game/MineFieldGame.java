@@ -5,6 +5,7 @@ import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.BaseGame;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.api.scoreboard.SidebarSettings;
+import me.redraskal.arcadia.api.scoreboard.WinMethod;
 import me.redraskal.arcadia.api.scoreboard.defaults.DistanceSidebar;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -22,7 +23,8 @@ public class MineFieldGame extends BaseGame {
 
     public MineFieldGame(GameMap gameMap) {
         super("Minefield", new String[]{"startPosition", "minefieldBoundsA", "minefieldBoundsB", "glassBoundsA", "glassBoundsB", "targetPosition", "winBlock"},
-                new SidebarSettings(DistanceSidebar.class, 1, 30), gameMap,
+                new SidebarSettings(DistanceSidebar.class,
+                WinMethod.HIGHEST_SCORE, 1, 30), gameMap,
                 "Race through the minefield to the finish!");
     }
 

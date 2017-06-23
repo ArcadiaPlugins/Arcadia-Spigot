@@ -21,6 +21,11 @@ public class Utils {
         return temp;
     }
 
+    public static String parseWinner(Player winner) {
+        if(winner == null) return "---";
+        return winner.getName();
+    }
+
     public static Location parseLocation(String location) {
         if(location.split(",").length > 3) {
             return new Location(Arcadia.getPlugin(Arcadia.class).getAPI().getMapRegistry().getCurrentWorld(),

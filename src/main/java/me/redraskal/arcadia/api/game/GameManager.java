@@ -73,15 +73,18 @@ public class GameManager {
      * @return
      */
     public boolean endGame() {
-        if(this.currentGame == null) return false;
+        if(this.gameState == GameState.FINISHED || this.currentGame == null) return false;
         this.gameState = GameState.FINISHED;
         HandlerList.unregisterAll(this.currentGame);
         HandlerList.unregisterAll(this.currentGame.getSidebar());
         this.currentGame.onGameEnd();
         //TODO: Fun sound effect thing
-        Bukkit.broadcastMessage(ChatColor.YELLOW + "1st place: " + ChatColor.WHITE + "--- (" + ChatColor.YELLOW + "7" + ChatColor.WHITE + ")");
-        Bukkit.broadcastMessage(ChatColor.GRAY + "2nd place: " + ChatColor.WHITE + "--- (" + ChatColor.YELLOW + "3" + ChatColor.WHITE + ")");
-        Bukkit.broadcastMessage(ChatColor.RED + "3rd place: " + ChatColor.WHITE + "--- (" + ChatColor.YELLOW + "1" + ChatColor.WHITE + ")");
+        Bukkit.broadcastMessage(ChatColor.YELLOW + "1st place: " + ChatColor.WHITE
+            + Utils.parseWinner(this.currentGame.getSidebarSettings().getWinMethod().calculateWinner(1)));
+        Bukkit.broadcastMessage(ChatColor.GRAY + "2nd place: " + ChatColor.WHITE
+            + Utils.parseWinner(this.currentGame.getSidebarSettings().getWinMethod().calculateWinner(2)));
+        Bukkit.broadcastMessage(ChatColor.RED + "3rd place: " + ChatColor.WHITE
+            + Utils.parseWinner(this.currentGame.getSidebarSettings().getWinMethod().calculateWinner(3)));
         Bukkit.getServer().getPluginManager().callEvent(new GameEndEvent());
         return true;
     }
@@ -154,6 +157,14 @@ public class GameManager {
         }
         Bukkit.getServer().getPluginManager().callEvent(new PlayerAliveStatusEvent(player, toggle, false));
         if(this.getPlayersAlive() <= 0 && this.getGameState() == GameState.INGAME) {
+            for(Player other : Bukkit.getOnlinePlayers()) {
+                if(this.isAlive(other)) this.setAlive(other, false);
+            }
+            if(this.endGame()) {
+                new GameSwitchRunnable();
+            }
+        }
+        if(this.getPlayersAlive() <= 1 && this.getGameState() == GameState.INGAME && Bukkit.getOnlinePlayers().size() > 1) {
             for(Player other : Bukkit.getOnlinePlayers()) {
                 if(this.isAlive(other)) this.setAlive(other, false);
             }

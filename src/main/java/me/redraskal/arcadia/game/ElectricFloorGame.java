@@ -6,6 +6,7 @@ import me.redraskal.arcadia.api.game.BaseGame;
 import me.redraskal.arcadia.api.game.GameState;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.api.scoreboard.SidebarSettings;
+import me.redraskal.arcadia.api.scoreboard.WinMethod;
 import me.redraskal.arcadia.api.scoreboard.defaults.PlayersLeftSidebar;
 import me.redraskal.arcadia.game.electricfloor.FloorOrder;
 import org.bukkit.Bukkit;
@@ -30,7 +31,8 @@ public class ElectricFloorGame extends BaseGame {
 
     public ElectricFloorGame(GameMap gameMap) {
         super("Electric Floor", new String[]{"startPosition", "blocks"},
-                new SidebarSettings(PlayersLeftSidebar.class, 1, 30), gameMap,
+                new SidebarSettings(PlayersLeftSidebar.class,
+                WinMethod.LAST_PLAYER_STANDING, 1, 30), gameMap,
                 "The platform is being electrified! Be the last player standing to win!");
     }
 

@@ -3,9 +3,12 @@ package me.redraskal.arcadia.api.game;
 import com.google.common.base.Preconditions;
 import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.ArcadiaAPI;
+import me.redraskal.arcadia.api.game.event.PlayerAliveStatusEvent;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.api.scoreboard.Sidebar;
 import me.redraskal.arcadia.api.scoreboard.SidebarSettings;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import java.util.ArrayList;
@@ -21,6 +24,7 @@ public abstract class BaseGame implements Listener {
     private GameMap gameMap;
     private final String[] description;
     private String[] requiredSettings;
+    private List<Player> deathOrder = new ArrayList<Player>();
 
     public boolean allowPVP = false;
 
@@ -58,6 +62,21 @@ public abstract class BaseGame implements Listener {
         }
         this.api = Arcadia.getPlugin(Arcadia.class).getAPI();
         this.gameMap = gameMap;
+    }
+
+    @EventHandler
+    public void onPlayerDeath(PlayerAliveStatusEvent event) {
+        if(!event.isAlive() && !deathOrder.contains(event.getPlayer())) {
+            deathOrder.add(event.getPlayer());
+        }
+    }
+
+    /**
+     * Returns the list of players who died in order.
+     * @return
+     */
+    public List<Player> getDeathOrder() {
+        return this.deathOrder;
     }
 
     /**

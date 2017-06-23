@@ -28,16 +28,15 @@ public class GameRunnable extends BukkitRunnable {
             this.cancel();
             return;
         }
+        if(seconds <= 1 && minutes <= 0) {
+            this.cancel();
+            api.getGameManager().endGame();
+            new GameSwitchRunnable();
+            return;
+        }
         if(seconds <= 0) {
-            if(minutes <= 0) {
-                this.cancel();
-                api.getGameManager().endGame();
-                new GameSwitchRunnable();
-                return;
-            } else {
-                minutes--;
-                seconds = 59;
-            }
+            minutes--;
+            seconds = 59;
         } else {
             seconds--;
         }

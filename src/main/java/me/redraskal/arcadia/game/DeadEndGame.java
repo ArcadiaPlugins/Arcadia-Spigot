@@ -6,6 +6,7 @@ import me.redraskal.arcadia.api.game.BaseGame;
 import me.redraskal.arcadia.api.game.event.GameTickEvent;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.api.scoreboard.SidebarSettings;
+import me.redraskal.arcadia.api.scoreboard.WinMethod;
 import me.redraskal.arcadia.api.scoreboard.defaults.PlayersLeftSidebar;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -28,7 +29,8 @@ public class DeadEndGame extends BaseGame {
     private List<Block> pendingDeletion = new ArrayList<Block>();
 
     public DeadEndGame(GameMap gameMap) {
-        super("Dead End", new String[]{"startPosition", "floorLevel"}, new SidebarSettings(PlayersLeftSidebar.class, 1, 30), gameMap,
+        super("Dead End", new String[]{"startPosition", "floorLevel"}, new SidebarSettings(PlayersLeftSidebar.class,
+            WinMethod.LAST_PLAYER_STANDING, 1, 30), gameMap,
             "Move quickly! The floor is falling out from under you. Last player standing wins!");
     }
 
