@@ -11,7 +11,10 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
@@ -41,6 +44,25 @@ public class SpleefGame extends BaseGame {
     public void onGameStart() {
         this.breakableBlocks.add(new MaterialData(Material.SNOW_BLOCK));
         //TODO: Remove floor automatically
+    }
+
+    @EventHandler
+    public void onSnowballHit(ProjectileHitEvent event) {
+        if(event.getEntity() instanceof Snowball) {
+            if(event.getHitBlock().getType() == Material.SNOW_BLOCK) {
+                event.getHitBlock().breakNaturally();
+            }
+        }
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent event) {
+        if(this.getAPI().getGameManager().isAlive(event.getPlayer())) {
+            if(event.getBlock().getType() == Material.SNOW_BLOCK) {
+                event.getPlayer().getInventory().addItem(new ItemStack(Material.SNOW_BALL, 6));
+                event.setDropItems(false);
+            }
+        }
     }
 
     @EventHandler

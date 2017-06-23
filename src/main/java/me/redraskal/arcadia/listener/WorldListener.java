@@ -24,6 +24,7 @@ public class WorldListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         ArcadiaAPI api = Arcadia.getPlugin(Arcadia.class).getAPI();
+        if(!api.getGameManager().isAlive(event.getPlayer())) event.setCancelled(true);
         if(api.getGameManager().getCurrentGame() != null) {
             MaterialData materialData = new MaterialData(event.getBlock().getType(), event.getBlock().getData());
             if(!api.getGameManager().getCurrentGame().breakableBlocks.contains(materialData)) {
