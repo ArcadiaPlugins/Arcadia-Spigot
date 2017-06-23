@@ -7,10 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public enum WinMethod {
 
@@ -31,11 +28,13 @@ public enum WinMethod {
         ArcadiaAPI api = Arcadia.getPlugin(Arcadia.class).getAPI();
         if(this.id == 0) {
             List<Player> deathOrder = api.getGameManager().getCurrentGame().getDeathOrder();
-            deathOrder.iterator().forEachRemaining(player -> {
-                if(api.getGameManager().getCurrentGame().spectatorCache.contains(player)) {
-                    deathOrder.remove(player);
+            Iterator<Player> iterator = deathOrder.iterator();
+            while(iterator.hasNext()) {
+                Player next = iterator.next();
+                if(api.getGameManager().getCurrentGame().spectatorCache.contains(next)) {
+                    iterator.remove();
                 }
-            });
+            }
             if(deathOrder.size() > (deathOrder.size()-place) && (deathOrder.size()-place) > -1) {
                 return deathOrder.get((deathOrder.size()-place));
             } else {
