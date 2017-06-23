@@ -3,10 +3,7 @@ package me.redraskal.arcadia;
 import me.redraskal.arcadia.api.game.BaseGame;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.command.SpectateCommand;
-import me.redraskal.arcadia.game.ColorShuffleGame;
-import me.redraskal.arcadia.game.DeadEndGame;
-import me.redraskal.arcadia.game.ElectricFloorGame;
-import me.redraskal.arcadia.game.MineFieldGame;
+import me.redraskal.arcadia.game.*;
 import me.redraskal.arcadia.listener.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -38,6 +35,7 @@ public class Arcadia extends JavaPlugin {
         this.getAPI().getGameRegistry().registerGame(ColorShuffleGame.class);
         this.getAPI().getGameRegistry().registerGame(MineFieldGame.class);
         this.getAPI().getGameRegistry().registerGame(ElectricFloorGame.class);
+        this.getAPI().getGameRegistry().registerGame(KingOfTheHillGame.class);
 
         final File mapFolder = new File(this.getDataFolder().getPath() + "/maps/");
         mapFolder.mkdirs();

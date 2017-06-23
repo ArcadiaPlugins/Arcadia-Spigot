@@ -36,4 +36,16 @@ public class ScoreSidebar extends Sidebar {
     public void setScore(Player player, int score) {
         this.getSidebar().getScore(player.getName()).setScore(score);
     }
+
+    /**
+     * Returns the specified Player's score.
+     * @param player
+     * @return
+     */
+    public int getScore(Player player) {
+        if(this.getSidebar().getScore(player) != null) {
+            return this.getSidebar().getScore(player).getScore();
+        }
+        return 0;
+    }
 }

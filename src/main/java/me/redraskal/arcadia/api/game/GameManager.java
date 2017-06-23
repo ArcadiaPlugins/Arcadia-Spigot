@@ -79,6 +79,7 @@ public class GameManager {
         HandlerList.unregisterAll(this.currentGame);
         HandlerList.unregisterAll(this.currentGame.getSidebar());
         this.currentGame.onGameEnd();
+        this.currentGame.allowPVP = false;
         new EndGameMusic();
         Bukkit.broadcastMessage(ChatColor.YELLOW + "1st place: " + ChatColor.WHITE
             + Utils.parseWinner(this.currentGame.getSidebarSettings().getWinMethod().calculateWinner(1)));
