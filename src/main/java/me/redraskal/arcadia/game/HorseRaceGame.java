@@ -31,7 +31,6 @@ import java.util.Map;
  * @since 23/06/2017
  */
 public class HorseRaceGame extends BaseGame {
-
     private int checkpointSize;
 
     private Location start;
@@ -40,6 +39,8 @@ public class HorseRaceGame extends BaseGame {
     private int floorLevel;
 
     private int[] distances;
+    private int totalDistance;
+
     private List<Location> checkpointLocs;
     private Map<Player, Integer> checkpoints;
 
@@ -78,13 +79,17 @@ public class HorseRaceGame extends BaseGame {
 
         checkpointLocs = Lists.newArrayList();
         distances = new int[rawCheckpoints.length];
+        totalDistance = 0;
 
         Location previous = start;
 
         for (int i = 0; i < distances.length; i++) {
             Location location = Utils.parseLocation(rawCheckpoints[i]);
             checkpointLocs.add(location);
+
             distances[i] = (int) previous.distanceSquared(location);
+            totalDistance += distances[i];
+
             previous = location;
         }
     }
@@ -153,6 +158,8 @@ public class HorseRaceGame extends BaseGame {
         } else {
             distance = distances[current] + (int) player.getLocation().distanceSquared(checkpointLocs.get(current));
         }
+
+        distance = -(totalDistance - distance);
 
         ((ScoreSidebar) getSidebar()).setScore(player, distance);
 
