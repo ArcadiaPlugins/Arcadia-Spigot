@@ -72,7 +72,7 @@ public class HorseRaceGame extends BaseGame {
     private void loadCheckpoints() {
         checkpointSize = Integer.parseInt((String) this.getGameMap().fetchSetting("checkpointRadius"));
 
-        String[] rawCheckpoints = ((String) this.getGameMap().fetchSetting("checkpointLocs")).split(",");
+        String[] rawCheckpoints = ((String) this.getGameMap().fetchSetting("checkpointLocs")).split(";");
 
         checkpointLocs = Lists.newArrayList();
         distances = new int[rawCheckpoints.length];
