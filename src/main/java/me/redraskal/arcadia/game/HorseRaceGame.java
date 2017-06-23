@@ -110,7 +110,10 @@ public class HorseRaceGame extends BaseGame {
         } else {
             horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(4D);
         }
-        horse.addPassenger(player);
+
+        Bukkit.getScheduler().runTaskLater(getAPI().getPlugin(), () -> {
+            horse.addPassenger(player);
+        }, 1L);
     }
 
     @Override
