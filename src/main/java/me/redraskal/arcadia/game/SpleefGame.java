@@ -50,7 +50,7 @@ public class SpleefGame extends BaseGame {
     public void onSnowballHit(ProjectileHitEvent event) {
         if(event.getEntity() instanceof Snowball) {
             if(event.getHitBlock().getType() == Material.SNOW_BLOCK) {
-                event.getHitBlock().breakNaturally();
+                event.getHitBlock().breakNaturally(new ItemStack(Material.AIR));
             }
         }
     }
