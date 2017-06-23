@@ -99,7 +99,6 @@ public class HorseRaceGame extends BaseGame {
         // TODO Fix this for 1.8
         horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(.5D);
 
-        player.setGameMode(GameMode.ADVENTURE);
         horse.addPassenger(player);
     }
 
