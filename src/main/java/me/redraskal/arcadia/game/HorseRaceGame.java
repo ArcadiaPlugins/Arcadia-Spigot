@@ -102,12 +102,12 @@ public class HorseRaceGame extends BaseGame {
         horse.setTamed(true);
         horse.setOwner(player);
         horse.getInventory().setSaddle(new ItemStack(Material.SADDLE, 1));
-        horse.setJumpStrength(1);
+        //horse.setJumpStrength(1);
 
-        double speed = this.getAPI().getGameManager().getGameState() == GameState.STARTING ? .1D : 4D;
+        /*double speed = this.getAPI().getGameManager().getGameState() == GameState.STARTING ? .1D : 4D;
 
         // TODO Fix this for 1.8
-        horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(speed);
+        horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(speed);*/
 
         Bukkit.getScheduler().runTaskLater(getAPI().getPlugin(), () -> {
             horse.addPassenger(player);
