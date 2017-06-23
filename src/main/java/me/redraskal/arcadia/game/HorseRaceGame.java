@@ -95,7 +95,7 @@ public class HorseRaceGame extends BaseGame {
 
         horse.setAdult();
         horse.setJumpStrength(1);
-        horse.getInventory().setSaddle(new ItemStack(Material.SADDLE));
+        horse.getInventory().setSaddle(new ItemStack(Material.SADDLE, 1));
         horse.setTamed(true);
         horse.setOwner(player);
 
