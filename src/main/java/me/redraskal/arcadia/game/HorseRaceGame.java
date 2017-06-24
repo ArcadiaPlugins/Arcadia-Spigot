@@ -150,8 +150,9 @@ public class HorseRaceGame extends BaseGame {
 
         if(event.getTo().getY() <= floorLevel) {
             if(event.getPlayer().getVehicle() != null) {
-                event.getPlayer().getVehicle().eject();
-                event.getPlayer().getVehicle().remove();
+                Entity vehicle = event.getPlayer().getVehicle();
+                vehicle.eject();
+                vehicle.remove();
             }
             this.createHorse(event.getPlayer(), this.spawn);
         }

@@ -14,6 +14,7 @@ import me.redraskal.arcadia.runnable.PreGameRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
@@ -148,8 +149,9 @@ public class GameManager {
         } else {
             if(alive.contains(player)) alive.remove(player);
             if(player.getVehicle() != null) {
-                player.getVehicle().eject();
-                player.getVehicle().remove();
+                Entity vehicle = player.getVehicle();
+                vehicle.eject();
+                vehicle.remove();
             }
             Utils.resetPlayer(player);
             //TODO: Fun inventory
