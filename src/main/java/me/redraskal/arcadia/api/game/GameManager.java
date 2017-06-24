@@ -91,7 +91,7 @@ public class GameManager {
         Bukkit.getOnlinePlayers().forEach(player -> {
             player.sendTitle(ChatColor.YELLOW + "1st: " + ChatColor.WHITE + firstPlace,
                 ChatColor.GRAY + "2nd: " + ChatColor.WHITE + secondPlace + ", "
-                    + ChatColor.RED + "3rd: " + ChatColor.WHITE + thirdPlace, 0, 40, 20);
+                    + ChatColor.RED + "3rd: " + ChatColor.WHITE + thirdPlace, 0, 80, 20);
         });
         Bukkit.getServer().getPluginManager().callEvent(new GameEndEvent());
         return true;
