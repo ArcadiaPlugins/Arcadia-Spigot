@@ -25,7 +25,7 @@ public class RainbowJumpGame extends BaseGame {
     private Location spawnLocation;
 
     public RainbowJumpGame(GameMap gameMap) {
-        super("Rainbow Jump", new String[]{"startPosition", "glassBoundsA", "glassBoundsB", "targetPosition", "winBlock"},
+        super("Rainbow Jump", new String[]{"startPosition", "floorLevel", "glassBoundsA", "glassBoundsB", "targetPosition", "winBlock"},
                 new SidebarSettings(DistanceSidebar.class,
                         WinMethod.LAST_PLAYER_STANDING, 1, 0), gameMap,
                 "Jump to the finish!");
