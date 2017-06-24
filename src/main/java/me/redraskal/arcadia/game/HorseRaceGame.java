@@ -210,5 +210,12 @@ public class HorseRaceGame extends BaseGame {
     }
 
     @Override
-    public void onGameEnd() {}
+    public void onGameEnd() {
+        for(Player player : Bukkit.getOnlinePlayers()) {
+            if(player.getVehicle() != null) {
+                player.getVehicle().eject();
+                player.getVehicle().remove();
+            }
+        }
+    }
 }
