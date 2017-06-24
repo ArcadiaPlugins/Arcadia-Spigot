@@ -2,9 +2,7 @@
 
 Main description coming soontm...
 
-
-
-#Known issues:
+# Known issues:
 
 [!] Issue will be resolved
 [/] Issue cannot be resolved
