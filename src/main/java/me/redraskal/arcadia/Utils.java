@@ -155,4 +155,19 @@ public class Utils {
 
         return loc;
     }
+
+    public static void showNotification(String title, String icon,
+            AdvancementAPI.FrameType frameType, Player... players) {
+        AdvancementAPI.builder(new NamespacedKey("test", "custom/" + UUID.randomUUID().toString()))
+                .title(title)
+                .description("")
+                .icon(icon)
+                .hidden(false)
+                .toast(true)
+                .announce(false)
+                .trigger(AdvancementAPI.Trigger.builder(AdvancementAPI.Trigger.TriggerType.IMPOSSIBLE, "default"))
+                .background("minecraft:textures/gui/advancements/backgrounds/stone.png")
+                .frame(frameType)
+                .build().show(Arcadia.getPlugin(Arcadia.class), players);
+    }
 }

@@ -1,5 +1,6 @@
 package me.redraskal.arcadia.game;
 
+import me.redraskal.arcadia.AdvancementAPI;
 import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.BaseGame;
 import me.redraskal.arcadia.api.game.GameState;
@@ -90,12 +91,15 @@ public class PotionDropGame extends BaseGame {
                 if(seconds == poisonEffectDelayInSeconds) {
                     Bukkit.broadcastMessage(ChatColor.GOLD + "All players now have the poison effect.");
                     Bukkit.getOnlinePlayers().forEach(player -> {
-                        if(getAPI().getGameManager().isAlive(player)) {
+                        if (getAPI().getGameManager().isAlive(player)) {
                             player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, Integer.MAX_VALUE, 0), true);
                             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 1f, 0.7f);
                             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 1f, 1f);
                         }
                     });
+                    Utils.showNotification("All players now have the poison effect.",
+                        "minecraft:poisonous_potato", AdvancementAPI.FrameType.CHALLENGE,
+                            Bukkit.getOnlinePlayers().toArray(new Player[Bukkit.getOnlinePlayers().size()]));
                 }
                 if(seconds == witherEffectDelayInSeconds) {
                     Bukkit.broadcastMessage(ChatColor.GOLD + "All players now have the wither effect.");
@@ -106,6 +110,9 @@ public class PotionDropGame extends BaseGame {
                             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 1f, 1f);
                         }
                     });
+                    Utils.showNotification("All players now have the wither effect.",
+                        "minecraft:poisonous_potato", AdvancementAPI.FrameType.CHALLENGE,
+                            Bukkit.getOnlinePlayers().toArray(new Player[Bukkit.getOnlinePlayers().size()]));
                 }
             }
         }.runTaskTimer(this.getAPI().getPlugin(), 0, 20L);
