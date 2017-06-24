@@ -13,6 +13,8 @@ public class MusicPlayer extends BukkitRunnable {
     public MusicPlayer(MusicSequence musicSequence, Player... players) {
         this.musicSequence = musicSequence;
         this.players = players;
+        Arcadia arcadia = Arcadia.getPlugin(Arcadia.class);
+        if(arcadia == null || !arcadia.isEnabled()) return;
         this.runTaskTimer(Arcadia.getPlugin(Arcadia.class), 0, 1L);
     }
 

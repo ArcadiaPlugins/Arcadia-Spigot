@@ -99,7 +99,7 @@ public class HorseRaceGame extends BaseGame {
         Horse horse = spawn.getWorld().spawn(spawn, Horse.class);
         horse.setJumpStrength(0);
 
-        double speed = this.getAPI().getGameManager().getGameState() == GameState.STARTING ? 0D : 1D;
+        double speed = this.getAPI().getGameManager().getGameState() == GameState.STARTING ? 0D : 0.7D;
 
         // TODO Fix this for 1.8
         horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(speed);
@@ -121,7 +121,7 @@ public class HorseRaceGame extends BaseGame {
         for(Player player : Bukkit.getOnlinePlayers()) {
             if(!this.getAPI().getGameManager().isAlive(player)) continue;
             if(player.getVehicle() != null) {
-                ((Horse) player.getVehicle()).getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(1D);
+                ((Horse) player.getVehicle()).getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.7D);
             }
         }
     }
