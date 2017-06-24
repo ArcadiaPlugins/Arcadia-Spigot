@@ -35,6 +35,7 @@ public class PotionDropGame extends BaseGame {
                 new SidebarSettings(PlayersLeftSidebar.class,
                         WinMethod.LAST_PLAYER_STANDING, 2, 0), gameMap,
                 "Drink the potions that fall from the sky to save your life!");
+        this.allowPVP = true;
     }
 
     @Override
@@ -50,8 +51,8 @@ public class PotionDropGame extends BaseGame {
         this.healthDropPerTwoSeconds = Double.parseDouble((String) this.getGameMap().fetchSetting("healthDropPerTwoSeconds"));
         this.potionDropPerSecond = Integer.parseInt((String) this.getGameMap().fetchSetting("potionDropPerSecond"));
 
-        this.poisonEffectDelayInSeconds = Integer.parseInt((String) this.getGameMap().fetchSetting("poisonEffectDelayInSeconds"));
-        this.witherEffectDelayInSeconds = Integer.parseInt((String) this.getGameMap().fetchSetting("witherEffectDelayInSeconds"));
+        this.poisonEffectDelayInSeconds = Integer.parseInt((String) this.getGameMap().fetchSetting("poisonEffectDelayInSeconds"))+1;
+        this.witherEffectDelayInSeconds = Integer.parseInt((String) this.getGameMap().fetchSetting("witherEffectDelayInSeconds"))+1;
     }
 
     @Override
@@ -86,16 +87,22 @@ public class PotionDropGame extends BaseGame {
                     });
                 }
                 if(seconds == poisonEffectDelayInSeconds) {
+                    Bukkit.broadcastMessage(ChatColor.GOLD + "All players now have the poison effect.");
                     Bukkit.getOnlinePlayers().forEach(player -> {
                         if(getAPI().getGameManager().isAlive(player)) {
                             player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, Integer.MAX_VALUE, 0), true);
+                            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 1f, 0.7f);
+                            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 1f, 1f);
                         }
                     });
                 }
                 if(seconds == witherEffectDelayInSeconds) {
+                    Bukkit.broadcastMessage(ChatColor.GOLD + "All players now have the wither effect.");
                     Bukkit.getOnlinePlayers().forEach(player -> {
                         if(getAPI().getGameManager().isAlive(player)) {
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, Integer.MAX_VALUE, 0), true);
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, Integer.MAX_VALUE, 1), true);
+                            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 1f, 0.7f);
+                            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 1f, 1f);
                         }
                     });
                 }
