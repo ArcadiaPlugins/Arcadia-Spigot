@@ -33,7 +33,8 @@ public class SpectatorListener implements Listener {
         }
         if(api.getMapRegistry().getMapBounds() != null) {
             if(!api.getMapRegistry().getMapBounds().contains(event.getTo())) {
-                if(api.getGameManager().isAlive(event.getPlayer())) {
+                if(api.getGameManager().isAlive(event.getPlayer())
+                        && api.getGameManager().getCurrentGame().killOnMapExit) {
                     api.getGameManager().setAlive(event.getPlayer(), false);
                 } else {
                     event.setTo(event.getFrom());

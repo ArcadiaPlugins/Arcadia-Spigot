@@ -30,6 +30,7 @@ public abstract class BaseGame implements Listener {
     public List<Player> spectatorCache = new ArrayList<Player>();
 
     public boolean allowPVP = false;
+    public boolean killOnMapExit = true;
     public List<MaterialData> breakableBlocks = new ArrayList<>();
 
     /**

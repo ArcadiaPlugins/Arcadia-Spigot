@@ -1,6 +1,7 @@
 package me.redraskal.arcadia;
 
 import me.redraskal.arcadia.api.game.BaseGame;
+import me.redraskal.arcadia.api.game.GameState;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.command.SpectateCommand;
 import me.redraskal.arcadia.game.*;
@@ -52,6 +53,7 @@ public class Arcadia extends JavaPlugin {
     }
 
     public void onDisable() {
+        this.getAPI().getGameManager().setGameState(GameState.FINISHED);
         for(Player player : Bukkit.getOnlinePlayers()) {
             if(player.getVehicle() != null) {
                 player.getVehicle().eject();

@@ -48,6 +48,7 @@ public class HorseRaceGame extends BaseGame {
                 new SidebarSettings(ScoreSidebar.class,
                 WinMethod.HIGHEST_SCORE, 1, 30), gameMap,
         "Race through the race to the finish!");
+        this.killOnMapExit = false;
     }
 
     @Override
