@@ -111,7 +111,7 @@ public class Utils {
         ItemMeta blankMeta = blankItem.getItemMeta();
         blankMeta.setDisplayName("" + ChatColor.RED);
         blankItem.setItemMeta(blankMeta);
-        for(int i=9; i<player.getInventory().getSize(); i++) {
+        for(int i=9; i<=35; i++) {
             player.getInventory().setItem(i, blankItem);
         }
         player.getInventory().setHelmet(new ItemStack(Material.AIR, 1));

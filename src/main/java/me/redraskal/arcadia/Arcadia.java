@@ -8,6 +8,7 @@ import me.redraskal.arcadia.game.*;
 import me.redraskal.arcadia.listener.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -57,8 +58,9 @@ public class Arcadia extends JavaPlugin {
         this.getAPI().getGameManager().setGameState(GameState.FINISHED);
         for(Player player : Bukkit.getOnlinePlayers()) {
             if(player.getVehicle() != null) {
-                player.getVehicle().eject();
-                player.getVehicle().remove();
+                Entity vehicle = player.getVehicle();
+                vehicle.eject();
+                vehicle.remove();
             }
             this.getAPI().getGameManager().setAlive(player, false);
             player.kickPlayer(ChatColor.RED + "Server is now restarting.");

@@ -14,6 +14,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -23,6 +25,9 @@ public class PotionDropGame extends BaseGame {
     private double potionVelocityMultiplier;
     private double healthDropPerTwoSeconds;
     private int potionDropPerSecond;
+
+    private int poisonEffectDelayInSeconds;
+    private int witherEffectDelayInSeconds;
 
     public PotionDropGame(GameMap gameMap) {
         super("Potion Drop", new String[]{"startPosition", "potionDropPosition", "potionVelocityMultiplier",
@@ -44,6 +49,9 @@ public class PotionDropGame extends BaseGame {
         this.potionVelocityMultiplier = Double.parseDouble((String) this.getGameMap().fetchSetting("potionVelocityMultiplier"));
         this.healthDropPerTwoSeconds = Double.parseDouble((String) this.getGameMap().fetchSetting("healthDropPerTwoSeconds"));
         this.potionDropPerSecond = Integer.parseInt((String) this.getGameMap().fetchSetting("potionDropPerSecond"));
+
+        this.poisonEffectDelayInSeconds = Integer.parseInt((String) this.getGameMap().fetchSetting("poisonEffectDelayInSeconds"));
+        this.witherEffectDelayInSeconds = Integer.parseInt((String) this.getGameMap().fetchSetting("witherEffectDelayInSeconds"));
     }
 
     @Override
@@ -74,6 +82,20 @@ public class PotionDropGame extends BaseGame {
                             } else {
                                 player.damage(0.1);
                             }
+                        }
+                    });
+                }
+                if(seconds == poisonEffectDelayInSeconds) {
+                    Bukkit.getOnlinePlayers().forEach(player -> {
+                        if(getAPI().getGameManager().isAlive(player)) {
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, Integer.MAX_VALUE, 0), true);
+                        }
+                    });
+                }
+                if(seconds == witherEffectDelayInSeconds) {
+                    Bukkit.getOnlinePlayers().forEach(player -> {
+                        if(getAPI().getGameManager().isAlive(player)) {
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, Integer.MAX_VALUE, 0), true);
                         }
                     });
                 }
