@@ -169,7 +169,7 @@ public class ColorShuffleGame extends BaseGame {
                 }
                 ticks++;
             }
-        }.runTaskTimer(Arcadia.getPlugin(Arcadia.class), 0, 1L);
+        }.runTaskTimer(this.getAPI().getPlugin(), 0, 1L);
     }
 
     @EventHandler

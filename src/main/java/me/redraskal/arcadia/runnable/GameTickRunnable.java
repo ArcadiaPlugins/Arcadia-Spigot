@@ -10,6 +10,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class GameTickRunnable extends BukkitRunnable {
 
     private final ArcadiaAPI api;
+    private int ticks = 0;
+    private int ticksInSecond = 0;
 
     public GameTickRunnable() {
         this.api = Arcadia.getPlugin(Arcadia.class).getAPI();
@@ -22,6 +24,12 @@ public class GameTickRunnable extends BukkitRunnable {
             this.cancel();
             return;
         }
-        Bukkit.getServer().getPluginManager().callEvent(new GameTickEvent());
+        Bukkit.getServer().getPluginManager().callEvent(new GameTickEvent(ticks, ticksInSecond));
+        ticks++;
+        if(ticksInSecond >= 20) {
+            ticksInSecond = 0;
+        } else {
+            ticksInSecond++;
+        }
     }
 }

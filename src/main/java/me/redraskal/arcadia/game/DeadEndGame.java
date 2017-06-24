@@ -1,6 +1,5 @@
 package me.redraskal.arcadia.game;
 
-import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.BaseGame;
 import me.redraskal.arcadia.api.game.event.GameTickEvent;
@@ -76,7 +75,7 @@ public class DeadEndGame extends BaseGame {
                                     pendingDeletion.remove(block);
                                 }
                             }
-                        }.runTaskLater(Arcadia.getPlugin(Arcadia.class), 3L);
+                        }.runTaskLater(this.getAPI().getPlugin(), 3L);
                     }
                 }
             }

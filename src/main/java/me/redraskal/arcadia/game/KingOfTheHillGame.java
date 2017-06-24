@@ -1,6 +1,5 @@
 package me.redraskal.arcadia.game;
 
-import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.Cuboid;
 import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.BaseGame;
@@ -65,7 +64,7 @@ public class KingOfTheHillGame extends BaseGame {
                     }
                 }
             }
-        }.runTaskTimer(Arcadia.getPlugin(Arcadia.class), 0, 20L);
+        }.runTaskTimer(this.getAPI().getPlugin(), 0, 20L);
     }
 
     @EventHandler

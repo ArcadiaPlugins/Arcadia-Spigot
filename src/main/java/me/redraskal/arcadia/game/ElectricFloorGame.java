@@ -64,7 +64,7 @@ public class ElectricFloorGame extends BaseGame {
                     updateBlock(player, player.getLocation().getBlock().getRelative(BlockFace.DOWN));
                 }
             }
-        }.runTaskTimer(Arcadia.getPlugin(Arcadia.class), 0, 20L);
+        }.runTaskTimer(this.getAPI().getPlugin(), 0, 20L);
     }
 
     @EventHandler
@@ -94,7 +94,7 @@ public class ElectricFloorGame extends BaseGame {
                                     changePending.remove(finalBlock);
                                 }
                             }
-                        }.runTaskLater(Arcadia.getPlugin(Arcadia.class), 10L);
+                        }.runTaskLater(this.getAPI().getPlugin(), 10L);
                     }
                 }
             }

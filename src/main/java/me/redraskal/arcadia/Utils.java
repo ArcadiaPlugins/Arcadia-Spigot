@@ -119,13 +119,32 @@ public class Utils {
     public static List<Map.Entry<String, Integer>> entriesSortedByValues(Map<String,Integer> map) {
             List<Map.Entry<String,Integer>> sortedEntries = new ArrayList<>(map.entrySet());
             Collections.sort(sortedEntries,
-                new Comparator<Map.Entry<String, Integer>>() {
-                    @Override
-                    public int compare(Map.Entry<String, Integer> e1, Map.Entry<String, Integer> e2) {
-                        return e2.getValue().compareTo(e1.getValue());
+                    new Comparator<Map.Entry<String, Integer>>() {
+                        @Override
+                        public int compare(Map.Entry<String, Integer> e1, Map.Entry<String, Integer> e2) {
+                            return e2.getValue().compareTo(e1.getValue());
+                        }
                     }
-                }
-        );
+            );
         return sortedEntries;
+    }
+
+    public static org.bukkit.util.Vector getRandomCircleVector() {
+        double rnd = new Random().nextDouble() * 2.0D * Math.PI;
+        double x = Math.cos(rnd);
+        double z = Math.sin(rnd);
+        return new org.bukkit.util.Vector(x, 0.0D, z);
+    }
+
+    public static Location getLocationAroundCircle(Location center, double radius, double angleInRadian) {
+        double x = center.getX() + radius * Math.cos(angleInRadian);
+        double z = center.getZ() + radius * Math.sin(angleInRadian);
+        double y = center.getY();
+
+        Location loc = new Location(center.getWorld(), x, y, z);
+        org.bukkit.util.Vector difference = center.toVector().clone().subtract(loc.toVector());
+        loc.setDirection(difference);
+
+        return loc;
     }
 }
