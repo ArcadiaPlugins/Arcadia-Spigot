@@ -32,8 +32,8 @@ public class Arcadia extends JavaPlugin {
 
         // Register Default Games (togglable later in the config)
         this.getAPI().getGameRegistry().registerGame(DeadEndGame.class);
-        this.getAPI().getGameRegistry().registerGame(SpleefGame.class);
         this.getAPI().getGameRegistry().registerGame(HorseRaceGame.class);
+        this.getAPI().getGameRegistry().registerGame(SpleefGame.class);
         this.getAPI().getGameRegistry().registerGame(MineFieldGame.class);
         this.getAPI().getGameRegistry().registerGame(ColorShuffleGame.class);
         this.getAPI().getGameRegistry().registerGame(KingOfTheHillGame.class);
@@ -53,6 +53,10 @@ public class Arcadia extends JavaPlugin {
 
     public void onDisable() {
         for(Player player : Bukkit.getOnlinePlayers()) {
+            if(player.getVehicle() != null) {
+                player.getVehicle().eject();
+                player.getVehicle().remove();
+            }
             this.getAPI().getGameManager().setAlive(player, false);
             player.kickPlayer(ChatColor.RED + "Server is now restarting.");
         }

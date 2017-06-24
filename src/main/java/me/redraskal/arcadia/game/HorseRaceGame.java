@@ -6,6 +6,7 @@ import me.redraskal.arcadia.Cuboid;
 import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.BaseGame;
 import me.redraskal.arcadia.api.game.GameManager;
+import me.redraskal.arcadia.api.game.GameState;
 import me.redraskal.arcadia.api.game.event.PlayerAliveStatusEvent;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.api.scoreboard.SidebarSettings;
@@ -96,20 +97,19 @@ public class HorseRaceGame extends BaseGame {
     private void createHorse(Player player, Location spawn) {
         player.teleport(spawn);
         Horse horse = spawn.getWorld().spawn(spawn, Horse.class);
+        horse.setJumpStrength(1);
 
-        horse.setAdult();
-        horse.setTamed(true);
-        horse.setOwner(player);
-        //horse.setJumpStrength(1);
-
-        /*double speed = this.getAPI().getGameManager().getGameState() == GameState.STARTING ? .1D : 4D;
+        double speed = this.getAPI().getGameManager().getGameState() == GameState.STARTING ? .1D : 4D;
 
         // TODO Fix this for 1.8
-        horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(speed);*/
+        horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(speed);
 
         Bukkit.getScheduler().runTaskLater(getAPI().getPlugin(), () -> {
-            horse.getInventory().setSaddle(new ItemStack(Material.SADDLE));
             horse.addPassenger(player);
+            horse.setTamed(true);
+            horse.getInventory().setSaddle(new ItemStack(Material.SADDLE));
+            horse.setAdult();
+            horse.setOwner(player);
         }, 1L);
     }
 
