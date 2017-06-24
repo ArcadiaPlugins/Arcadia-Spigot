@@ -34,6 +34,7 @@ public class ConnectionListener implements Listener {
                 new GameSwitchRunnable();
             }
         }
+        event.getPlayer().setCollidable(true);
     }
 
     @EventHandler
