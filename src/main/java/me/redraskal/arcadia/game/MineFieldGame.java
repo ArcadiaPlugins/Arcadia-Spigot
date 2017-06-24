@@ -20,6 +20,7 @@ import java.util.Random;
 public class MineFieldGame extends BaseGame {
 
     private Material winBlock;
+    private Cuboid glass;
 
     public MineFieldGame(GameMap gameMap) {
         super("Minefield", new String[]{"startPosition", "minefieldBoundsA", "minefieldBoundsB", "glassBoundsA", "glassBoundsB", "targetPosition", "winBlock"},
@@ -50,15 +51,19 @@ public class MineFieldGame extends BaseGame {
                 }
             }
         });
+        this.glass = new Cuboid(Utils.parseLocation((String) this.getGameMap().fetchSetting("glassBoundsA")),
+                Utils.parseLocation((String) this.getGameMap().fetchSetting("glassBoundsB")));
+        Iterator<Block> glassBlocks = glass.iterator();
+        while(glassBlocks.hasNext()) {
+            glassBlocks.next().setType(Material.GLASS);
+        }
     }
 
     @Override
     public void onGameStart() {
-        Cuboid glass = new Cuboid(Utils.parseLocation((String) this.getGameMap().fetchSetting("glassBoundsA")),
-            Utils.parseLocation((String) this.getGameMap().fetchSetting("glassBoundsB")));
-        Iterator<Block> blocks = glass.iterator();
-        while(blocks.hasNext()) {
-            blocks.next().setType(Material.AIR);
+        Iterator<Block> glassBlocks = glass.iterator();
+        while(glassBlocks.hasNext()) {
+            glassBlocks.next().setType(Material.AIR);
         }
     }
 

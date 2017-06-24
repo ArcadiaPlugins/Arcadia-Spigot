@@ -23,6 +23,7 @@ public class RainbowJumpGame extends BaseGame {
 
     private Material winBlock;
     private Location spawnLocation;
+    private Cuboid glass;
 
     public RainbowJumpGame(GameMap gameMap) {
         super("Rainbow Jump", new String[]{"startPosition", "floorLevel", "glassBoundsA", "glassBoundsB", "targetPosition", "winBlock"},
@@ -42,15 +43,19 @@ public class RainbowJumpGame extends BaseGame {
         }
         ((DistanceSidebar) this.getSidebar()).setTarget(Utils.parseLocation((String) this.getGameMap().fetchSetting("targetPosition")));
         this.winBlock = Material.getMaterial((String) this.getGameMap().fetchSetting("winBlock"));
+        glass = new Cuboid(Utils.parseLocation((String) this.getGameMap().fetchSetting("glassBoundsA")),
+                Utils.parseLocation((String) this.getGameMap().fetchSetting("glassBoundsB")));
+        Iterator<Block> glassBlocks = glass.iterator();
+        while(glassBlocks.hasNext()) {
+            glassBlocks.next().setType(Material.GLASS);
+        }
     }
 
     @Override
     public void onGameStart() {
-        Cuboid glass = new Cuboid(Utils.parseLocation((String) this.getGameMap().fetchSetting("glassBoundsA")),
-                Utils.parseLocation((String) this.getGameMap().fetchSetting("glassBoundsB")));
-        Iterator<Block> blocks = glass.iterator();
-        while(blocks.hasNext()) {
-            blocks.next().setType(Material.AIR);
+        Iterator<Block> glassBlocks = glass.iterator();
+        while(glassBlocks.hasNext()) {
+            glassBlocks.next().setType(Material.AIR);
         }
     }
 
