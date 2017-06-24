@@ -59,7 +59,7 @@ public class SpleefGame extends BaseGame {
     public void onBlockBreak(BlockBreakEvent event) {
         if(this.getAPI().getGameManager().isAlive(event.getPlayer())) {
             if(event.getBlock().getType() == Material.SNOW_BLOCK) {
-                event.getPlayer().getInventory().addItem(new ItemStack(Material.SNOW_BALL, 6));
+                event.getPlayer().getInventory().addItem(new ItemStack(Material.SNOW_BALL, 2));
                 event.setDropItems(false);
             }
         }

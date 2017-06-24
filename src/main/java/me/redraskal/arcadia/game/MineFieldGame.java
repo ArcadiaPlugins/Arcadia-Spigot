@@ -76,9 +76,7 @@ public class MineFieldGame extends BaseGame {
                 return;
             }
             if(event.getTo().getBlock().getRelative(BlockFace.DOWN).getType() == winBlock) {
-                for(Player player : Bukkit.getOnlinePlayers()) {
-                    if(this.getAPI().getGameManager().isAlive(player)) this.getAPI().getGameManager().setAlive(player, false);
-                }
+                this.endGame();
             }
         }
     }
