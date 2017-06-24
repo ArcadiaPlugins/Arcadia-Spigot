@@ -7,20 +7,19 @@ import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.BaseGame;
 import me.redraskal.arcadia.api.game.GameManager;
 import me.redraskal.arcadia.api.game.event.PlayerAliveStatusEvent;
-import me.redraskal.arcadia.api.game.GameState;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.api.scoreboard.SidebarSettings;
 import me.redraskal.arcadia.api.scoreboard.WinMethod;
 import me.redraskal.arcadia.api.scoreboard.defaults.ScoreSidebar;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
-
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -101,7 +100,6 @@ public class HorseRaceGame extends BaseGame {
         horse.setAdult();
         horse.setTamed(true);
         horse.setOwner(player);
-        horse.getInventory().setSaddle(new ItemStack(Material.SADDLE, 1));
         //horse.setJumpStrength(1);
 
         /*double speed = this.getAPI().getGameManager().getGameState() == GameState.STARTING ? .1D : 4D;
@@ -110,6 +108,7 @@ public class HorseRaceGame extends BaseGame {
         horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(speed);*/
 
         Bukkit.getScheduler().runTaskLater(getAPI().getPlugin(), () -> {
+            horse.getInventory().setSaddle(new ItemStack(Material.SADDLE));
             horse.addPassenger(player);
         }, 1L);
     }
@@ -219,11 +218,6 @@ public class HorseRaceGame extends BaseGame {
             entity.eject();
             entity.remove();
         }
-    }
-
-    @EventHandler
-    public void onLeaveHorse(VehicleExitEvent e) {
-        e.setCancelled(true);
     }
 
     @Override

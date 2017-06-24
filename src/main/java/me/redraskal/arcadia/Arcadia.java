@@ -53,6 +53,7 @@ public class Arcadia extends JavaPlugin {
 
     public void onDisable() {
         for(Player player : Bukkit.getOnlinePlayers()) {
+            this.getAPI().getGameManager().setAlive(player, false);
             player.kickPlayer(ChatColor.RED + "Server is now restarting.");
         }
         removeCustomWorlds();
