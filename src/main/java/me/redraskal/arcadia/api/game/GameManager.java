@@ -82,12 +82,17 @@ public class GameManager {
         this.currentGame.onGameEnd();
         this.currentGame.allowPVP = false;
         new EndGameMusic();
-        Bukkit.broadcastMessage(ChatColor.YELLOW + "1st place: " + ChatColor.WHITE
-            + Utils.parseWinner(this.currentGame.getSidebarSettings().getWinMethod().calculateWinner(1)));
-        Bukkit.broadcastMessage(ChatColor.GRAY + "2nd place: " + ChatColor.WHITE
-            + Utils.parseWinner(this.currentGame.getSidebarSettings().getWinMethod().calculateWinner(2)));
-        Bukkit.broadcastMessage(ChatColor.RED + "3rd place: " + ChatColor.WHITE
-            + Utils.parseWinner(this.currentGame.getSidebarSettings().getWinMethod().calculateWinner(3)));
+        String firstPlace = Utils.parseWinner(this.currentGame.getSidebarSettings().getWinMethod().calculateWinner(1));
+        String secondPlace = Utils.parseWinner(this.currentGame.getSidebarSettings().getWinMethod().calculateWinner(2));
+        String thirdPlace = Utils.parseWinner(this.currentGame.getSidebarSettings().getWinMethod().calculateWinner(3));
+        Bukkit.broadcastMessage(ChatColor.YELLOW + "1st place: " + ChatColor.WHITE + firstPlace);
+        Bukkit.broadcastMessage(ChatColor.GRAY + "2nd place: " + ChatColor.WHITE + secondPlace);
+        Bukkit.broadcastMessage(ChatColor.RED + "3rd place: " + ChatColor.WHITE + thirdPlace);
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            player.sendTitle(ChatColor.YELLOW + "1st: " + ChatColor.WHITE + firstPlace,
+                ChatColor.GRAY + "2nd: " + ChatColor.WHITE + secondPlace + ", "
+                    + ChatColor.RED + "3rd: " + ChatColor.WHITE + thirdPlace, 0, 40, 20);
+        });
         Bukkit.getServer().getPluginManager().callEvent(new GameEndEvent());
         return true;
     }
