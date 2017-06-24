@@ -13,6 +13,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -108,6 +109,19 @@ public class PotionDropGame extends BaseGame {
                 }
             }
         }.runTaskTimer(this.getAPI().getPlugin(), 0, 20L);
+    }
+
+    @EventHandler
+    public void onPotionUse(PlayerItemConsumeEvent event) {
+        if(event.getItem().getType() == Material.POTION) {
+            new BukkitRunnable() {
+                public void run() {
+                    if(event.getPlayer().isOnline()) {
+                        event.getPlayer().getInventory().remove(Material.GLASS_BOTTLE);
+                    }
+                }
+            }.runTaskLater(this.getAPI().getPlugin(), 3L);
+        }
     }
 
     @EventHandler
