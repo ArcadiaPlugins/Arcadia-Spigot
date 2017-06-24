@@ -5,7 +5,6 @@ import com.google.common.collect.Maps;
 import me.redraskal.arcadia.Cuboid;
 import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.BaseGame;
-import me.redraskal.arcadia.api.game.GameManager;
 import me.redraskal.arcadia.api.game.GameState;
 import me.redraskal.arcadia.api.game.event.PlayerAliveStatusEvent;
 import me.redraskal.arcadia.api.map.GameMap;
@@ -99,7 +98,7 @@ public class HorseRaceGame extends BaseGame {
         Horse horse = spawn.getWorld().spawn(spawn, Horse.class);
         horse.setJumpStrength(1);
 
-        double speed = this.getAPI().getGameManager().getGameState() == GameState.STARTING ? .1D : 4D;
+        double speed = this.getAPI().getGameManager().getGameState() == GameState.STARTING ? 0D : 1D;
 
         // TODO Fix this for 1.8
         horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(speed);
@@ -121,7 +120,7 @@ public class HorseRaceGame extends BaseGame {
         for(Player player : Bukkit.getOnlinePlayers()) {
             if(!this.getAPI().getGameManager().isAlive(player)) continue;
             if(player.getVehicle() != null) {
-                ((Horse) player.getVehicle()).getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(4D);
+                ((Horse) player.getVehicle()).getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(1D);
             }
         }
     }
@@ -193,16 +192,6 @@ public class HorseRaceGame extends BaseGame {
                 event.getPlayer().getVehicle().remove();
             }
             this.createHorse(event.getPlayer(), this.spawn);
-        }
-    }
-
-    private void endGame() {
-        GameManager manager = this.getAPI().getGameManager();
-
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            if (manager.isAlive(player)) {
-                manager.setAlive(player, false);
-            }
         }
     }
 

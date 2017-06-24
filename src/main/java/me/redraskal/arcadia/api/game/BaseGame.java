@@ -7,6 +7,7 @@ import me.redraskal.arcadia.api.game.event.PlayerAliveStatusEvent;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.api.scoreboard.Sidebar;
 import me.redraskal.arcadia.api.scoreboard.SidebarSettings;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -71,6 +72,18 @@ public abstract class BaseGame implements Listener {
     public void onPlayerDeath(PlayerAliveStatusEvent event) {
         if(!event.isAlive() && !deathOrder.contains(event.getPlayer())) {
             deathOrder.add(event.getPlayer());
+        }
+    }
+
+    /**
+     * Kills all the players, which ends the game.
+     */
+    public void endGame() {
+        GameManager manager = this.getAPI().getGameManager();
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (manager.isAlive(player)) {
+                manager.setAlive(player, false);
+            }
         }
     }
 
