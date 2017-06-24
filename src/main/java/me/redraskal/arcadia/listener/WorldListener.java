@@ -3,6 +3,8 @@ package me.redraskal.arcadia.listener;
 import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.ArcadiaAPI;
 import me.redraskal.arcadia.api.game.GameState;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -37,7 +39,10 @@ public class WorldListener implements Listener {
 
     @EventHandler
     public void onVehicleExit(VehicleExitEvent event) {
-        if(Arcadia.getPlugin(Arcadia.class).getAPI().getGameManager().getGameState() != GameState.FINISHED) {
+        if(event.getExited().getType() != EntityType.PLAYER) return;
+        ArcadiaAPI api = Arcadia.getPlugin(Arcadia.class).getAPI();
+        if(!api.getGameManager().isAlive((Player) event.getExited())) return;
+        if(api.getGameManager().getGameState() != GameState.FINISHED) {
             event.setCancelled(true);
         }
     }

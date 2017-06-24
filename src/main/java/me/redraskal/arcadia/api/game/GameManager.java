@@ -146,6 +146,11 @@ public class GameManager {
             if(!alive.contains(player)) alive.add(player);
             if(this.isSpectating(player)) this.setSpectating(player, false);
         } else {
+            if(alive.contains(player)) alive.remove(player);
+            if(player.getVehicle() != null) {
+                player.getVehicle().eject();
+                player.getVehicle().remove();
+            }
             Utils.resetPlayer(player);
             //TODO: Fun inventory
             player.setAllowFlight(true);
@@ -155,7 +160,6 @@ public class GameManager {
                 player.teleport(
                     Utils.parseLocation((String) this.currentGame.getGameMap().fetchSetting("spectatorLocation")));
             }
-            if(alive.contains(player)) alive.remove(player);
         }
         Bukkit.getServer().getPluginManager().callEvent(new PlayerAliveStatusEvent(player, toggle, false));
         if(this.getPlayersAlive() <= 0 && this.getGameState() == GameState.INGAME) {
