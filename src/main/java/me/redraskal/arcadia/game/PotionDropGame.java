@@ -12,6 +12,7 @@ import org.bukkit.*;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -54,6 +55,7 @@ public class PotionDropGame extends BaseGame {
                     this.cancel();
                     return;
                 }
+                seconds++;
                 if(seconds % 2 == 0) {
                     Bukkit.getOnlinePlayers().forEach(player -> {
                         if(getAPI().getGameManager().isAlive(player)) {
@@ -67,11 +69,14 @@ public class PotionDropGame extends BaseGame {
                 } else {
                     Bukkit.getOnlinePlayers().forEach(player -> {
                         if(getAPI().getGameManager().isAlive(player)) {
-                            player.damage(0);
+                            if((player.getHealth()-0.1) <= 0) {
+                                getAPI().getGameManager().setAlive(player, false);
+                            } else {
+                                player.damage(0.1);
+                            }
                         }
                     });
                 }
-                seconds++;
             }
         }.runTaskTimer(this.getAPI().getPlugin(), 0, 20L);
     }
@@ -83,8 +88,15 @@ public class PotionDropGame extends BaseGame {
             Item entity = this.potionDropLocation.getWorld().dropItem(potionDropLocation, itemStack);
             entity.setCustomName(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Potion");
             entity.setCustomNameVisible(true);
-            entity.setVelocity(new Vector(0, 0.5, 0).add(Utils.getRandomCircleVector()
-                .multiply(potionVelocityMultiplier)));
+            entity.setVelocity(new Vector(0, 0.47, 0).add(Utils.getRandomCircleVector()
+                .multiply(potionVelocityMultiplier*Math.random())));
+        }
+    }
+
+    @EventHandler
+    public void onHealthRegain(EntityRegainHealthEvent event) {
+        if(event.getRegainReason() == EntityRegainHealthEvent.RegainReason.SATIATED) {
+            event.setCancelled(true);
         }
     }
 

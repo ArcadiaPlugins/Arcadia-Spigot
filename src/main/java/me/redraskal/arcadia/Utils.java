@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 import org.bukkit.potion.PotionEffect;
 
@@ -106,6 +107,13 @@ public class Utils {
         player.setHealthScale(20);
         player.setExhaustion(0);
         player.getInventory().clear();
+        ItemStack blankItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 15);
+        ItemMeta blankMeta = blankItem.getItemMeta();
+        blankMeta.setDisplayName("" + ChatColor.RED);
+        blankItem.setItemMeta(blankMeta);
+        for(int i=9; i<player.getInventory().getSize(); i++) {
+            player.getInventory().setItem(i, blankItem);
+        }
         player.getInventory().setHelmet(new ItemStack(Material.AIR, 1));
         player.getInventory().setChestplate(new ItemStack(Material.AIR, 1));
         player.getInventory().setLeggings(new ItemStack(Material.AIR, 1));
