@@ -37,7 +37,7 @@ public class WorldListener implements Listener {
 
     @EventHandler
     public void onVehicleExit(VehicleExitEvent event) {
-        if(Arcadia.getPlugin(Arcadia.class).getAPI().getGameManager().getGameState() == GameState.FINISHED) {
+        if(Arcadia.getPlugin(Arcadia.class).getAPI().getGameManager().getGameState() != GameState.FINISHED) {
             event.setCancelled(true);
         }
     }

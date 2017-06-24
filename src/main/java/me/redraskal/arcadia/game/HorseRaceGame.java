@@ -97,7 +97,7 @@ public class HorseRaceGame extends BaseGame {
     private void createHorse(Player player, Location spawn) {
         player.teleport(spawn);
         Horse horse = spawn.getWorld().spawn(spawn, Horse.class);
-        horse.setJumpStrength(1);
+        horse.setJumpStrength(0);
 
         double speed = this.getAPI().getGameManager().getGameState() == GameState.STARTING ? 0D : 1D;
 
@@ -148,6 +148,14 @@ public class HorseRaceGame extends BaseGame {
             return;
         }
 
+        if(event.getTo().getY() <= floorLevel) {
+            if(event.getPlayer().getVehicle() != null) {
+                event.getPlayer().getVehicle().eject();
+                event.getPlayer().getVehicle().remove();
+            }
+            this.createHorse(event.getPlayer(), this.spawn);
+        }
+
         int current = checkpoints.get(player);
         int checkpointIndex = getCheckpoint(player);
 
@@ -185,14 +193,6 @@ public class HorseRaceGame extends BaseGame {
                 // Player won
                 endGame();
             }
-        }
-
-        if(event.getTo().getY() <= floorLevel) {
-            if(event.getPlayer().getVehicle() != null) {
-                event.getPlayer().getVehicle().eject();
-                event.getPlayer().getVehicle().remove();
-            }
-            this.createHorse(event.getPlayer(), this.spawn);
         }
     }
 
