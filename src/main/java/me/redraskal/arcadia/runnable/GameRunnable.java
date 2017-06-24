@@ -31,6 +31,7 @@ public class GameRunnable extends BukkitRunnable {
         if(seconds <= 1 && minutes <= 0) {
             this.cancel();
             api.getGameManager().getCurrentGame().endGame();
+            api.getGameManager().endGame();
             new GameSwitchRunnable();
             return;
         }
