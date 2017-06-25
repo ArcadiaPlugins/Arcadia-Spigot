@@ -7,7 +7,6 @@ import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.command.SpectateCommand;
 import me.redraskal.arcadia.listener.*;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,6 +22,10 @@ public class Arcadia extends JavaPlugin {
 
     public void onEnable() {
         this.api = new ArcadiaAPI(this);
+        if(new File(this.getDataFolder().getPath() + "/translations/").listFiles().length == 0) {
+            this.getAPI().getTranslationManager().saveDefaultLocale("en_us.properties");
+            this.getAPI().getTranslationManager().refreshCache();
+        }
 
         this.getServer().getPluginManager().registerEvents(new ConnectionListener(), this);
         this.getServer().getPluginManager().registerEvents(new DamageListener(), this);
@@ -35,6 +38,10 @@ public class Arcadia extends JavaPlugin {
 
         this.mainConfiguration = new Configuration(this.getDataFolder(), "config.yml", this);
         this.mainConfiguration.copyDefaults();
+
+        this.getAPI().getTranslationManager().setDefaultLocale(mainConfiguration.fetch().getString("language"));
+        this.getAPI().getTranslationManager().autoDetectLanguage
+            = this.mainConfiguration.fetch().getBoolean("auto-detect-language");
 
         this.mainConfiguration.fetch().getStringList("default-rotation").forEach(line -> {
             try {
@@ -71,8 +78,8 @@ public class Arcadia extends JavaPlugin {
                 vehicle.remove();
             }
             this.getAPI().getGameManager().setAlive(player, false);
-            player.kickPlayer(ChatColor.RED + "Server is now restarting.");
         }
+        this.getAPI().getTranslationManager().kickPlayers("common.server-restarting");
         removeCustomWorlds();
     }
 

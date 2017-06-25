@@ -4,6 +4,7 @@ import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.ArcadiaAPI;
 import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.GameState;
+import me.redraskal.arcadia.api.translation.Translation;
 import me.redraskal.arcadia.runnable.GameSwitchRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,8 +17,16 @@ public class ConnectionListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        event.setJoinMessage(null);
         ArcadiaAPI api = Arcadia.getPlugin(Arcadia.class).getAPI();
+        Translation translation = api.getTranslationManager().fetchTranslation("common.join-message", event.getPlayer());
+        if(translation != null) {
+            final String message = translation.build(event.getPlayer().getName());
+            if(!message.isEmpty()) {
+                event.setJoinMessage(message);
+            } else {
+                event.setJoinMessage(null);
+            }
+        }
         Utils.resetPlayer(event.getPlayer());
         api.getGameManager().setAlive(event.getPlayer(), false);
         api.getGameManager().setSpectating(event.getPlayer(), false);
@@ -39,8 +48,16 @@ public class ConnectionListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        event.setQuitMessage(null);
         ArcadiaAPI api = Arcadia.getPlugin(Arcadia.class).getAPI();
+        Translation translation = api.getTranslationManager().fetchTranslation("common.leave-message", event.getPlayer());
+        if(translation != null) {
+            final String message = translation.build(event.getPlayer().getName());
+            if(!message.isEmpty()) {
+                event.setQuitMessage(message);
+            } else {
+                event.setQuitMessage(null);
+            }
+        }
         if(api.getGameManager().isAlive(event.getPlayer())) api.getGameManager().setAlive(event.getPlayer(), false);
         if(api.getGameManager().isSpectating(event.getPlayer())) api.getGameManager().setSpectating(event.getPlayer(), false);
     }

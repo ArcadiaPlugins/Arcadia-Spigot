@@ -1,6 +1,7 @@
 package me.redraskal.arcadia.listener;
 
-import org.bukkit.ChatColor;
+import me.redraskal.arcadia.Arcadia;
+import me.redraskal.arcadia.api.translation.Translation;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -9,6 +10,11 @@ public class ChatListener implements Listener {
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
-        event.setFormat(ChatColor.GRAY + "%s " + ChatColor.DARK_GRAY + "»" + ChatColor.GRAY + " %s");
+        Translation translation = Arcadia.getPlugin(Arcadia.class).getAPI()
+            .getTranslationManager().fetchTranslation("common.chat-message", event.getPlayer());
+        if(translation != null) {
+            final String message = translation.build("%s", "%s");
+            if(!message.isEmpty()) event.setFormat(message);
+        }
     }
 }
