@@ -32,6 +32,7 @@ public class Translation {
 
     public String build(Object... args) {
         String temp = MessageFormat.format(this.translatedContent, args);
+        temp = temp.replace("%double_arrow%", "»");
         return ChatColor.translateAlternateColorCodes('&', temp);
     }
 }

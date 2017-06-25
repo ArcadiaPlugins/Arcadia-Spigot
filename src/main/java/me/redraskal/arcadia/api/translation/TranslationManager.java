@@ -141,7 +141,7 @@ public class TranslationManager {
      * @param name
      */
     public void kickPlayers(String name, Object... args) {
-        this.sendTranslation(name,
+        this.kickPlayers(name,
                 Bukkit.getOnlinePlayers().toArray(new Player[Bukkit.getOnlinePlayers().size()]), args);
     }
 
