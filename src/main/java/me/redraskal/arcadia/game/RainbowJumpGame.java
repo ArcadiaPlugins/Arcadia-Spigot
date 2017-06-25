@@ -26,7 +26,7 @@ public class RainbowJumpGame extends BaseGame {
     private Cuboid glass;
 
     public RainbowJumpGame(GameMap gameMap) {
-        super("Rainbow Jump", new String[]{"startPosition", "floorLevel", "glassBoundsA", "glassBoundsB", "targetPosition", "targetFacing"},
+        super("Rainbow Jump", new String[]{"startPosition", "floorLevel", "glassBoundsA", "glassBoundsB", "targetPosition", "targetTowards"},
                 new SidebarSettings(RelativeDistanceSidebar.class,
                         WinMethod.HIGHEST_SCORE, 1, 0), gameMap,
                 "Jump to the finish!");
