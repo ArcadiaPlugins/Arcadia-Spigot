@@ -44,7 +44,7 @@ public class RelativeDistanceSidebar extends ScoreSidebar {
             }
             if(this.towards.equalsIgnoreCase("x")) {
                 Location tempTarget = target.clone();
-                tempTarget.setX(player.getLocation().getZ());
+                tempTarget.setZ(player.getLocation().getZ());
                 this.setScore(player, -Double.valueOf(player.getLocation().distance(tempTarget)).intValue());
             }
         } else {
