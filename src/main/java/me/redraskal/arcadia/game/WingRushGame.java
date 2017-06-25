@@ -28,7 +28,7 @@ public class WingRushGame extends BaseGame {
         super("Wing Rush", new String[]{"startPositionCenter"},
                 new SidebarSettings(ScoreSidebar.class,
                         WinMethod.HIGHEST_SCORE, 3, 0), gameMap,
-                "Description coming soon!");
+                "Glide with style through epic structures & perilous ravines!");
     }
 
     @Override
@@ -60,7 +60,5 @@ public class WingRushGame extends BaseGame {
     }
 
     @Override
-    public void onGameEnd() {
-        //TODO
-    }
+    public void onGameEnd() {}
 }

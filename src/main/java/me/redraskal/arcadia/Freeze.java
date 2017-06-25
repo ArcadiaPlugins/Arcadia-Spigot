@@ -9,7 +9,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.server.PluginDisableEvent;
-import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class Freeze implements Listener {
@@ -26,7 +25,7 @@ public class Freeze implements Listener {
         entity.setVisible(false);
         entity.setGravity(false);
         entity.setBasePlate(false);
-        entity.setSmall(true);
+        entity.setSmall(false);
         entity.setCanPickupItems(false);
         new BukkitRunnable() {
             public void run() {
@@ -60,12 +59,6 @@ public class Freeze implements Listener {
         if(event.getPlugin() == Arcadia.getPlugin(Arcadia.class)) {
             destroy();
         }
-    }
-
-    @EventHandler
-    public void onVehicleExit(VehicleExitEvent event) {
-        if(event.getExited().getUniqueId() == player.getUniqueId())
-            event.setCancelled(true);
     }
 
     public boolean destroy() {
