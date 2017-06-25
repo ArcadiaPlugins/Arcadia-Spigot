@@ -34,6 +34,7 @@ public class Arcadia extends JavaPlugin {
 
         // Register Default Games (togglable later in the config)
         this.getAPI().getGameRegistry().registerGame(DeadEndGame.class);
+        this.getAPI().getGameRegistry().registerGame(RedLightGreenLightGame.class);
         this.getAPI().getGameRegistry().registerGame(WingRushGame.class);
         this.getAPI().getGameRegistry().registerGame(RainbowJumpGame.class);
         this.getAPI().getGameRegistry().registerGame(PotionDropGame.class);
