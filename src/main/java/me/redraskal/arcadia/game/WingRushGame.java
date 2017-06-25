@@ -12,6 +12,8 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -48,6 +50,13 @@ public class WingRushGame extends BaseGame {
             freeze.destroy();
         });
         freezeList.clear();
+    }
+
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent event) {
+        if(event.getPlayer().isGliding() && event.getPlayer().getLocation().getPitch() < 0) {
+            event.getPlayer().setVelocity(event.getPlayer().getLocation().getDirection().multiply(1D));
+        }
     }
 
     @Override

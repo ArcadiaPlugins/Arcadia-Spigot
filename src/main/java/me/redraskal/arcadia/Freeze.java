@@ -10,6 +10,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class Freeze implements Listener {
 
@@ -27,7 +28,11 @@ public class Freeze implements Listener {
         entity.setBasePlate(false);
         entity.setSmall(true);
         entity.setCanPickupItems(false);
-        entity.addPassenger(player);
+        new BukkitRunnable() {
+            public void run() {
+                entity.addPassenger(player);
+            }
+        }.runTaskLater(Arcadia.getPlugin(Arcadia.class), 1L);
     }
 
     @EventHandler
