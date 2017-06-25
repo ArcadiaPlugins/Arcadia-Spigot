@@ -17,17 +17,17 @@ map-directories:
 
 # The default rotation (in order of appearance)
 default-rotation:
-- "me.redraskal.game.DeadEndGame"
-- "me.redraskal.game.RedLightGreenLightGame"
-- "me.redraskal.game.WingRushGame"
-- "me.redraskal.game.RainbowJumpGame"
-- "me.redraskal.game.PotionDropGame"
-- "me.redraskal.game.SpleefGame"
-- "me.redraskal.game.MineFieldGame"
-- "me.redraskal.game.ColorShuffleGame"
-- "me.redraskal.game.KingOfTheHillGame"
-- "me.redraskal.game.HorseRaceGame"
-- "me.redraskal.game.ElectricFloorGame"
+- "me.redraskal.arcadia.game.DeadEndGame"
+- "me.redraskal.arcadia.game.RedLightGreenLightGame"
+- "me.redraskal.arcadia.game.WingRushGame"
+- "me.redraskal.arcadia.game.RainbowJumpGame"
+- "me.redraskal.arcadia.game.PotionDropGame"
+- "me.redraskal.arcadia.game.SpleefGame"
+- "me.redraskal.arcadia.game.MineFieldGame"
+- "me.redraskal.arcadia.game.ColorShuffleGame"
+- "me.redraskal.arcadia.game.KingOfTheHillGame"
+- "me.redraskal.arcadia.game.HorseRaceGame"
+- "me.redraskal.arcadia.game.ElectricFloorGame"
 # Rotation is randomized after the end is reached.
 randomize: true
 # This feature is coming soon.
