@@ -6,7 +6,7 @@ import me.redraskal.arcadia.api.game.BaseGame;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.api.scoreboard.SidebarSettings;
 import me.redraskal.arcadia.api.scoreboard.WinMethod;
-import me.redraskal.arcadia.api.scoreboard.defaults.DistanceSidebar;
+import me.redraskal.arcadia.api.scoreboard.defaults.RelativeDistanceSidebar;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -23,8 +23,8 @@ public class MineFieldGame extends BaseGame {
     private Cuboid glass;
 
     public MineFieldGame(GameMap gameMap) {
-        super("Minefield", new String[]{"startPosition", "minefieldBoundsA", "minefieldBoundsB", "glassBoundsA", "glassBoundsB", "targetPosition", "winBlock"},
-                new SidebarSettings(DistanceSidebar.class,
+        super("Minefield", new String[]{"startPosition", "minefieldBoundsA", "minefieldBoundsB", "glassBoundsA", "glassBoundsB", "targetPosition", "targetTowards", "winBlock"},
+                new SidebarSettings(RelativeDistanceSidebar.class,
                 WinMethod.HIGHEST_SCORE, 1, 30), gameMap,
                 "Race through the minefield to the finish!");
     }
@@ -37,7 +37,9 @@ public class MineFieldGame extends BaseGame {
             player.teleport(spawnLocation);
             player.setGameMode(GameMode.ADVENTURE);
         }
-        ((DistanceSidebar) this.getSidebar()).setTarget(Utils.parseLocation((String) this.getGameMap().fetchSetting("targetPosition")));
+        ((RelativeDistanceSidebar) this.getSidebar()).setTarget(
+            Utils.parseLocation((String) this.getGameMap().fetchSetting("targetPosition")),
+            (String) this.getGameMap().fetchSetting("targetTowards"));
         this.winBlock = Material.getMaterial((String) this.getGameMap().fetchSetting("winBlock"));
         Cuboid minefield = new Cuboid(Utils.parseLocation((String) this.getGameMap().fetchSetting("minefieldBoundsA")),
                 Utils.parseLocation((String) this.getGameMap().fetchSetting("minefieldBoundsB")));
