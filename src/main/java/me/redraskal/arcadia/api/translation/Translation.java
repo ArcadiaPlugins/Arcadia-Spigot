@@ -2,6 +2,7 @@ package me.redraskal.arcadia.api.translation;
 
 import org.bukkit.ChatColor;
 
+import java.text.MessageFormat;
 import java.util.Locale;
 
 public class Translation {
@@ -9,14 +10,12 @@ public class Translation {
     private final String name;
     private final String translatedContent;
     private final Locale translationLocale;
-    private final TranslationManager translationManager;
 
     public Translation(String name, String translatedContent,
                        Locale translationLocale, TranslationManager translationManager) {
         this.name = name;
         this.translatedContent = translatedContent;
         this.translationLocale = translationLocale;
-        this.translationManager = translationManager;
     }
 
     public String getName() {
@@ -32,7 +31,7 @@ public class Translation {
     }
 
     public String build(Object... args) {
-        String temp = String.format(this.translatedContent, args);
+        String temp = MessageFormat.format(this.translatedContent, args);
         return ChatColor.translateAlternateColorCodes('&', temp);
     }
 }

@@ -65,8 +65,12 @@ public class TranslationManager {
      * @return
      */
     public Translation fetchTranslation(String name, Player player) {
-        return this.fetchTranslation(name,
-            new Locale(player.getLocale().split("_")[0], player.getLocale().split("_")[1]));
+        if(player.getLocale() == null || player.getLocale().isEmpty()) {
+            return this.fetchTranslation(name);
+        } else {
+            return this.fetchTranslation(name,
+                new Locale(player.getLocale().split("_")[0], player.getLocale().split("_")[1]));
+        }
     }
 
     /**
@@ -210,7 +214,7 @@ public class TranslationManager {
                     Properties properties = new Properties();
                     try {
                         FileInputStream inputStream = new FileInputStream(translationFile);
-                        properties.load(inputStream);
+                        properties.load(new InputStreamReader(inputStream, "UTF-8"));
                         inputStream.close();
                     } catch (Exception e) {
                         e.printStackTrace();

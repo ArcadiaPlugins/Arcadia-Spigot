@@ -22,10 +22,11 @@ public class Arcadia extends JavaPlugin {
 
     public void onEnable() {
         this.api = new ArcadiaAPI(this);
+        new File(this.getDataFolder().getPath() + "/translations/").mkdirs();
         if(new File(this.getDataFolder().getPath() + "/translations/").listFiles().length == 0) {
             this.getAPI().getTranslationManager().saveDefaultLocale("en_us.properties");
-            this.getAPI().getTranslationManager().refreshCache();
         }
+        this.getAPI().getTranslationManager().refreshCache();
 
         this.getServer().getPluginManager().registerEvents(new ConnectionListener(), this);
         this.getServer().getPluginManager().registerEvents(new DamageListener(), this);
