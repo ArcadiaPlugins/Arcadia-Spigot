@@ -10,6 +10,7 @@ public class Rotation {
 
     private int current = 0;
     private List<Class<? extends BaseGame>> games = new ArrayList<>();
+    private RotationOrder rotationOrder = RotationOrder.DEFAULT;
 
     /**
      * Returns the current rotation amount.
@@ -41,8 +42,19 @@ public class Rotation {
      */
     public Class<? extends BaseGame> nextGame() {
         current++;
-        if(current >= games.size()) current = 0;
+        if(current >= games.size()) {
+            if(this.rotationOrder == RotationOrder.RANDOM) this.shuffle();
+            current = 0;
+        }
         return this.getCurrentGame();
+    }
+
+    /**
+     * Sets the rotation order.
+     * @param rotationOrder
+     */
+    public void setRotationOrder(RotationOrder rotationOrder) {
+        this.rotationOrder = rotationOrder;
     }
 
     /**

@@ -2,9 +2,9 @@ package me.redraskal.arcadia;
 
 import me.redraskal.arcadia.api.game.BaseGame;
 import me.redraskal.arcadia.api.game.GameState;
+import me.redraskal.arcadia.api.game.RotationOrder;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.command.SpectateCommand;
-import me.redraskal.arcadia.game.*;
 import me.redraskal.arcadia.listener.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -19,6 +19,7 @@ import java.util.Random;
 public class Arcadia extends JavaPlugin {
 
     private ArcadiaAPI api;
+    public Configuration mainConfiguration;
 
     public void onEnable() {
         this.api = new ArcadiaAPI(this);
@@ -32,28 +33,32 @@ public class Arcadia extends JavaPlugin {
 
         this.getCommand("spec").setExecutor(new SpectateCommand());
 
-        // Register Default Games (togglable later in the config)
-        this.getAPI().getGameRegistry().registerGame(DeadEndGame.class);
-        this.getAPI().getGameRegistry().registerGame(RedLightGreenLightGame.class);
-        this.getAPI().getGameRegistry().registerGame(WingRushGame.class);
-        this.getAPI().getGameRegistry().registerGame(RainbowJumpGame.class);
-        this.getAPI().getGameRegistry().registerGame(PotionDropGame.class);
-        this.getAPI().getGameRegistry().registerGame(SpleefGame.class);
-        this.getAPI().getGameRegistry().registerGame(MineFieldGame.class);
-        this.getAPI().getGameRegistry().registerGame(ColorShuffleGame.class);
-        this.getAPI().getGameRegistry().registerGame(KingOfTheHillGame.class);
-        this.getAPI().getGameRegistry().registerGame(HorseRaceGame.class);
-        this.getAPI().getGameRegistry().registerGame(ElectricFloorGame.class);
-        final File mapFolder = new File(this.getDataFolder().getPath() + "/maps/");
-        mapFolder.mkdirs();
-        this.getAPI().getMapRegistry().loadMaps(mapFolder);
+        this.mainConfiguration = new Configuration(this.getDataFolder(), "config.yml", this);
+        this.mainConfiguration.copyDefaults();
 
-        // Custom rotation soontm
-        for(Class<? extends BaseGame> game
-                : this.getAPI().getGameRegistry().getRegisteredGames()) {
-            this.getAPI().getGameManager().getRotation().addGame(game);
+        this.mainConfiguration.fetch().getStringList("default-rotation").forEach(line -> {
+            try {
+                Class<? extends BaseGame> clazz = (Class<? extends BaseGame>) Class.forName(line);
+                if(this.getAPI().getGameRegistry().registerGame(clazz)) {
+                    this.getAPI().getGameManager().getRotation().addGame(clazz);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        this.mainConfiguration.fetch().getStringList("map-directories").forEach(line -> {
+            File mapFolder = new File(line.replace("%data_folder%", this.getDataFolder().getPath()));
+            mapFolder.mkdirs();
+            this.getAPI().getMapRegistry().loadMaps(mapFolder);
+        });
+
+        if(this.mainConfiguration.fetch().getBoolean("randomize")) {
+            this.getAPI().getGameManager().getRotation().setRotationOrder(RotationOrder.RANDOM);
         }
-
+        if(this.mainConfiguration.fetch().getBoolean("allow-game-voting")) {
+            this.getAPI().getGameManager().getRotation().setRotationOrder(RotationOrder.VOTE);
+        }
         this.nextGameInRotation(true);
     }
 

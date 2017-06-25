@@ -1,0 +1,34 @@
+#
+#  Main Configuration File
+#      Arcadia-Spigot
+#
+
+# Language will default to en_US (English)
+# if the specified locale does not exist.
+language: "en_US"
+# Language will attempt to set to the player's
+# locale, then defaulting to the above setting.
+auto-detect-language: false
+
+# The root directory for loading maps.
+# %data_folder% = Arcadia-Spigot plugin directory
+map-directories:
+- "%data_folder%/maps/"
+
+# The default rotation (in order of appearance)
+default-rotation:
+- "me.redraskal.game.DeadEndGame"
+- "me.redraskal.game.RedLightGreenLightGame"
+- "me.redraskal.game.WingRushGame"
+- "me.redraskal.game.RainbowJumpGame"
+- "me.redraskal.game.PotionDropGame"
+- "me.redraskal.game.SpleefGame"
+- "me.redraskal.game.MineFieldGame"
+- "me.redraskal.game.ColorShuffleGame"
+- "me.redraskal.game.KingOfTheHillGame"
+- "me.redraskal.game.HorseRaceGame"
+- "me.redraskal.game.ElectricFloorGame"
+# Rotation is randomized after the end is reached.
+randomize: true
+# This feature is coming soon.
+allow-game-voting: false
