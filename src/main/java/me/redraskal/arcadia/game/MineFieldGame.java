@@ -19,11 +19,13 @@ import java.util.Random;
 
 public class MineFieldGame extends BaseGame {
 
-    private Material winBlock;
+    private Location startPosition;
+    private Location targetPosition;
+    private String towards;
     private Cuboid glass;
 
     public MineFieldGame(GameMap gameMap) {
-        super("Minefield", new String[]{"startPosition", "minefieldBoundsA", "minefieldBoundsB", "glassBoundsA", "glassBoundsB", "targetPosition", "targetTowards", "winBlock"},
+        super("Minefield", new String[]{"startPosition", "minefieldBoundsA", "minefieldBoundsB", "glassBoundsA", "glassBoundsB", "targetPosition", "targetTowards"},
                 new SidebarSettings(RelativeDistanceSidebar.class,
                 WinMethod.HIGHEST_SCORE, 1, 30), gameMap,
                 "Race through the minefield to the finish!");
@@ -31,16 +33,15 @@ public class MineFieldGame extends BaseGame {
 
     @Override
     public void onPreStart() {
-        Location spawnLocation = Utils.parseLocation((String) this.getGameMap().fetchSetting("startPosition"));
+        this.startPosition = Utils.parseLocation((String) this.getGameMap().fetchSetting("startPosition"));
         for(Player player : Bukkit.getOnlinePlayers()) {
             if(!this.getAPI().getGameManager().isAlive(player)) continue;
-            player.teleport(spawnLocation);
+            player.teleport(startPosition);
             player.setGameMode(GameMode.ADVENTURE);
         }
-        ((RelativeDistanceSidebar) this.getSidebar()).setTarget(
-            Utils.parseLocation((String) this.getGameMap().fetchSetting("targetPosition")),
-            (String) this.getGameMap().fetchSetting("targetTowards"));
-        this.winBlock = Material.getMaterial((String) this.getGameMap().fetchSetting("winBlock"));
+        this.targetPosition = Utils.parseLocation((String) this.getGameMap().fetchSetting("targetPosition"));
+        this.towards = (String) this.getGameMap().fetchSetting("targetTowards");
+        ((RelativeDistanceSidebar) this.getSidebar()).setTarget(targetPosition, towards);
         Cuboid minefield = new Cuboid(Utils.parseLocation((String) this.getGameMap().fetchSetting("minefieldBoundsA")),
                 Utils.parseLocation((String) this.getGameMap().fetchSetting("minefieldBoundsB")));
         Iterator<Block> blocks = minefield.iterator();
@@ -79,10 +80,10 @@ public class MineFieldGame extends BaseGame {
                 event.getTo().getWorld().spigot().playEffect(event.getTo(), Effect.EXPLOSION,
                     0, 0, 1, 1, 1, 0, 6, 15);
                 event.getTo().getWorld().playSound(event.getTo(), Sound.ENTITY_GENERIC_EXPLODE, 5f, 1f);
-                event.getPlayer().teleport(Utils.parseLocation((String) this.getGameMap().fetchSetting("startPosition")));
+                event.getPlayer().teleport(startPosition);
                 return;
             }
-            if(event.getTo().getBlock().getRelative(BlockFace.DOWN).getType() == winBlock) {
+            if(this.getSidebar().getSidebar().getScore(event.getPlayer().getName()).getScore() >= -1) {
                 this.endGame();
             }
         }
