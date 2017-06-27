@@ -30,10 +30,11 @@ public class ColorShuffleGame extends BaseGame {
     private int currentLevel = 0;
 
     public ColorShuffleGame(GameMap gameMap) {
-        super("Color Shuffle", new String[]{"startPosition", "floorLevel", "boardBoundsA", "boardBoundsB", "colors", "squareSizes"},
+        super(Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.colorshuffle.name").build(),
+                new String[]{"startPosition", "floorLevel", "boardBoundsA", "boardBoundsB", "colors", "squareSizes"},
                 new SidebarSettings(PlayersLeftSidebar.class,
                         WinMethod.LAST_PLAYER_STANDING, 1, 30), gameMap,
-                "Stand on the wool in your inventory!");
+                Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.colorshuffle.desc").build());
     }
 
     @Override
