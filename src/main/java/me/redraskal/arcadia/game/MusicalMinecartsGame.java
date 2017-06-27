@@ -34,10 +34,11 @@ public class MusicalMinecartsGame extends BaseGame {
     private BukkitTask killRunnable;
 
     public MusicalMinecartsGame(GameMap gameMap) {
-        super("Musical Minecarts", new String[]{"startPosition", "minecartBoundsA", "minecartBoundsB"},
+        super(Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.musicalminecarts.name").build(),
+                new String[]{"startPosition", "minecartBoundsA", "minecartBoundsB"},
                 new SidebarSettings(PlayersLeftSidebar.class,
                         WinMethod.LAST_PLAYER_STANDING, 1, 30), gameMap,
-                "When the music stops, hop in a minecart as fast as you can!");
+                Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.musicalminecarts.desc").build());
     }
 
     @Override

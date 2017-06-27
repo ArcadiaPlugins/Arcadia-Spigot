@@ -1,5 +1,6 @@
 package me.redraskal.arcadia.game;
 
+import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.BaseGame;
 import me.redraskal.arcadia.api.game.event.GameTickEvent;
@@ -28,9 +29,10 @@ public class DeadEndGame extends BaseGame {
     private List<Block> pendingDeletion = new ArrayList<Block>();
 
     public DeadEndGame(GameMap gameMap) {
-        super("Dead End", new String[]{"startPosition", "floorLevel"}, new SidebarSettings(PlayersLeftSidebar.class,
+        super(Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.deadend.name").build(),
+            new String[]{"startPosition", "floorLevel"}, new SidebarSettings(PlayersLeftSidebar.class,
             WinMethod.LAST_PLAYER_STANDING, 1, 30), gameMap,
-            "Move quickly! The floor is falling out from under you. Last player standing wins!");
+            Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.deadend.desc").build());
     }
 
     @Override

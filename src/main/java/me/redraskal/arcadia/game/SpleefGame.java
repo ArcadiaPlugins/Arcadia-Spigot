@@ -1,5 +1,6 @@
 package me.redraskal.arcadia.game;
 
+import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.BaseGame;
 import me.redraskal.arcadia.api.map.GameMap;
@@ -22,10 +23,11 @@ import org.bukkit.material.MaterialData;
 public class SpleefGame extends BaseGame {
 
     public SpleefGame(GameMap gameMap) {
-        super("Spleef", new String[]{"startPosition", "floorLevel", "platformBoundsA", "platformBoundsB"},
+        super(Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.spleef.name").build(),
+                new String[]{"startPosition", "floorLevel", "platformBoundsA", "platformBoundsB"},
                 new SidebarSettings(PlayersLeftSidebar.class,
                     WinMethod.LAST_PLAYER_STANDING, 1, 30), gameMap,
-                "Use your shovel to drop players off the map! Careful, the arena is melting!");
+                Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.spleef.desc").build());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package me.redraskal.arcadia.game;
 
+import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.Cuboid;
 import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.BaseGame;
@@ -25,10 +26,11 @@ public class MineFieldGame extends BaseGame {
     private Cuboid glass;
 
     public MineFieldGame(GameMap gameMap) {
-        super("Minefield", new String[]{"startPosition", "minefieldBoundsA", "minefieldBoundsB", "glassBoundsA", "glassBoundsB", "targetPosition", "targetTowards"},
+        super(Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.minefield.name").build(),
+                new String[]{"startPosition", "minefieldBoundsA", "minefieldBoundsB", "glassBoundsA", "glassBoundsB", "targetPosition", "targetTowards"},
                 new SidebarSettings(RelativeDistanceSidebar.class,
                 WinMethod.HIGHEST_SCORE, 1, 30), gameMap,
-                "Race through the minefield to the finish!");
+                Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.minefield.desc").build());
     }
 
     @Override

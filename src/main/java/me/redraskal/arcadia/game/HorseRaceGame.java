@@ -2,6 +2,7 @@ package me.redraskal.arcadia.game;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.Cuboid;
 import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.BaseGame;
@@ -44,10 +45,11 @@ public class HorseRaceGame extends BaseGame {
     private Map<Player, Integer> checkpoints;
 
     public HorseRaceGame(GameMap gameMap) {
-        super("Horse Race", new String[]{"startPosition", "floorLevel", "startLineA", "startLineB", "checkpointLocs", "checkpointRadius"},
+        super(Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.horserace.name").build(),
+                new String[]{"startPosition", "floorLevel", "startLineA", "startLineB", "checkpointLocs", "checkpointRadius"},
                 new SidebarSettings(ScoreSidebar.class,
                 WinMethod.HIGHEST_SCORE, 1, 30), gameMap,
-        "Race through the race to the finish!");
+                Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.horserace.desc").build());
         this.killOnMapExit = false;
     }
 

@@ -1,6 +1,7 @@
 package me.redraskal.arcadia.game;
 
 import me.redraskal.arcadia.AdvancementAPI;
+import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.BaseGame;
 import me.redraskal.arcadia.api.game.GameState;
@@ -32,11 +33,12 @@ public class PotionDropGame extends BaseGame {
     private int witherEffectDelayInSeconds;
 
     public PotionDropGame(GameMap gameMap) {
-        super("Potion Drop", new String[]{"startPosition", "potionDropPosition", "potionVelocityMultiplier",
+        super(Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.potiondrop.name").build(),
+                new String[]{"startPosition", "potionDropPosition", "potionVelocityMultiplier",
                     "potionDropPerSecond", "healthDropPerTwoSeconds"},
                 new SidebarSettings(PlayersLeftSidebar.class,
                         WinMethod.LAST_PLAYER_STANDING, 2, 0), gameMap,
-                "Drink the potions that fall from the sky to save your life!");
+                Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.potiondrop.desc").build());
         this.allowPVP = true;
     }
 

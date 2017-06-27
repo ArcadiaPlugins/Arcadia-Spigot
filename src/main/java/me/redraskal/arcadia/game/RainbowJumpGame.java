@@ -1,5 +1,6 @@
 package me.redraskal.arcadia.game;
 
+import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.Cuboid;
 import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.BaseGame;
@@ -26,10 +27,11 @@ public class RainbowJumpGame extends BaseGame {
     private Cuboid glass;
 
     public RainbowJumpGame(GameMap gameMap) {
-        super("Rainbow Jump", new String[]{"startPosition", "floorLevel", "glassBoundsA", "glassBoundsB", "targetPosition", "targetTowards"},
+        super(Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.rainbowjump.name").build(),
+                new String[]{"startPosition", "floorLevel", "glassBoundsA", "glassBoundsB", "targetPosition", "targetTowards"},
                 new SidebarSettings(RelativeDistanceSidebar.class,
                         WinMethod.HIGHEST_SCORE, 1, 0), gameMap,
-                "Jump to the finish!");
+                Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.rainbowjump.desc").build());
         this.killOnMapExit = false;
     }
 

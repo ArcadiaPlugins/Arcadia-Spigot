@@ -30,10 +30,11 @@ public class ElectricFloorGame extends BaseGame {
     private List<Block> changePending = new ArrayList<Block>();
 
     public ElectricFloorGame(GameMap gameMap) {
-        super("Electric Floor", new String[]{"startPosition", "blocks"},
+        super(Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.electricfloor.name").build(),
+                new String[]{"startPosition", "blocks"},
                 new SidebarSettings(PlayersLeftSidebar.class,
                 WinMethod.LAST_PLAYER_STANDING, 1, 30), gameMap,
-                "The platform is being electrified! Be the last player standing to win!");
+                Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.electricfloor.desc").build());
     }
 
     @Override

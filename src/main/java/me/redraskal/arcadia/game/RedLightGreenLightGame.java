@@ -31,10 +31,11 @@ public class RedLightGreenLightGame extends BaseGame {
     private Random random = new Random();
 
     public RedLightGreenLightGame(GameMap gameMap) {
-        super("Red Light, Green Light", new String[]{"startPosition", "targetPosition", "targetTowards", "glassBoundsA", "glassBoundsB"},
+        super(Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.redlightgreenlight.name").build(),
+                new String[]{"startPosition", "targetPosition", "targetTowards", "glassBoundsA", "glassBoundsB"},
                 new SidebarSettings(RelativeDistanceSidebar.class,
                     WinMethod.HIGHEST_SCORE, 1, 30), gameMap,
-                "Run when the light is green. Stop when the light is red.");
+                Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.redlightgreenlight.desc").build());
     }
 
     @Override

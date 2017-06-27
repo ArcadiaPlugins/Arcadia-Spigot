@@ -1,5 +1,6 @@
 package me.redraskal.arcadia.game;
 
+import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.Freeze;
 import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.BaseGame;
@@ -25,10 +26,11 @@ public class WingRushGame extends BaseGame {
     private List<Freeze> freezeList = new ArrayList<>();
 
     public WingRushGame(GameMap gameMap) {
-        super("Wing Rush", new String[]{"startPositionCenter"},
+        super(Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.wingrush.name").build(),
+                new String[]{"startPositionCenter"},
                 new SidebarSettings(ScoreSidebar.class,
                         WinMethod.HIGHEST_SCORE, 3, 0), gameMap,
-                "Glide with style through epic structures & perilous ravines!");
+                Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.wingrush.desc").build());
     }
 
     @Override

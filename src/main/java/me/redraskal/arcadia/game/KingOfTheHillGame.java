@@ -1,5 +1,6 @@
 package me.redraskal.arcadia.game;
 
+import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.Cuboid;
 import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.BaseGame;
@@ -24,10 +25,11 @@ public class KingOfTheHillGame extends BaseGame {
     private Cuboid hill;
 
     public KingOfTheHillGame(GameMap gameMap) {
-        super("King of the hill", new String[]{"startPosition", "hillBoundsA", "hillBoundsB", "item", "knockbackAmount"},
+        super(Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.koth.name").build(),
+                new String[]{"startPosition", "hillBoundsA", "hillBoundsB", "item", "knockbackAmount"},
                 new SidebarSettings(ScoreSidebar.class,
                         WinMethod.HIGHEST_SCORE, 1, 0), gameMap,
-                "Stand on the hill to gain points!");
+                Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.koth.desc").build());
     }
 
     @Override
