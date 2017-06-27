@@ -18,6 +18,7 @@ map-directories:
 # The default rotation (in order of appearance)
 default-rotation:
 - "me.redraskal.arcadia.game.DeadEndGame"
+- "me.redraskal.arcadia.game.MusicalMinecartsGame"
 - "me.redraskal.arcadia.game.RedLightGreenLightGame"
 - "me.redraskal.arcadia.game.WingRushGame"
 - "me.redraskal.arcadia.game.RainbowJumpGame"
