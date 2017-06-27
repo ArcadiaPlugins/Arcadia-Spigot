@@ -23,16 +23,12 @@ public class MusicalMinecartsMusic {
         MusicSequence musicSequence = new MusicSequence();
         float add = 0f;
         int ticks = 0;
-        for(int i=0; i<15; i++) {
+        for(int i=0; i<8; i++) {
             musicSequence.addSound(new MusicNote(Sound.BLOCK_NOTE_HARP, 1.2f, 0.5f+add), ticks);
             musicSequence.addSound(new MusicNote(Sound.BLOCK_NOTE_FLUTE, 1.5f, 0.7f+add), ticks);
             ticks+=10;
             musicSequence.addSound(new MusicNote(Sound.BLOCK_NOTE_GUITAR, 1.5f, 0.5f), ticks-5);
-            if(ticks >= 80 && add > 0) {
-                add=0;
-            } else {
-                add+=0.11111115;
-            }
+            add+=0.11111115;
         }
         MusicPlayer musicPlayer = musicSequence.play();
         musicPlaying.add(musicPlayer);
