@@ -28,7 +28,7 @@ public class MusicalMinecartsMusic {
             musicSequence.addSound(new MusicNote(Sound.BLOCK_NOTE_FLUTE, 1.5f, 0.7f+add), ticks);
             ticks+=10;
             musicSequence.addSound(new MusicNote(Sound.BLOCK_NOTE_GUITAR, 1.5f, 0.5f), ticks-5);
-            if(ticks >= 100) {
+            if(ticks >= 80 && add > 0) {
                 add=0;
             } else {
                 add+=0.11111115;

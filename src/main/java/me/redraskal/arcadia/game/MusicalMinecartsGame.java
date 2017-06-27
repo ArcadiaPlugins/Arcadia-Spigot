@@ -158,6 +158,7 @@ public class MusicalMinecartsGame extends BaseGame {
     public void onMinecartEnter(PlayerInteractEntityEvent event) {
         if(!(event.getRightClicked() instanceof Minecart)) return;
         event.getRightClicked().setGlowing(false);
+        event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
         inMinecarts++;
         if(inMinecarts >= this.getAPI().getGameManager().getPlayersAlive()) {
             Bukkit.getOnlinePlayers().forEach(player -> {
