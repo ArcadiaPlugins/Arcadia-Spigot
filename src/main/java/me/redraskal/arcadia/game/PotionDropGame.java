@@ -31,6 +31,7 @@ public class PotionDropGame extends BaseGame {
 
     private int poisonEffectDelayInSeconds;
     private int witherEffectDelayInSeconds;
+    private int slownessEffectDelayInSeconds;
 
     public PotionDropGame(GameMap gameMap) {
         super(Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager().fetchTranslation("game.potiondrop.name").build(),
@@ -57,6 +58,7 @@ public class PotionDropGame extends BaseGame {
 
         this.poisonEffectDelayInSeconds = Integer.parseInt((String) this.getGameMap().fetchSetting("poisonEffectDelayInSeconds"))+1;
         this.witherEffectDelayInSeconds = Integer.parseInt((String) this.getGameMap().fetchSetting("witherEffectDelayInSeconds"))+1;
+        this.slownessEffectDelayInSeconds = Integer.parseInt((String) this.getGameMap().fetchSetting("slownessEffectDelayInSeconds"))+1;
     }
 
     @Override
@@ -91,6 +93,7 @@ public class PotionDropGame extends BaseGame {
                     });
                 }
                 if(seconds == poisonEffectDelayInSeconds) {
+                    getAPI().getTranslationManager().sendTranslation("game.potiondrop.poison");
                     Bukkit.broadcastMessage(ChatColor.GOLD + "All players now have the poison effect.");
                     Bukkit.getOnlinePlayers().forEach(player -> {
                         if (getAPI().getGameManager().isAlive(player)) {
@@ -99,11 +102,12 @@ public class PotionDropGame extends BaseGame {
                             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 1f, 1f);
                         }
                     });
-                    Utils.showNotification("All players now have the poison effect.",
+                    Utils.showNotification(getAPI().getTranslationManager().fetchTranslation("game.potiondrop.poison").build(),
                         "minecraft:poisonous_potato", AdvancementAPI.FrameType.CHALLENGE,
                             Bukkit.getOnlinePlayers().toArray(new Player[Bukkit.getOnlinePlayers().size()]));
                 }
                 if(seconds == witherEffectDelayInSeconds) {
+                    getAPI().getTranslationManager().sendTranslation("game.potiondrop.wither");
                     Bukkit.broadcastMessage(ChatColor.GOLD + "All players now have the wither effect.");
                     Bukkit.getOnlinePlayers().forEach(player -> {
                         if(getAPI().getGameManager().isAlive(player)) {
@@ -112,8 +116,21 @@ public class PotionDropGame extends BaseGame {
                             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 1f, 1f);
                         }
                     });
-                    Utils.showNotification("All players now have the wither effect.",
+                    Utils.showNotification(getAPI().getTranslationManager().fetchTranslation("game.potiondrop.wither").build(),
                         "minecraft:poisonous_potato", AdvancementAPI.FrameType.CHALLENGE,
+                            Bukkit.getOnlinePlayers().toArray(new Player[Bukkit.getOnlinePlayers().size()]));
+                }
+                if(seconds == slownessEffectDelayInSeconds) {
+                    getAPI().getTranslationManager().sendTranslation("game.potiondrop.slowness");
+                    Bukkit.getOnlinePlayers().forEach(player -> {
+                        if(getAPI().getGameManager().isAlive(player)) {
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 0), true);
+                            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 1f, 0.7f);
+                            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 1f, 1f);
+                        }
+                    });
+                    Utils.showNotification(getAPI().getTranslationManager().fetchTranslation("game.potiondrop.slowness").build(),
+                            "minecraft:poisonous_potato", AdvancementAPI.FrameType.CHALLENGE,
                             Bukkit.getOnlinePlayers().toArray(new Player[Bukkit.getOnlinePlayers().size()]));
                 }
             }

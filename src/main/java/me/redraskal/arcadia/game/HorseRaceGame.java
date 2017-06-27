@@ -180,7 +180,7 @@ public class HorseRaceGame extends BaseGame {
         }
 
         if (checkpointIndex < current) {
-            player.sendMessage("§cYou're going backwards!");
+            this.getAPI().getTranslationManager().sendTranslation("game.horserace.wrong-way", event.getPlayer());
             return;
         }
 
