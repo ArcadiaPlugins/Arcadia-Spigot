@@ -57,12 +57,12 @@ public abstract class Sidebar implements Listener {
         final String rotationSize = "" + api.getGameManager().getRotation().getSize();
         final String currentTime = Utils.formatTime(minutes, seconds);
         switch(api.getGameManager().getGameState()) {
-            case STARTING: this.sidebar.setDisplayName(api.getTranslationManager()
-                    .fetchTranslation("ui.scoreboard.title-starting").build(currentRotation, rotationSize, currentTime)); break;
-            case INGAME: this.sidebar.setDisplayName(api.getTranslationManager()
-                    .fetchTranslation("ui.scoreboard.title-ingame").build(currentRotation, rotationSize, currentTime)); break;
-            case FINISHED: this.sidebar.setDisplayName(api.getTranslationManager()
-                    .fetchTranslation("ui.scoreboard.title-finished").build(currentRotation, rotationSize, currentTime)); break;
+            case STARTING: this.sidebar.setDisplayName("  " + api.getTranslationManager()
+                    .fetchTranslation("ui.scoreboard.title-starting").build(currentRotation, rotationSize, currentTime) + "  "); break;
+            case INGAME: this.sidebar.setDisplayName("  " + api.getTranslationManager()
+                    .fetchTranslation("ui.scoreboard.title-ingame").build(currentRotation, rotationSize, currentTime) + "  "); break;
+            case FINISHED: this.sidebar.setDisplayName("  " + api.getTranslationManager()
+                    .fetchTranslation("ui.scoreboard.title-finished").build(currentRotation, rotationSize, currentTime) + "  "); break;
         }
     }
 }
