@@ -21,9 +21,9 @@ public class SpectateCommand implements CommandExecutor {
             ArcadiaAPI api = Arcadia.getPlugin(Arcadia.class).getAPI();
             api.getGameManager().setSpectating(player, !api.getGameManager().isSpectating(player));
             if(api.getGameManager().isSpectating(player)) {
-                api.getTranslationManager().sendTranslation("command.spec.enabled", player);
+                api.getTranslationManager().sendTranslation("command.spec.enabled", new Player[]{player});
             } else {
-                api.getTranslationManager().sendTranslation("command.spec.disabled", player);
+                api.getTranslationManager().sendTranslation("command.spec.disabled", new Player[]{player});
             }
             if(api.getGameManager().getCurrentGame() != null) {
                 if(!api.getGameManager().getCurrentGame().spectatorCache.contains(player)) {

@@ -91,7 +91,7 @@ public class GameManager {
         String firstTranslation = api.getTranslationManager().fetchTranslation("ui.first").build();
         String secondTranslation = api.getTranslationManager().fetchTranslation("ui.second").build();
         String thirdTranslation = api.getTranslationManager().fetchTranslation("ui.third").build();
-        String placeTranslation = api.getTranslationManager().fetchTranslation("ui.place").build();
+        String placeTranslation = " " + api.getTranslationManager().fetchTranslation("ui.place").build();
 
         Bukkit.broadcastMessage(firstTranslation + placeTranslation + ": " + playerColor + firstPlace);
         Bukkit.broadcastMessage(secondTranslation + placeTranslation + ": " + playerColor + secondPlace);
