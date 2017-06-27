@@ -28,6 +28,7 @@ public class RedLightGreenLightGame extends BaseGame {
     private String towards;
     private Cuboid glass;
     private boolean redLight = false;
+    private Random random = new Random();
 
     public RedLightGreenLightGame(GameMap gameMap) {
         super("Red Light, Green Light", new String[]{"startPosition", "targetPosition", "targetTowards", "glassBoundsA", "glassBoundsB"},
@@ -67,7 +68,7 @@ public class RedLightGreenLightGame extends BaseGame {
     public void nextEvent() {
         if(getAPI().getGameManager().getGameState() != GameState.INGAME) return;
         this.redLight = false;
-        final int totalTicks = 100-(new Random().nextInt(94));
+        final int totalTicks = 20+random.nextInt(100);
         ItemStack itemStack = new ItemStack(Material.WOOL, 1, (byte) 5);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "GREEN");
@@ -132,7 +133,7 @@ public class RedLightGreenLightGame extends BaseGame {
                 this.endGame();
             }
             if(!this.redLight) return;
-            if(event.getTo().distance(this.startPosition) <= 3D) return;
+            if(event.getTo().distance(this.startPosition) <= 3) return;
             if(event.getFrom().distance(event.getTo()) > 0.1D) {
                 event.setTo(this.startPosition);
             }
