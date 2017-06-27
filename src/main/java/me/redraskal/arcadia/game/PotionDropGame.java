@@ -94,7 +94,6 @@ public class PotionDropGame extends BaseGame {
                 }
                 if(seconds == poisonEffectDelayInSeconds) {
                     getAPI().getTranslationManager().sendTranslation("game.potiondrop.poison");
-                    Bukkit.broadcastMessage(ChatColor.GOLD + "All players now have the poison effect.");
                     Bukkit.getOnlinePlayers().forEach(player -> {
                         if (getAPI().getGameManager().isAlive(player)) {
                             player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, Integer.MAX_VALUE, 0), true);
@@ -108,7 +107,6 @@ public class PotionDropGame extends BaseGame {
                 }
                 if(seconds == witherEffectDelayInSeconds) {
                     getAPI().getTranslationManager().sendTranslation("game.potiondrop.wither");
-                    Bukkit.broadcastMessage(ChatColor.GOLD + "All players now have the wither effect.");
                     Bukkit.getOnlinePlayers().forEach(player -> {
                         if(getAPI().getGameManager().isAlive(player)) {
                             player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, Integer.MAX_VALUE, 1), true);
@@ -124,7 +122,7 @@ public class PotionDropGame extends BaseGame {
                     getAPI().getTranslationManager().sendTranslation("game.potiondrop.slowness");
                     Bukkit.getOnlinePlayers().forEach(player -> {
                         if(getAPI().getGameManager().isAlive(player)) {
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 0), true);
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 2), true);
                             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 1f, 0.7f);
                             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 1f, 1f);
                         }
