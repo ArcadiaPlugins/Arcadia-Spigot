@@ -31,11 +31,11 @@ public class MusicSequence {
             .get().getKey();
     }
 
-    public void play(Player... players) {
-        new MusicPlayer(this, players);
+    public MusicPlayer play(Player... players) {
+        return new MusicPlayer(this, players);
     }
 
-    public void play() {
-        this.play(Bukkit.getOnlinePlayers().toArray(new Player[Bukkit.getOnlinePlayers().size()]));
+    public MusicPlayer play() {
+        return this.play(Bukkit.getOnlinePlayers().toArray(new Player[Bukkit.getOnlinePlayers().size()]));
     }
 }

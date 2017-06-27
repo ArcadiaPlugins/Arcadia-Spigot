@@ -44,6 +44,7 @@ public class WorldListener implements Listener {
         ArcadiaAPI api = Arcadia.getPlugin(Arcadia.class).getAPI();
         if(!api.getGameManager().isAlive((Player) event.getExited())) return;
         if(api.getGameManager().getGameState() != GameState.FINISHED) {
+            if(event.getVehicle().hasMetadata("allow-exit")) return;
             event.setCancelled(true);
         }
     }
