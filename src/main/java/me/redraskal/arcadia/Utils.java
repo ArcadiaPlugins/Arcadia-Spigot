@@ -50,7 +50,8 @@ public class Utils {
     }
 
     public static String parseWinner(Player winner) {
-        if(winner == null) return "---";
+        if(winner == null) return Arcadia.getPlugin(Arcadia.class).getAPI().getTranslationManager()
+            .fetchTranslation("ui.unknown-player").build();
         return winner.getName();
     }
 

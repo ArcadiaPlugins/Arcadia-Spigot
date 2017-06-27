@@ -24,7 +24,7 @@ public abstract class BaseGame implements Listener {
     private final SidebarSettings sidebarSettings;
     private Sidebar sidebar;
     private GameMap gameMap;
-    private final String[] description;
+    private final String description;
     private String[] requiredSettings;
     private List<Player> deathOrder = new ArrayList<Player>();
     public List<Player> spectatorCache = new ArrayList<Player>();
@@ -39,19 +39,16 @@ public abstract class BaseGame implements Listener {
      * @param requiredSettings
      * @param description
      */
-    public BaseGame(String name, String[] requiredSettings, SidebarSettings sidebarSettings, GameMap gameMap, String... description) {
+    public BaseGame(String name, String[] requiredSettings, SidebarSettings sidebarSettings, GameMap gameMap, String description) {
         Preconditions.checkNotNull(name, "Game name cannot be null");
+        Preconditions.checkNotNull(name, "Description cannot be null");
         this.name = name;
         if(requiredSettings != null) {
             this.requiredSettings = requiredSettings;
         } else {
             this.requiredSettings = new String[]{};
         }
-        if(description != null) {
-            this.description = description;
-        } else {
-            this.description = new String[]{};
-        }
+        this.description = description;
         List<String> defaultRequiredSettings = new ArrayList<String>();
         for(String setting : this.requiredSettings) defaultRequiredSettings.add(setting);
         defaultRequiredSettings.add("spectatorLocation");
@@ -124,7 +121,7 @@ public abstract class BaseGame implements Listener {
      * Returns the game description (line-by-line).
      * @return
      */
-    public String[] getDescription() {
+    public String getDescription() {
         return this.description;
     }
 

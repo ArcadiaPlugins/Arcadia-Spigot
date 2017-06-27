@@ -4,7 +4,6 @@ import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.ArcadiaAPI;
 import me.redraskal.arcadia.Utils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -15,6 +14,7 @@ public abstract class Sidebar implements Listener {
 
     private final Scoreboard scoreboard;
     private final Objective sidebar;
+    private final ArcadiaAPI api;
 
     /**
      * A fun scoreboard system for Arcadia.
@@ -22,11 +22,12 @@ public abstract class Sidebar implements Listener {
     public Sidebar() {
         this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         this.sidebar = scoreboard.registerNewObjective("sidebar", "dummy");
+        this.api = Arcadia.getPlugin(Arcadia.class).getAPI();
         sidebar.setDisplaySlot(DisplaySlot.SIDEBAR);
         this.updateDisplayName(0, 10);
         for(Player player : Bukkit.getOnlinePlayers()) player.setScoreboard(scoreboard);
         this.onCreation();
-        Arcadia.getPlugin(Arcadia.class).getServer().getPluginManager().registerEvents(this, Arcadia.getPlugin(Arcadia.class));
+        api.getPlugin().getServer().getPluginManager().registerEvents(this, api.getPlugin());
     }
 
     public abstract void onCreation();
@@ -40,18 +41,28 @@ public abstract class Sidebar implements Listener {
     }
 
     /**
+     * Returns the ArcadiaAPI.
+     * @return
+     */
+    public ArcadiaAPI getAPI() {
+        return this.api;
+    }
+
+    /**
      * Updates the scoreboard display name.
      * (Called every second & or on certain events)
      */
     public void updateDisplayName(int minutes, int seconds) {
-        ArcadiaAPI api = Arcadia.getPlugin(Arcadia.class).getAPI();
-        final String rotation = "[" + (api.getGameManager().getRotation().getCurrentID()+1)
-            + "/" + api.getGameManager().getRotation().getSize() + "]";
+        final String currentRotation = "" + (api.getGameManager().getRotation().getCurrentID()+1);
+        final String rotationSize = "" + api.getGameManager().getRotation().getSize();
         final String currentTime = Utils.formatTime(minutes, seconds);
         switch(api.getGameManager().getGameState()) {
-            case STARTING: sidebar.setDisplayName("  " + rotation + " " + ChatColor.BLUE + currentTime + "  "); break;
-            case INGAME: sidebar.setDisplayName("  " + rotation + " " + ChatColor.GREEN + currentTime + "  "); break;
-            case FINISHED: sidebar.setDisplayName("  " + rotation + " " + ChatColor.GOLD + currentTime + "  "); break;
+            case STARTING: api.getTranslationManager()
+                .fetchTranslation("ui.scoreboard.title-starting").build(currentRotation, rotationSize, currentTime); break;
+            case INGAME: api.getTranslationManager()
+                    .fetchTranslation("ui.scoreboard.title-ingame").build(currentRotation, rotationSize, currentTime); break;
+            case FINISHED: api.getTranslationManager()
+                    .fetchTranslation("ui.scoreboard.title-finished").build(currentRotation, rotationSize, currentTime); break;
         }
     }
 }

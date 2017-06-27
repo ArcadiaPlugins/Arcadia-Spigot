@@ -16,13 +16,13 @@ public class GameStartRunnable extends BukkitRunnable {
 
     public GameStartRunnable() {
         this.api = Arcadia.getPlugin(Arcadia.class).getAPI();
-        Bukkit.broadcastMessage(ChatColor.GREEN + "=== " + ChatColor.BOLD + api.getGameManager().getCurrentGame().getName() + ChatColor.GREEN + " ===");
-        for(String line : api.getGameManager().getCurrentGame().getDescription()) Bukkit.broadcastMessage(ChatColor.GOLD + line);
+        api.getTranslationManager().sendTranslation("ui.game-title", api.getGameManager().getCurrentGame().getName());
+        api.getTranslationManager().sendTranslation("ui.game-description", api.getGameManager().getCurrentGame().getDescription());
         for(Player player : Bukkit.getOnlinePlayers()) {
             if(api.getGameManager().isSpectating(player)) {
-                player.sendMessage(ChatColor.GRAY + "You are currently spectating the game. Type " + ChatColor.GREEN + "/spec " + ChatColor.GRAY + "again to play.");
+                api.getTranslationManager().sendTranslation("ui.game-spectating", player);
             } else {
-                player.sendMessage(ChatColor.GREEN + "/spec " + ChatColor.GRAY + "to quit playing");
+                api.getTranslationManager().sendTranslation("ui.game-quit-playing", player);
             }
         }
         this.runTaskTimer(Arcadia.getPlugin(Arcadia.class), 0, 20L);

@@ -12,7 +12,6 @@ import me.redraskal.arcadia.api.music.defaults.EndGameMusic;
 import me.redraskal.arcadia.runnable.GameSwitchRunnable;
 import me.redraskal.arcadia.runnable.PreGameRunnable;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -77,21 +76,30 @@ public class GameManager {
     public boolean endGame() {
         if(this.gameState == GameState.FINISHED || this.currentGame == null) return false;
         this.gameState = GameState.FINISHED;
+        final ArcadiaAPI api = Arcadia.getPlugin(Arcadia.class).getAPI();
         HandlerList.unregisterAll(this.currentGame);
         HandlerList.unregisterAll(this.currentGame.getSidebar());
         this.currentGame.onGameEnd();
         this.currentGame.allowPVP = false;
         new EndGameMusic();
+
         String firstPlace = Utils.parseWinner(this.currentGame.getSidebarSettings().getWinMethod().calculateWinner(1));
         String secondPlace = Utils.parseWinner(this.currentGame.getSidebarSettings().getWinMethod().calculateWinner(2));
         String thirdPlace = Utils.parseWinner(this.currentGame.getSidebarSettings().getWinMethod().calculateWinner(3));
-        Bukkit.broadcastMessage(ChatColor.YELLOW + "1st place: " + ChatColor.WHITE + firstPlace);
-        Bukkit.broadcastMessage(ChatColor.GRAY + "2nd place: " + ChatColor.WHITE + secondPlace);
-        Bukkit.broadcastMessage(ChatColor.RED + "3rd place: " + ChatColor.WHITE + thirdPlace);
+
+        String playerColor = api.getTranslationManager().fetchTranslation("ui.player-color").build();
+        String firstTranslation = api.getTranslationManager().fetchTranslation("ui.first").build();
+        String secondTranslation = api.getTranslationManager().fetchTranslation("ui.second").build();
+        String thirdTranslation = api.getTranslationManager().fetchTranslation("ui.third").build();
+        String placeTranslation = api.getTranslationManager().fetchTranslation("ui.place").build();
+
+        Bukkit.broadcastMessage(firstTranslation + placeTranslation + ": " + playerColor + firstPlace);
+        Bukkit.broadcastMessage(secondTranslation + placeTranslation + ": " + playerColor + secondPlace);
+        Bukkit.broadcastMessage(thirdTranslation + placeTranslation + ": " + playerColor + thirdPlace);
         Bukkit.getOnlinePlayers().forEach(player -> {
-            player.sendTitle(ChatColor.YELLOW + "1st: " + ChatColor.WHITE + firstPlace,
-                ChatColor.GRAY + "2nd: " + ChatColor.WHITE + secondPlace + ", "
-                    + ChatColor.RED + "3rd: " + ChatColor.WHITE + thirdPlace, 0, 80, 20);
+            player.sendTitle(firstTranslation + ": " + playerColor + firstPlace,
+                    secondTranslation + ": " + playerColor + secondPlace + ", "
+                    + thirdTranslation + ": " + playerColor + thirdPlace, 0, 80, 20);
         });
         Bukkit.getServer().getPluginManager().callEvent(new GameEndEvent());
         return true;
