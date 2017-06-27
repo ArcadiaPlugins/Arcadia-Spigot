@@ -19,6 +19,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Iterator;
+import java.util.Random;
 
 public class RedLightGreenLightGame extends BaseGame {
 
@@ -26,7 +27,6 @@ public class RedLightGreenLightGame extends BaseGame {
     private Location targetPosition;
     private String towards;
     private Cuboid glass;
-    private int currentLevel = 0;
     private boolean redLight = false;
 
     public RedLightGreenLightGame(GameMap gameMap) {
@@ -67,8 +67,7 @@ public class RedLightGreenLightGame extends BaseGame {
     public void nextEvent() {
         if(getAPI().getGameManager().getGameState() != GameState.INGAME) return;
         this.redLight = false;
-        this.currentLevel++;
-        final int totalTicks = 100-(5*currentLevel);
+        final int totalTicks = 100-(new Random().nextInt(94));
         ItemStack itemStack = new ItemStack(Material.WOOL, 1, (byte) 5);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "GREEN");
