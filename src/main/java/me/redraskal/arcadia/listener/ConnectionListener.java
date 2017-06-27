@@ -7,7 +7,6 @@ import me.redraskal.arcadia.api.game.GameState;
 import me.redraskal.arcadia.api.translation.Translation;
 import me.redraskal.arcadia.runnable.GameSwitchRunnable;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -32,9 +31,9 @@ public class ConnectionListener implements Listener {
         api.getGameManager().setSpectating(event.getPlayer(), false);
         if(api.getGameManager().getCurrentGame() != null) {
             event.getPlayer().setScoreboard(api.getGameManager().getCurrentGame().getSidebar().getSidebar().getScoreboard());
-            api.getTranslationManager().sendTranslation("ui.game-title", new Player[]{event.getPlayer()}, api.getGameManager().getCurrentGame().getName());
-            api.getTranslationManager().sendTranslation("ui.game-description", new Player[]{event.getPlayer()}, api.getGameManager().getCurrentGame().getDescription());
-            api.getTranslationManager().sendTranslation("ui.dont-leave", new Player[]{event.getPlayer()});
+            api.getTranslationManager().sendTranslation("ui.game-title", event.getPlayer(), api.getGameManager().getCurrentGame().getName());
+            api.getTranslationManager().sendTranslation("ui.game-description", event.getPlayer(), api.getGameManager().getCurrentGame().getDescription());
+            api.getTranslationManager().sendTranslation("ui.dont-leave", event.getPlayer());
             api.getGameManager().getCurrentGame().spectatorCache.add(event.getPlayer());
         }
         if(Bukkit.getOnlinePlayers().size() == 1) {

@@ -1,20 +1,22 @@
 package me.redraskal.arcadia.game;
 
+import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.Cuboid;
 import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.BaseGame;
+import me.redraskal.arcadia.api.game.GameState;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.api.scoreboard.SidebarSettings;
 import me.redraskal.arcadia.api.scoreboard.WinMethod;
 import me.redraskal.arcadia.api.scoreboard.defaults.RelativeDistanceSidebar;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Iterator;
 
@@ -24,6 +26,8 @@ public class RedLightGreenLightGame extends BaseGame {
     private Location targetPosition;
     private String towards;
     private Cuboid glass;
+    private int currentLevel = 0;
+    private boolean redLight = false;
 
     public RedLightGreenLightGame(GameMap gameMap) {
         super("Red Light, Green Light", new String[]{"startPosition", "targetPosition", "targetTowards", "glassBoundsA", "glassBoundsB"},
@@ -57,7 +61,69 @@ public class RedLightGreenLightGame extends BaseGame {
         while(glassBlocks.hasNext()) {
             glassBlocks.next().setType(Material.AIR);
         }
-        //TODO: Fun runnable system
+        this.nextEvent();
+    }
+
+    public void nextEvent() {
+        if(getAPI().getGameManager().getGameState() != GameState.INGAME) return;
+        this.redLight = false;
+        this.currentLevel++;
+        final int totalTicks = 100-(5*currentLevel);
+        ItemStack itemStack = new ItemStack(Material.WOOL, 1, (byte) 5);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "GREEN");
+        itemStack.setItemMeta(itemMeta);
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if(getAPI().getGameManager().isAlive(player)) {
+                for(int i=0; i<9; i++) {
+                    player.getInventory().setItem(i, itemStack);
+                }
+            }
+        });
+        new BukkitRunnable() {
+            int ticks = 0;
+            public void run() {
+                if(getAPI().getGameManager().getGameState() != GameState.INGAME) {
+                    this.cancel();
+                    return;
+                }
+                if(ticks >= totalTicks) {
+                    this.cancel();
+                    redLight = true;
+                    ItemStack itemStack = new ItemStack(Material.WOOL, 1, (byte) 14);
+                    ItemMeta itemMeta = itemStack.getItemMeta();
+                    itemMeta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "RED");
+                    itemStack.setItemMeta(itemMeta);
+                    Bukkit.getOnlinePlayers().forEach(player -> {
+                        if(getAPI().getGameManager().isAlive(player)) {
+                            for(int i=0; i<9; i++) {
+                                player.getInventory().setItem(i, itemStack);
+                            }
+                        }
+                    });
+                    new BukkitRunnable() {
+                        public void run() {
+                            nextEvent();
+                        }
+                    }.runTaskLater(Arcadia.getPlugin(Arcadia.class), 40L);
+                } else {
+                    if(ticks == Math.floor(totalTicks/2)) {
+                        ItemStack itemStack = new ItemStack(Material.WOOL, 1, (byte) 4);
+                        ItemMeta itemMeta = itemStack.getItemMeta();
+                        itemMeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.BOLD + "YELLOW");
+                        itemStack.setItemMeta(itemMeta);
+                        Bukkit.getOnlinePlayers().forEach(player -> {
+                            if(getAPI().getGameManager().isAlive(player)) {
+                                for(int i=0; i<9; i++) {
+                                    player.getInventory().setItem(i, itemStack);
+                                }
+                            }
+                        });
+                    }
+                }
+                ticks++;
+            }
+        }.runTaskTimer(this.getAPI().getPlugin(), 0, 1L);
     }
 
     @EventHandler
@@ -65,6 +131,11 @@ public class RedLightGreenLightGame extends BaseGame {
         if(this.getAPI().getGameManager().isAlive(event.getPlayer())) {
             if(this.getSidebar().getSidebar().getScore(event.getPlayer().getName()).getScore() >= -1) {
                 this.endGame();
+            }
+            if(!this.redLight) return;
+            if(event.getTo().distance(this.startPosition) <= 3D) return;
+            if(event.getFrom().distance(event.getTo()) > 0.1D) {
+                event.setTo(this.startPosition);
             }
         }
     }

@@ -101,6 +101,28 @@ public class TranslationManager {
     }
 
     /**
+     * Sends a translation to a player.
+     * @param name
+     */
+    public void sendTranslation(String name, Player player, Object... args) {
+        if(this.autoDetectLanguage) {
+            final Translation translation = this.fetchTranslation(name, player);
+            if(translation != null) {
+                final String message = translation.build(args);
+                if(message.isEmpty()) return;
+                player.sendMessage(message);
+            }
+        } else {
+            final Translation translation = this.fetchTranslation(name);
+            if(translation != null) {
+                final String message = translation.build(args);
+                if(message.isEmpty()) return;
+                player.sendMessage(message);
+            }
+        }
+    }
+
+    /**
      * Sends a translation to every player.
      * @param name
      */
