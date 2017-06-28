@@ -70,6 +70,11 @@ public class MusicalMinecartsGame extends BaseGame {
         this.killMinecarts();
         new MusicalMinecartsMusic();
         final int totalTicks = 80+random.nextInt(120);
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if(getAPI().getGameManager().isAlive(player)) {
+                player.setExp(0);
+            }
+        });
         new BukkitRunnable() {
             int ticks = 0;
             public void run() {
