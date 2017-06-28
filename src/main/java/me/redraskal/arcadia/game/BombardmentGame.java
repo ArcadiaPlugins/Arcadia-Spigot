@@ -58,6 +58,10 @@ public class BombardmentGame extends BaseGame {
 
     @EventHandler
     public void onGameTick(GameTickEvent event) {
+        if(totalCannonShots == 80 && cannonShotDelay != 1) {
+            this.getAPI().getTranslationManager().sendTranslation("game.bombardment.faster");
+            cannonShotDelay = 1;
+        }
         if(totalCannonShots == 50 && cannonShotDelay != 3) {
             this.getAPI().getTranslationManager().sendTranslation("game.bombardment.faster");
             cannonShotDelay = 3;
