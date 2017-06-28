@@ -43,6 +43,7 @@ public class ConnectionListener implements Listener {
             }
         }
         event.getPlayer().setCollidable(true);
+        api.getGameManager().getMainBossBar().addPlayer(event.getPlayer());
     }
 
     @EventHandler

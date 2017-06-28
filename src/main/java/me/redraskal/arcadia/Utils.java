@@ -24,6 +24,13 @@ public class Utils {
         return temp;
     }
 
+    public static String formatTimeFancy(int minutes, int seconds) {
+        String temp = "";
+        if(minutes > 0) temp+=minutes+"m";
+        if(seconds > 0) temp+=seconds+"s";
+        return temp;
+    }
+
     private static Map<DyeColor, ChatColor> dyeChatMap;
     static {
         dyeChatMap = Maps.newHashMap();

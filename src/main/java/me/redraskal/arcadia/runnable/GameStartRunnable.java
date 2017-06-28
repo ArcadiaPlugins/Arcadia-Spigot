@@ -2,10 +2,12 @@ package me.redraskal.arcadia.runnable;
 
 import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.ArcadiaAPI;
+import me.redraskal.arcadia.Utils;
 import me.redraskal.arcadia.api.game.GameState;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.boss.BarColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -25,6 +27,7 @@ public class GameStartRunnable extends BukkitRunnable {
                 api.getTranslationManager().sendTranslation("ui.game-quit-playing", player);
             }
         }
+        api.getGameManager().getMainBossBar().setColor(BarColor.BLUE);
         this.runTaskTimer(Arcadia.getPlugin(Arcadia.class), 0, 20L);
     }
 
@@ -65,6 +68,7 @@ public class GameStartRunnable extends BukkitRunnable {
                     player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 1f, 0.7f);
                 }
             }
+            api.getGameManager().getMainBossBar().setTitle(ChatColor.translateAlternateColorCodes('&', "&6&lStarting Game In: &c&l" + Utils.formatTimeFancy(0, countdown)));
             this.api.getGameManager().getCurrentGame().getSidebar().updateDisplayName(0, countdown);
         }
     }

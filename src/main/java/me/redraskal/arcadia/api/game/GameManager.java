@@ -15,6 +15,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -32,6 +35,15 @@ public class GameManager {
     private GameState gameState = GameState.STARTING;
     private List<Player> alive = new ArrayList<>();
     private List<Player> spec = new ArrayList<>();
+    private BossBar mainBossBar = Bukkit.createBossBar("Waiting...", BarColor.BLUE, BarStyle.SOLID);
+
+    /**
+     * Returns the main BossBar.
+     * @return
+     */
+    public BossBar getMainBossBar() {
+        return this.mainBossBar;
+    }
 
     /**
      * Returns the current Rotation.
