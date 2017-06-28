@@ -14,6 +14,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class GameRunnable extends BukkitRunnable {
 
     private final ArcadiaAPI api;
+    private final int totalSeconds;
     private int minutes;
     private int seconds;
 
@@ -21,6 +22,7 @@ public class GameRunnable extends BukkitRunnable {
         this.api = Arcadia.getPlugin(Arcadia.class).getAPI();
         this.minutes = api.getGameManager().getCurrentGame().getSidebarSettings().getGameMinutes();
         this.seconds = api.getGameManager().getCurrentGame().getSidebarSettings().getGameSeconds();
+        this.totalSeconds = seconds+(minutes*60);
         new GameTickRunnable();
         api.getGameManager().getMainBossBar().setColor(BarColor.GREEN);
         this.runTaskTimer(Arcadia.getPlugin(Arcadia.class), 0, 20L);
@@ -51,6 +53,7 @@ public class GameRunnable extends BukkitRunnable {
             }
         }
         api.getGameManager().getMainBossBar().setTitle(ChatColor.translateAlternateColorCodes('&', "&6&lTime Left: &c&l" + Utils.formatTimeFancy(minutes, seconds)));
+        api.getGameManager().getMainBossBar().setProgress((((double)seconds+((double)minutes*60))/(double)totalSeconds));
         api.getGameManager().getCurrentGame().getSidebar().updateDisplayName(minutes, seconds);
     }
 }

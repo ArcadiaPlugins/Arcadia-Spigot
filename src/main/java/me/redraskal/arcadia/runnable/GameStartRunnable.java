@@ -69,6 +69,7 @@ public class GameStartRunnable extends BukkitRunnable {
                 }
             }
             api.getGameManager().getMainBossBar().setTitle(ChatColor.translateAlternateColorCodes('&', "&6&lStarting Game In: &c&l" + Utils.formatTimeFancy(0, countdown)));
+            api.getGameManager().getMainBossBar().setProgress(1D-(double)countdown/10D);
             this.api.getGameManager().getCurrentGame().getSidebar().updateDisplayName(0, countdown);
         }
     }

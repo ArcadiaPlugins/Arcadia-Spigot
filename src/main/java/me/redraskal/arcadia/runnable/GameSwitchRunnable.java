@@ -48,8 +48,10 @@ public class GameSwitchRunnable extends BukkitRunnable {
             }
             if(seconds > 0) {
                 api.getGameManager().getMainBossBar().setTitle(ChatColor.translateAlternateColorCodes('&', "&6&lSwitching Game In: &c&l" + Utils.formatTimeFancy(0, seconds)));
+                api.getGameManager().getMainBossBar().setProgress(1D-(double)seconds/6D);
             } else {
                 api.getGameManager().getMainBossBar().setTitle(ChatColor.translateAlternateColorCodes('&', "&6&lLoading game..."));
+                api.getGameManager().getMainBossBar().setProgress(1D);
             }
         }
         api.getGameManager().getCurrentGame().getSidebar().updateDisplayName(0, seconds);
