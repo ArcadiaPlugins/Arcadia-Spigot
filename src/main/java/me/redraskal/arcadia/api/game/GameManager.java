@@ -156,6 +156,14 @@ public class GameManager {
     }
 
     /**
+     * Returns a list of alive players.
+     * @return
+     */
+    public List<Player> getAlivePlayers() {
+        return this.alive;
+    }
+
+    /**
      * Returns true if the specified player is in Spectator Mode.
      * @param player
      * @return

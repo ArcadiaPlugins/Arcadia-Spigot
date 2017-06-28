@@ -123,6 +123,7 @@ public class TrampolinioGame extends BaseGame {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
+        if(!this.getAPI().getGameManager().isAlive(event.getPlayer())) return;
         for(Map.Entry<Location, Object[]> entry : this.currentLocations.entrySet()) {
             if(event.getTo().distance(entry.getKey()) >= 1D) continue;
             this.claimPoint(event.getPlayer(), entry.getKey());

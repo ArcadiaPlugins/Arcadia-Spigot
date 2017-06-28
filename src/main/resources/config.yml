@@ -25,6 +25,7 @@ default-rotation:
 - "me.redraskal.arcadia.game.RainbowJumpGame"
 - "me.redraskal.arcadia.game.PotionDropGame"
 - "me.redraskal.arcadia.game.SpleefGame"
+- "me.redraskal.arcadia.game.BombardmentGame"
 - "me.redraskal.arcadia.game.MineFieldGame"
 - "me.redraskal.arcadia.game.ColorShuffleGame"
 - "me.redraskal.arcadia.game.KingOfTheHillGame"
