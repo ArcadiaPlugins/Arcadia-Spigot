@@ -3,6 +3,7 @@ package me.redraskal.arcadia.runnable;
 import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.ArcadiaAPI;
 import me.redraskal.arcadia.Utils;
+import me.redraskal.arcadia.api.game.event.GameLoadEvent;
 import me.redraskal.arcadia.api.scoreboard.defaults.ScoreSidebar;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -36,5 +37,6 @@ public class PreGameRunnable {
         Bukkit.getOnlinePlayers().forEach(player -> {
             if(!api.getGameManager().isAlive(player)) api.getGameManager().getCurrentGame().spectatorCache.add(player);
         });
+        Bukkit.getServer().getPluginManager().callEvent(new GameLoadEvent());
     }
 }

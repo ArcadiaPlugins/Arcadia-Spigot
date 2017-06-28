@@ -6,6 +6,7 @@ import me.redraskal.arcadia.api.game.RotationOrder;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.command.SpectateCommand;
 import me.redraskal.arcadia.listener.*;
+import me.redraskal.arcadia.support.UltraCosmeticsSupport;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -68,6 +69,10 @@ public class Arcadia extends JavaPlugin {
             this.getAPI().getGameManager().getRotation().setRotationOrder(RotationOrder.VOTE);
         }
         this.nextGameInRotation(true);
+
+        if(this.getServer().getPluginManager().isPluginEnabled("UltraCosmetics")) {
+            this.getServer().getPluginManager().registerEvents(new UltraCosmeticsSupport(), this);
+        }
     }
 
     public void onDisable() {
