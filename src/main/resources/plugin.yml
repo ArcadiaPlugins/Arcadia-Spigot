@@ -2,6 +2,7 @@ main: me.redraskal.arcadia.Arcadia
 name: ${project.name}
 version: ${project.version}
 author: redraskal
+softdepend: [UltraCosmetics]
 
 commands:
   spec:
