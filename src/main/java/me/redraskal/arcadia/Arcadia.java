@@ -68,6 +68,9 @@ public class Arcadia extends JavaPlugin {
         if(this.mainConfiguration.fetch().getBoolean("allow-game-voting")) {
             this.getAPI().getGameManager().getRotation().setRotationOrder(RotationOrder.VOTE);
         }
+        if(this.mainConfiguration.fetch().getBoolean("randomize-first-rotation")) {
+            this.getAPI().getGameManager().getRotation().shuffle();
+        }
         this.nextGameInRotation(true);
 
         if(this.getServer().getPluginManager().isPluginEnabled("UltraCosmetics")) {

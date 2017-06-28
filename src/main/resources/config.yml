@@ -31,5 +31,7 @@ default-rotation:
 - "me.redraskal.arcadia.game.ElectricFloorGame"
 # Rotation is randomized after the end is reached.
 randomize: true
+# Toggles whether the rotation should be randomized at the server startup.
+randomize-first-rotation: true
 # This feature is coming soon.
 allow-game-voting: false
