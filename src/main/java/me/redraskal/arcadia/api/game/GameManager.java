@@ -12,12 +12,17 @@ import me.redraskal.arcadia.api.music.defaults.EndGameMusic;
 import me.redraskal.arcadia.runnable.GameSwitchRunnable;
 import me.redraskal.arcadia.runnable.PreGameRunnable;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class GameManager {
@@ -167,7 +172,28 @@ public class GameManager {
                 vehicle.remove();
             }
             Utils.resetPlayer(player);
-            //TODO: Fun inventory
+
+            ItemStack itemStack = new ItemStack(Material.GOLD_INGOT, 1);
+            ItemMeta itemMeta = itemStack.getItemMeta();
+
+            itemMeta.setDisplayName(ChatColor.GOLD + "Party Shop");
+            itemMeta.setLore(Arrays.asList(new String[]{ChatColor.GRAY + "Spend coins on awesome things"}));
+            itemStack.setItemMeta(itemMeta);
+            player.getInventory().setItem(1, itemStack);
+
+            itemStack = new ItemStack(Material.COMPASS, 1);
+            itemMeta = itemStack.getItemMeta();
+            itemMeta.setDisplayName(ChatColor.GOLD + "Cosmetics");
+            itemStack.setItemMeta(itemMeta);
+            player.getInventory().setItem(6, itemStack);
+
+            itemStack = new ItemStack(Material.BED, 1, (byte) 14);
+            itemMeta = itemStack.getItemMeta();
+            itemMeta.setDisplayName(ChatColor.RED + "Go to Party Lobby");
+            itemMeta.setLore(Arrays.asList(new String[]{ChatColor.GRAY + "Come back soon!"}));
+            itemStack.setItemMeta(itemMeta);
+            player.getInventory().setItem(7, itemStack);
+
             player.setAllowFlight(true);
             player.setFlying(true);
             if(Arcadia.getPlugin(Arcadia.class).getAPI()
