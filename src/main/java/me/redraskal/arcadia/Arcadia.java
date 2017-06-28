@@ -4,6 +4,7 @@ import me.redraskal.arcadia.api.game.BaseGame;
 import me.redraskal.arcadia.api.game.GameState;
 import me.redraskal.arcadia.api.game.RotationOrder;
 import me.redraskal.arcadia.api.map.GameMap;
+import me.redraskal.arcadia.command.SetGameCommand;
 import me.redraskal.arcadia.command.SpectateCommand;
 import me.redraskal.arcadia.listener.*;
 import me.redraskal.arcadia.support.UltraCosmeticsSupport;
@@ -37,6 +38,7 @@ public class Arcadia extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new ItemListener(), this);
 
         this.getCommand("spec").setExecutor(new SpectateCommand());
+        this.getCommand("setgame").setExecutor(new SetGameCommand());
 
         this.mainConfiguration = new Configuration(this.getDataFolder(), "config.yml", this);
         this.mainConfiguration.copyDefaults();

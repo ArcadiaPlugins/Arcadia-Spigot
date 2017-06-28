@@ -27,6 +27,7 @@ public class BombardmentGame extends BaseGame {
     private Location spawnLocation;
     private List<Location> cannonPositions = new ArrayList<>();
     private int totalCannonShots = 0;
+    private int cannonShotDelay = 40;
     private double cannonVelocityOffset;
 
     public BombardmentGame(GameMap gameMap) {
@@ -57,7 +58,23 @@ public class BombardmentGame extends BaseGame {
 
     @EventHandler
     public void onGameTick(GameTickEvent event) {
-        if(event.getTotalTicks() % 40 == 0) {
+        if(totalCannonShots == 50 && cannonShotDelay != 3) {
+            this.getAPI().getTranslationManager().sendTranslation("game.bombardment.faster");
+            cannonShotDelay = 3;
+        }
+        if(totalCannonShots == 30 && cannonShotDelay != 5) {
+            this.getAPI().getTranslationManager().sendTranslation("game.bombardment.faster");
+            cannonShotDelay = 5;
+        }
+        if(totalCannonShots == 15 && cannonShotDelay != 10) {
+            this.getAPI().getTranslationManager().sendTranslation("game.bombardment.faster");
+            cannonShotDelay = 10;
+        }
+        if(totalCannonShots == 5 && cannonShotDelay != 20) {
+            this.getAPI().getTranslationManager().sendTranslation("game.bombardment.faster");
+            cannonShotDelay = 20;
+        }
+        if(event.getTotalTicks() % cannonShotDelay == 0) {
             this.fireRandomly();
         }
     }
