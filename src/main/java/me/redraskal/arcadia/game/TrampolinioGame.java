@@ -131,5 +131,9 @@ public class TrampolinioGame extends BaseGame {
     }
 
     @Override
-    public void onGameEnd() {}
+    public void onGameEnd() {
+        currentLocations.values().forEach(object -> {
+            ((FallingBlock) object[1]).remove();
+        });
+    }
 }
