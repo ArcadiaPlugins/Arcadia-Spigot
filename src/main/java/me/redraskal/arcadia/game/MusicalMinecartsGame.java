@@ -162,13 +162,14 @@ public class MusicalMinecartsGame extends BaseGame {
         event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
         inMinecarts++;
         if(inMinecarts >= this.getAPI().getGameManager().getPlayersAlive()) {
-            Bukkit.getOnlinePlayers().forEach(player -> {
-                if(this.getAPI().getGameManager().isAlive(player)) {
-                    if(player.getVehicle() == null) this.getAPI().getGameManager().setAlive(player, false);
-                }
-            });
             new BukkitRunnable() {
                 public void run() {
+                    if(getAPI().getGameManager().getGameState() != GameState.INGAME) return;
+                    Bukkit.getOnlinePlayers().forEach(player -> {
+                        if(getAPI().getGameManager().isAlive(player)) {
+                            if(player.getVehicle() == null) getAPI().getGameManager().setAlive(player, false);
+                        }
+                    });
                     nextEvent();
                 }
             }.runTaskLater(this.getAPI().getPlugin(), 20L);
