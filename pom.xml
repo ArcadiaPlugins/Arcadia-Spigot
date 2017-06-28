@@ -7,7 +7,7 @@
     <groupId>me.redraskal</groupId>
     <artifactId>Arcadia-Spigot</artifactId>
     <packaging>jar</packaging>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
