@@ -151,7 +151,9 @@ public class ColorShuffleGame extends BaseGame {
                     Bukkit.getOnlinePlayers().forEach(player -> {
                         if(getAPI().getGameManager().isAlive(player)) {
                             player.setExp(0F);
-                            player.getInventory().clear();
+                            for(int i=0; i<9; i++) {
+                                player.getInventory().setItem(i, new ItemStack(Material.AIR, 1));
+                            }
                         }
                     });
                     new BukkitRunnable() {
