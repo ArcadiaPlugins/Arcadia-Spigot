@@ -37,3 +37,19 @@ randomize: true
 randomize-first-rotation: true
 # Allows players to vote for their favorite game after matches end.
 allow-game-voting: false
+# A list of games allowed in the voting menu.
+games-in-voting:
+- "me.redraskal.arcadia.game.DeadEndGame"
+- "me.redraskal.arcadia.game.TrampolinioGame"
+- "me.redraskal.arcadia.game.MusicalMinecartsGame"
+- "me.redraskal.arcadia.game.RedLightGreenLightGame"
+- "me.redraskal.arcadia.game.WingRushGame"
+- "me.redraskal.arcadia.game.RainbowJumpGame"
+- "me.redraskal.arcadia.game.PotionDropGame"
+- "me.redraskal.arcadia.game.SpleefGame"
+- "me.redraskal.arcadia.game.BombardmentGame"
+- "me.redraskal.arcadia.game.MineFieldGame"
+- "me.redraskal.arcadia.game.ColorShuffleGame"
+- "me.redraskal.arcadia.game.KingOfTheHillGame"
+- "me.redraskal.arcadia.game.HorseRaceGame"
+- "me.redraskal.arcadia.game.ElectricFloorGame"

@@ -35,6 +35,12 @@ public class GameVotingRunnable extends BukkitRunnable implements Listener {
         this.api = Arcadia.getPlugin(Arcadia.class).getAPI();
         api.getGameManager().getMainBossBar().setColor(BarColor.YELLOW);
         List<Class<? extends BaseGame>> temp = api.getGameRegistry().getRegisteredGames();
+        List<String> allowedGames = api.getPlugin().mainConfiguration.fetch().getStringList("games-in-voting");
+        Iterator<Class<? extends BaseGame>> iterator = temp.iterator();
+        while(iterator.hasNext()) {
+            Class<? extends BaseGame> next = iterator.next();
+            if(!allowedGames.contains(next.getName())) iterator.remove();
+        }
         Collections.shuffle(temp);
         int slot = 2;
         for(int i=0; i<5; i++) {
