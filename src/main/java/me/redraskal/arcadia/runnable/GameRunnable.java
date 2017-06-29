@@ -38,7 +38,11 @@ public class GameRunnable extends BukkitRunnable {
             this.cancel();
             api.getGameManager().getCurrentGame().endGame();
             api.getGameManager().endGame();
-            new GameSwitchRunnable();
+            if(Arcadia.getPlugin(Arcadia.class).mainConfiguration.fetch().getBoolean("allow-game-voting")) {
+                new GameVotingRunnable();
+            } else {
+                new GameSwitchRunnable();
+            }
             return;
         }
         if(seconds <= 0) {
