@@ -10,6 +10,7 @@ import me.redraskal.arcadia.api.game.event.PlayerAliveStatusEvent;
 import me.redraskal.arcadia.api.map.GameMap;
 import me.redraskal.arcadia.api.music.defaults.EndGameMusic;
 import me.redraskal.arcadia.runnable.GameSwitchRunnable;
+import me.redraskal.arcadia.runnable.GameVotingRunnable;
 import me.redraskal.arcadia.runnable.PreGameRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -228,7 +229,11 @@ public class GameManager {
                 if(this.isAlive(other)) this.setAlive(other, false);
             }
             if(this.endGame()) {
-                new GameSwitchRunnable();
+                if(Arcadia.getPlugin(Arcadia.class).mainConfiguration.fetch().getBoolean("allow-game-voting")) {
+                    new GameVotingRunnable();
+                } else {
+                    new GameSwitchRunnable();
+                }
             }
         }
         if(this.getPlayersAlive() <= 1 && this.getGameState() == GameState.INGAME && Bukkit.getOnlinePlayers().size() > 1) {
@@ -236,7 +241,11 @@ public class GameManager {
                 if(this.isAlive(other)) this.setAlive(other, false);
             }
             this.endGame();
-            new GameSwitchRunnable();
+            if(Arcadia.getPlugin(Arcadia.class).mainConfiguration.fetch().getBoolean("allow-game-voting")) {
+                new GameVotingRunnable();
+            } else {
+                new GameSwitchRunnable();
+            }
         }
     }
 

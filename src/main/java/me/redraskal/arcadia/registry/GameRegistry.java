@@ -3,7 +3,10 @@ package me.redraskal.arcadia.registry;
 import com.google.common.base.Preconditions;
 import me.redraskal.arcadia.Arcadia;
 import me.redraskal.arcadia.api.game.BaseGame;
+import me.redraskal.arcadia.api.game.VotingData;
 import me.redraskal.arcadia.api.map.GameMap;
+import org.bukkit.Material;
+import org.bukkit.material.MaterialData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +16,7 @@ import java.util.Map;
 public class GameRegistry {
 
     private List<Class<? extends BaseGame>> registeredGames = new ArrayList<>();
+    private Map<Class<? extends BaseGame>, VotingData> votingMaterialData = new HashMap<>();
     private Map<GameMap, List<Class<? extends BaseGame>>> registeredMaps = new HashMap<>();
 
     /**
@@ -38,6 +42,7 @@ public class GameRegistry {
         if(!registeredGames.contains(game)) return false;
         Arcadia.getPlugin(Arcadia.class).getLogger().info("[GameRegistry] " + game.getName() + " has been unregistered.");
         registeredGames.remove(game);
+        if(votingMaterialData.containsKey(game)) votingMaterialData.remove(game);
         return true;
     }
 
@@ -67,6 +72,30 @@ public class GameRegistry {
      */
     public List<Class<? extends BaseGame>> getRegisteredGames() {
         return this.registeredGames;
+    }
+
+    /**
+     * Returns the VotingData used in game voting.
+     * @param registeredGame
+     * @return
+     */
+    public VotingData getVotingData(Class<? extends BaseGame> registeredGame) {
+        Preconditions.checkNotNull(registeredGame, "Game cannot be null");
+        if(!registeredGames.contains(registeredGame)) return new VotingData(new MaterialData(Material.PAPER), "Undefined");
+        if(votingMaterialData.containsKey(registeredGame)) return votingMaterialData.get(registeredGame);
+        return new VotingData(new MaterialData(Material.PAPER), "Undefined");
+    }
+
+    /**
+     * Sets the VotingData used in game voting.
+     * @param registeredGame
+     * @param votingData
+     */
+    public void setVotingData(Class<? extends BaseGame> registeredGame, VotingData votingData) {
+        Preconditions.checkNotNull(registeredGame, "Game cannot be null");
+        Preconditions.checkNotNull(votingData, "Voting data cannot be null");
+        if(!registeredGames.contains(registeredGame)) return;
+        votingMaterialData.put(registeredGame, votingData);
     }
 
     /**

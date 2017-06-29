@@ -132,6 +132,14 @@ public class Utils {
         player.setFireTicks(0);
     }
 
+    public static void setSpacer(Player player, int slot) {
+        ItemStack blankItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 15);
+        ItemMeta blankMeta = blankItem.getItemMeta();
+        blankMeta.setDisplayName("" + ChatColor.RED);
+        blankItem.setItemMeta(blankMeta);
+        player.getInventory().setItem(slot, blankItem);
+    }
+
     public static List<Map.Entry<String, Integer>> entriesSortedByValues(Map<String,Integer> map) {
             List<Map.Entry<String,Integer>> sortedEntries = new ArrayList<>(map.entrySet());
             Collections.sort(sortedEntries,

@@ -35,5 +35,5 @@ default-rotation:
 randomize: true
 # Toggles whether the rotation should be randomized at the server startup.
 randomize-first-rotation: true
-# This feature is coming soon.
+# Allows players to vote for their favorite game after matches end.
 allow-game-voting: false
