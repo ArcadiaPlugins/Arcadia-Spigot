@@ -50,6 +50,7 @@ public class PotionDropGame extends BaseGame {
             if(!this.getAPI().getGameManager().isAlive(player)) continue;
             player.teleport(spawnLocation);
             player.setGameMode(GameMode.ADVENTURE);
+            player.setFoodLevel(1);
         }
         this.potionDropLocation = Utils.parseLocation((String) this.getGameMap().fetchSetting("potionDropPosition"));
         this.potionVelocityMultiplier = Double.parseDouble((String) this.getGameMap().fetchSetting("potionVelocityMultiplier"));

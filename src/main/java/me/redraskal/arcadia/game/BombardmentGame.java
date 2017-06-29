@@ -61,22 +61,27 @@ public class BombardmentGame extends BaseGame {
         if(totalCannonShots == 80 && cannonShotDelay != 1) {
             this.getAPI().getTranslationManager().sendTranslation("game.bombardment.faster");
             cannonShotDelay = 1;
+            cannonVelocityOffset+=0.5;
         }
         if(totalCannonShots == 50 && cannonShotDelay != 3) {
             this.getAPI().getTranslationManager().sendTranslation("game.bombardment.faster");
             cannonShotDelay = 3;
+            cannonVelocityOffset+=0.5;
         }
         if(totalCannonShots == 30 && cannonShotDelay != 5) {
             this.getAPI().getTranslationManager().sendTranslation("game.bombardment.faster");
             cannonShotDelay = 5;
+            cannonVelocityOffset+=0.5;
         }
         if(totalCannonShots == 15 && cannonShotDelay != 10) {
             this.getAPI().getTranslationManager().sendTranslation("game.bombardment.faster");
             cannonShotDelay = 10;
+            cannonVelocityOffset+=0.5;
         }
         if(totalCannonShots == 5 && cannonShotDelay != 20) {
             this.getAPI().getTranslationManager().sendTranslation("game.bombardment.faster");
             cannonShotDelay = 20;
+            cannonVelocityOffset+=0.5;
         }
         if(event.getTotalTicks() % cannonShotDelay == 0) {
             this.fireRandomly();
